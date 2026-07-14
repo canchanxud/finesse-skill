@@ -1,9 +1,9 @@
 ---
 name: finesse-ui
-description: 'Build never-cheap, high-craft web interfaces — brand surfaces (landing pages, brand sites, launches, portfolios, hero pages with real WebGL/Three.js/Canvas/GSAP engines), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow UI (merchant/admin consoles, publish & create wizards, config and settings pages, review queues), and commerce pages (product detail pages, listing/category pages, cart, checkout). Routes by register: brand → soul + spectacle engine; product → palette + component system + density (split further into pages you READ = dashboards, and pages you OPERATE = consoles/wizards); commerce → PDP/PLP skeletons + anti-dark-pattern rules. Ships a product color library (tinted neutral ramps + 16 accents + 12 paste-ready sets) so dashboards stop defaulting to blue. Always reads the brief first and audits against an anti-slop cheapness blacklist. Supports verb commands (audit · bolder · quieter · soul · animate · densify · redesign) for targeted iteration. Triggers on "make this look premium", "landing page", "dashboard", "admin panel", "商家后台", "工作台", "back-office", "console", "publish flow", "发布流程", "wizard", "settings page", "analytics UI", "data table", "app UI", "product page", "PDP", "listing page", "checkout", "dashboard colors", "give it a soul / a vibe", "anti-slop", "hero animation", "/finesse".'
-version: 0.12.0
+description: 'Build never-cheap, high-craft web interfaces — brand surfaces (landing pages, brand sites, launches, portfolios, hero pages with real WebGL/Three.js/Canvas/GSAP engines), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow UI (merchant/admin consoles, publish & create wizards, config and settings pages, review queues), and commerce pages (product detail pages, listing/category pages, cart, checkout). Routes by register: brand → soul + spectacle engine; product → palette + component system + density (split further into pages you READ = dashboards, and pages you OPERATE = consoles/wizards); commerce → PDP/PLP skeletons + anti-dark-pattern rules. Ships a product color library (tinted neutral ramps + 16 accents + 12 paste-ready sets) so dashboards stop defaulting to blue. Always reads the brief first and audits against an anti-slop cheapness blacklist. Ships an anti-sameness layer (divergence) that composes a soul from five orthogonal axes instead of picking from a persona list, so repeat runs stop converging on one look. Supports verb commands (audit · bolder · quieter · soul · diverge · animate · densify · redesign) for targeted iteration. Triggers on "make this look premium", "landing page", "personal site", "portfolio", "个人主页", "落地页", "lookbook", "dashboard", "admin panel", "商家后台", "工作台", "back-office", "console", "publish flow", "发布流程", "wizard", "settings page", "analytics UI", "data table", "app UI", "product page", "PDP", "listing page", "checkout", "dashboard colors", "give it a soul / a vibe", "anti-slop", "hero animation", "feels generic", "every page looks the same", "每次都差不多", "/finesse".'
+version: 0.13.0
 user-invocable: true
-argument-hint: "[craft · audit · bolder|quieter|soul · animate|depth|densify · redesign · init|document] [target]"
+argument-hint: "[craft · audit · bolder|quieter|soul|diverge · animate|depth|densify · redesign · init|document] [target]"
 license: MIT
 ---
 
@@ -31,16 +31,18 @@ license: MIT
    - **product** → **pick a palette from `references/product-palettes.md` first** (the neutral ramp is 80% of the pixels; skipping this step is how every dashboard comes out blue). Then split by the page's job:
      - **pages you read** — dashboards, analytics, monitoring → `references/product-ui.md` (density, tables, charts, interaction states). **Before writing, open the closest dashboard in `examples/`** (index: `examples/EXAMPLES.md`) to see `product-ui.md` §0 applied in shipped code — lift patterns, not whole files.
      - **pages you operate** — publish/create wizards, merchant & admin consoles, config, settings, review queues → `references/workflow-ui.md` **on top of** `product-ui.md` (workflow shell, numbered sections, radio-card choices, live preview, pre-submit check, derived totals, draft/commit). There is **no form-workflow page in `examples/`** — build from the reference, and do **not** force-fit a dashboard example onto a form.
-5. Assemble the **§5 page skeleton**, motion-motivated only.
+5. **Assemble the skeleton — again, the right one for the register.** **brand** → pick one of the four **§5 brand skeletons** (landing · portfolio · lookbook · studio) by what the page has to *do*. **product** → the skeleton is the **shell morphology** in `product-ui.md` §1 (sidebar · floating panel · bento · triptych …), **not** §5. Motion-motivated only, in both.
 6. Run the **§6 Cheapness Blacklist** (`references/anti-cheap.md`) and **§8 Pre-Flight** (`references/preflight.md`) before shipping.
 
 The `references/*.md` files are the deep material. Load the one you need for the current phase — do not inline all of them.
 
 | Reference | When to load |
 |-----------|-------------|
+| `divergence.md` | **At §0, before the Design Read — the anti-sameness layer.** Load it when output keeps converging, when the user says "feels generic / like every other AI site", or before *any* soul decision: the five-axis composition method (compose a soul, don't select one from a list), the anti-default two-altitude check, the die roll that breaks the model's argmax, the used-list that makes "don't repeat" executable, and the assert-then-confirm direction proposal. **Read its §0 register boundary first** — divergence is a goal for brand and a *bounded* tactic for product (never diverge on dashboard navigation conventions) |
 | `design-dna.md` | Laying the **brand** substrate (grain, vignette, display type, color tokens, palette families). Product/dashboard inherits only its **universal craft floor** (§1: tinted neutrals, translucent borders, contrast floors) — the surfaces/cards/type/motion of a dashboard come from `product-ui.md` §0, not here |
 | `theming.md` | Brief asks for a light/dark toggle or multiple swappable named themes — the token-role and hardcoded-color pitfalls of a runtime palette switch (not the single-locked-palette default) |
-| `hero-engines.md` | Building the hero engine (brand register); also covers a secondary motion vocabulary (split-char reveal, magnetic buttons, curtain wipe, scan-line, per-card fly-in) for non-hero moments elsewhere on the page |
+| `hero-engines.md` | Building the hero engine (brand register); also covers a secondary motion vocabulary (split-char reveal, magnetic buttons, curtain wipe, scan-line, per-card fly-in) for non-hero moments elsewhere on the page — the **decision** layer (which engine) |
+| `page-crafting.md` | **The brand implementation layer** — what `chart-crafting.md` is to `dataviz.md`. Load it when you stop choosing and start writing: the **motion gate** (`REDUCE`/`FINE` probes + terminal states — universal, product too), canvas **DPR** + cyclic palettes + amplitude envelopes, `mask-image` photo dissolve, the **photographic-hero scrim stack**, container-query panels, nav **scroll-spy** over alternating sections, zero-dependency **sticky horizontal pin**, **exploded-view** scrub, colorway **pin+snap**, `clip-path` wipes, hand-written **FLIP** lightbox, **generative** (guillotine-split) layouts, CSS-only **geometric collage**, full-page engine + section scrims, and the Fibonacci→KNN→traversal 3D recipe |
 | `3d-effects.md` | Adding a 3D moment — CSS tilt/flip/coverflow/depth-parallax or Three.js model/displacement |
 | `style-personas.md` | Picking a soul (brand register) |
 | `inspiration-catalog.md` | Persona picked but you want a wider menu of proven techniques for that soul, or the brief doesn't fit any of the 10 personas cleanly |
@@ -74,7 +76,8 @@ finesse runs as a full build by default, but supports **verb commands** for targ
 | `audit [target]` | Evaluate | **Read-only** diagnostic: run the cheapness blacklist + spectacle-shown + pre-flight, output a findings list. **Changes nothing.** | `audit.md` |
 | `bolder [target]` | Refine | Raise SPECTACLE +2, upgrade the engine (e.g. Canvas → Three.js) | `hero-engines.md` |
 | `quieter [target]` | Refine | Lower SPECTACLE −2, step down to GSAP / CSS-only; calm an overloaded page | `hero-engines.md` |
-| `soul [target]` | Refine | Re-pick the persona / soul when a page "feels generic" or wrong-vibe | `style-personas.md` |
+| `soul [target]` | Refine | Re-pick the persona / soul when **this page** is the wrong vibe | `style-personas.md` |
+| `diverge [target]` | Refine | **Every page comes out the same.** The systemic fix, not the per-page one: recompose the soul from the five orthogonal axes, run the two-altitude anti-default check, roll against the model's argmax, and check the used-list. Use when the user says "feels generic / like every other AI site / 每次都差不多" | `divergence.md` |
 | `animate [target]` | Enhance | Add or swap the hero engine in isolation; motion only | `hero-engines.md` |
 | `depth [target]` | Enhance | Add **one** 3D moment — CSS pseudo-3D (tilt · flip · coverflow · depth-parallax) or Three.js (model viewer · image displacement) | `3d-effects.md` |
 | `densify [target]` | Enhance | Adjust DENSITY ± — add/remove content, tune information-per-viewport | `product-ui.md` |
@@ -83,7 +86,7 @@ finesse runs as a full build by default, but supports **verb commands** for targ
 ### Routing rules
 
 1. **First word matches a command** → load that command's reference and follow it. Everything after the command name is the target. Lay the **§3 substrate** and run the relevant **§6/§8 checks**, but skip the parts of §0–§5 that don't apply to that single action (e.g. `quieter` doesn't re-pick a soul).
-2. **First word doesn't match, but intent clearly maps to one command** ("too plain / boring" → `bolder`; "too flashy" → `quieter`; "feels generic" → `soul`; "make it pop" → `animate`; "add depth / make it 3D / tilt / parallax" → `depth`; "too sparse / too dense" → `densify`; "improve / fix this page" → `redesign`) → route to that command and proceed as if invoked. If two fit, ask once which.
+2. **First word doesn't match, but intent clearly maps to one command** ("too plain / boring" → `bolder`; "too flashy" → `quieter`; "wrong vibe *for this page*" → `soul`; "**feels generic / every page looks the same / 每次都差不多**" → `diverge`; "make it pop" → `animate`; "add depth / make it 3D / tilt / parallax" → `depth`; "too sparse / too dense" → `densify`; "improve / fix this page" → `redesign`) → route to that command and proceed as if invoked. If two fit, ask once which.
 3. **No argument at all** (bare `/finesse`) → the user is asking *"what should I do here?"* Don't dump the static menu. Read a few cheap signals and **lead with the 2-3 highest-value commands**, each with a one-line reason, then offer the full table as fallback. Never auto-run — recommend, the user confirms. Signal → pick:
    - **no `PRODUCT.md`** and there's real code/pages → lead with `document` (capture what's built) and/or `init` (write the brief). Brand-new empty project → `init` then `craft`.
    - **`PRODUCT.md` exists, has built pages, never audited** → lead with `audit <surface>` (read-only health check).
@@ -121,13 +124,30 @@ Most AI design output is bad because the model jumps to a default aesthetic inst
 - **Existing codebase, no `design-model.yaml`** → offer `document` to capture what's there before adding to it.
 - If memory exists but the new request contradicts it, surface the conflict — don't silently override the lock.
 
-### 0.B Output a one-line "Design Read" before generating
+### 0.B Output a "Design Read" before generating — assert a direction, don't poll for one
 
-Format: `Design Read: {industry} · {soul in 2-3 words} · register={brand|product} · SPECTACLE={n} · hero-engine={type}`
+Name the rejected default **first** (§0.D), then the direction. Two lines:
 
-Example: `Design Read: deep-space astronomy · cinematic + reverent · register=brand · SPECTACLE=8 · hero-engine=Three.js particle galaxy`
+```
+Lazy default (rejected): {the obvious aesthetic for this category}
+Design Read: {industry} · {soul in 2-3 words} · register={brand|product} · SPECTACLE={n} ·
+             layout={dominant layout family} · engine={type}
+```
 
-**STOP after the Design Read. Do not generate any code yet.** Wait for the user to confirm the direction or redirect. Only proceed to §1 once the user says "go ahead", "looks good", "yes", or provides additional guidance.
+Example:
+```
+Lazy default (rejected): dark page, violet glow, floating 3D render, three feature cards.
+Design Read: deep-space astronomy · cinematic + reverent · register=brand · SPECTACLE=8 ·
+             layout=full-page engine + scrimmed sections · engine=Three.js particle galaxy
+```
+
+**STOP after the Design Read. Do not generate any code yet.** Wait for confirmation or redirect.
+
+**Assert, don't poll.** State the direction you're going and invite a veto ("going with this unless you'd rather push it toward {one named alternative}"). Do **not** hand the user a three-option menu of adjectives — *nobody can choose a design from words they can't see*, so they'll pick the first one and you'll have learned nothing. A menu is theater when the answer is already clear.
+
+**The exception — when the brief genuinely forks** (a "premium" brand that could be austere-Nordic *or* maximal-baroque; a personal site that could be a portfolio *or* a manifesto): don't describe the options, **build them**. Three low-fidelity but *real*, screenshot-able pages, each moving on a **different axis**, then let the user look. See `references/divergence.md` §7 — including the **squint test** that stops the three variants from collapsing into one.
+
+> If output keeps coming out samey across projects, the fix is not a better adjective in this line — it's `references/divergence.md` (compose the soul from five axes instead of picking from a list; roll a die to break the model's default; keep a used-list so "don't repeat" can actually fire).
 
 ### 0.C If the brief is ambiguous, ask ONE question — do not guess blind
 
@@ -189,7 +209,11 @@ If `SPECTACLE ≥ 7`, the page MUST actually contain a working visual engine (a 
 
 > **Product register:** soul still matters (brand accent, one type system, the substrate), but skip the spectacle personas below — go to `references/product-ui.md`. The rest of §2 and §4 are for **brand**.
 
-finesse's job is **soul diversity**: the same method must yield visually unrelated pages for different briefs. Reach into `references/style-personas.md` for the industry→persona map (palette family, type pairing, hero-engine fit, signature effect). Examples of the *range* you must be able to hit:
+finesse's job is **soul diversity**: the same method must yield visually unrelated pages for different briefs.
+
+> **Compose the soul — don't select it from a list.** A closed table of ten personas yields ten pages; a model picking from ten options lands on the same two or three every time, weighted by what it has seen most. `references/divergence.md` §3 gives the fix: draw one value each on **five orthogonal axes** — palette structure · type relationship · dominant layout family · engine · material/metaphor — and let the *combination* be the soul. Five axes with a handful of values each is thousands of combinations, not ten. **The persona table below is the set of combinations already validated — calibration, not the ballot.**
+
+Reach into `references/style-personas.md` for the industry→persona map (palette family, type pairing, hero-engine fit, signature effect). Examples of the *range* you must be able to hit:
 
 - **Cinematic tech** (cyan/magenta, Inter + JetBrains Mono, Three.js particles) — astronomy, AI, crypto.
 - **Phosphor terminal** (single neon-green, mono-forward, Canvas data viz) — quant/fintech, security.
@@ -200,7 +224,8 @@ finesse's job is **soul diversity**: the same method must yield visually unrelat
 
 Rules:
 - **One soul per page.** Don't fluctuate warm and cool greys, or swap accent colors mid-scroll. Lock it (see §3, color lock).
-- **Rotate, don't repeat.** If the last brief used editorial-serif, this one must not. Saturated aesthetic lanes (editorial-typographic, beige-brass craft, AI-purple-glow) are banned as *defaults* — earn them or avoid them (`references/anti-cheap.md`).
+- **Rotate, don't repeat — and make it *executable*.** "Don't reuse the last brief's lane" is a rule you **cannot follow from memory: you have none across sessions.** It has never once fired. Give it teeth: keep the used-list in `references/divergence.md` §4 (a table of the last N builds' axis coordinates), **read it before you draw**, and require the new page to differ on **≥3 of the 5 axes**. Saturated lanes (editorial-typographic, beige-brass craft, AI-purple-glow) are banned as *defaults* — earn them or avoid them (`references/anti-cheap.md`).
+- **Break the tie with a die, not with willpower.** When two directions are equally defensible, the model will silently take the one it has seen most. Roll for it (`divergence.md` §6) — and if you override the roll, write down why. An unexamined default is the whole disease.
 
 > Once a persona is picked, `references/inspiration-catalog.md` has a wider bench of real pages per persona (48 beyond the 5 in `examples/`) — technique notes, not files, for when you want a second reference point beyond the persona table's single description.
 
@@ -248,20 +273,63 @@ A finesse page earns its name with **one** technically-spectacular moment — us
 
 ---
 
-## 5. PAGE SKELETON
+## 5. PAGE SKELETON — four brand skeletons, not one
 
-Canonical section sequence (adapt to the soul, never ship all of it by rote):
+> **A single canonical sequence is itself a source of sameness.** If every brand page is `HERO → MARQUEE → MANIFESTO → GRID → CTA → FOOTER`, then every brand page *is* the same page, no matter how well the colors were chosen. A landing page argues; a portfolio proves; a lookbook seduces; a studio site demonstrates. **Those are four different arguments, so they are four different structures.** Pick by what the page has to *do*, then diverge inside it (`references/divergence.md` §3, axis C).
+
+### 5.A Landing / launch — *a thing exists, and it must be understood*
 
 ```
-HERO (100vh, the engine moment)  →  MARQUEE/TICKER (≤1 per page)  →
-STATEMENT / MANIFESTO (word-reveal)  →  CORE CONTENT (specs grid · horizontal-pan · collection)  →
-INDUSTRY SECTION (process · parallax imagery · pull-quote)  →  CTA / FINALE (oversized type)  →  FOOTER (mono, hairline top border)
+HERO (the engine moment)  →  SPEC BAND (4-col hairline, real numbers)  →
+THE ARGUMENT (exploded view · demo · full-page engine — SHOW the thing working)  →
+ASYMMETRIC PRODUCT GRID (1.4fr 1fr — never 4 identical cards)  →
+TECH / DEPTH (dark-panel inversion, numbered only if the numbering means something)  →
+CTA (oversized)  →  FOOTER
 ```
+The load-bearing section is **the argument** — an exploded-view scrub, a live console, a working demo (`page-crafting.md` §5.B). A landing page that only *asserts* quality and never *shows* it is a brochure. If the product is physical or layered, take it apart on scroll.
 
-- **Nav:** single line, ≤80px tall, `mix-blend-mode: difference` works beautifully over imagery. Backdrop-blur on scroll.
-- **Layout diversification:** once a layout family is used (3-col cards, full-width quote, split image+text), it appears **at most once more**. Max 2 consecutive image+text zigzags. A page with 8 sections uses ≥4 layout families.
-- **Eyebrow restraint:** the tiny-uppercase-tracked label above every headline is the #1 AI tell. Max **1 eyebrow per 3 sections**. Usually the headline alone is enough.
-- **Theme lock:** one theme for the whole page. No warm-paper section dropped into a dark page (unless a deliberate one-time scroll theme-switch).
+### 5.B Portfolio / personal — *the work is the argument; you are not*
+
+```
+INTRO (a full-bleed image or a statement — not a headshot-and-tagline)  →
+THE WORK (filmstrip accordion · generative grid · list-rows with thumbnails)  →
+MANIFESTO (one statement, one column)  →  CAPABILITIES (list, not cards)  →
+SELECTED DETAIL (one project, deep)  →  CONTACT (oversized type)  →  FOOTER
+```
+Rules that are specific to a personal site, and that AI gets wrong every time:
+- **The work comes before the words.** An "About me" section above the first project is a résumé, not a portfolio.
+- **A grid of 6 identical project cards is the failure mode.** Reach for a **list with rows** (`64px 1fr auto 90px` + a small thumbnail), a **hover-expand filmstrip** (`page-crafting.md` §3), or a **generative split grid** (§8). The layout should already say what kind of designer you are.
+- **No "skills" bar charts.** A percentage on "creativity" is the single cheapest thing a personal page can contain.
+- **One project shown deeply beats six shown shallowly.**
+
+### 5.C Lookbook / collection — *the mood is the product*
+
+```
+HERO (split: type | image, ragged)  →  BRAND STATEMENT (dark inversion, one quote, 100vh)  →
+HORIZONTAL LOOKBOOK (pinned track, ragged heights, bottom-aligned)  →
+MATERIALS (clip-path wipe cards)  →  COLLECTION (gap:2px grid — a spread, not a card wall)  →
+ATELIER (1fr 1fr, image + CTA)  →  FOOTER
+```
+Light/dark alternation is the structure here, which forces a **nav that adapts to what's under it** (`page-crafting.md` §4 — scroll-spy, not `mix-blend-mode`). Density comes from *rhythm* (ragged heights, tight gutters), not from adding sections. Hierarchy is carried by an **opacity ladder on 3-4 tokens**, not by more colors.
+
+### 5.D Agency / studio — *the capability is the product*
+
+```
+HERO (composition — geometric collage · type-as-image · CSS-only)  →
+PROOF BAND (stats with real provenance)  →  CRAFT (split, one idea)  →
+SERVICES (≤4, and they must differ from each other visually)  →
+DARK INVERSION (offers · bento · a change of key)  →
+TESTIMONIAL RAIL (scroll-snap, autoplay off on interaction)  →  CTA  →  FOOTER
+```
+The trap: **services as four identical icon-cards** — icon, title, two lines, ×4. That is the #1 tell (`anti-cheap.md`), and it's endemic to agency pages. If four services must appear, make the cards structurally different (varying spans, one with an image, one with a number), or use a numbered list with real typographic weight instead.
+
+### Rules that hold across all four
+
+- **Nav:** single line, ≤80px. Over alternating light/dark sections use a **scroll-spy class toggle** (`page-crafting.md` §4). `mix-blend-mode: difference` only over *high-contrast* imagery — it goes muddy over mid-tones.
+- **Layout diversification:** once a layout family is used (3-col cards, full-width quote, split image+text), it appears **at most once more**. Max 2 consecutive image+text zigzags. **A page with 8 sections uses ≥4 layout families** — count them before shipping.
+- **Eyebrow restraint:** the tiny-uppercase-tracked label above every headline is the #1 AI tell. Max **1 eyebrow per 3 sections** — `≤ ceil(sections / 3)`, counted, not felt. Usually the headline alone is enough.
+- **Theme lock:** one theme per page — *except* where the skeleton above calls for a deliberate dark inversion (5.C, 5.D), which is a structural device, not a drift.
+- **Numbering (`01 · 02 · 03`) must be motivated by the material** — film frame codes, plate numbers, movement parts. As default architecture it is a tell.
 
 ---
 
@@ -310,7 +378,8 @@ After the user receives the initial output, map their feedback to the correct ta
 | "too much whitespace" | `densify` | Raise DENSITY +2; add one content section |
 | "too cluttered" | `densify` | Lower DENSITY −2; cut a section, increase section padding |
 | "more personality / bolder" | `bolder` | Raise SOUL +2; push color commitment level up one step in `references/design-dna.md` |
-| "feels generic / like every other AI site" | `soul` | Trigger §0.D anti-default: name and reject the current soul, pick a non-obvious persona |
+| "feels generic / like every other AI site" | `diverge` | **Systemic, not per-page.** Recompose the soul from the five axes (`divergence.md` §3), run the two-altitude anti-default check (§2), roll against the argmax (§6), check the used-list (§4). Reaching for `soul` here just picks a *different* row from the same ten-row table — which is the problem, not the fix |
+| "every page you make looks the same" | `diverge` | Same as above. Then **write the used-list** (`divergence.md` §4) — without it, "don't repeat" is a rule with no memory behind it and it will never fire |
 | "change the colors" | `soul` | Re-run color strategy in `references/design-dna.md`; maintain the accent lock rule |
 | "different animation" | `animate` | Swap engine type in §4; re-run `references/hero-engines.md` for that engine's skeleton |
 | "add depth / make it 3D / tilt / parallax" | `depth` | Add **one** 3D moment from `references/3d-effects.md` — default to the CSS tier (tilt/flip/coverflow/depth-parallax); Three.js only for a real rendered object |

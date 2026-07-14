@@ -28,7 +28,8 @@ A full build runs the whole workflow below. For iterating on an existing page, r
 | `audit` | "is this any good?", "review it" — **read-only**, never edits | `references/audit.md` (runs `scripts/detect.mjs`) |
 | `bolder` | "too plain / boring" → SPECTACLE +2, engine up a tier | `references/hero-engines.md` |
 | `quieter` | "too flashy / janky" → SPECTACLE −2, engine down a tier | `references/hero-engines.md` |
-| `soul` | "feels generic / wrong vibe" → re-pick persona, re-lock color | `references/style-personas.md` |
+| `soul` | "wrong vibe *for this page*" → re-compose the soul, re-lock color | `references/style-personas.md` |
+| `diverge` | "**every page looks the same** / feels generic / 每次都差不多" → systemic anti-sameness: recompose from 5 orthogonal axes, two-altitude anti-default, break the argmax, check the used-list | `references/divergence.md` |
 | `animate` | "make it move / different animation" → add/swap engine only | `references/hero-engines.md` |
 | `depth` | "add depth / make it 3D / tilt / parallax" → add one 3D moment (CSS pseudo-3D, or Three.js for a real object) | `references/3d-effects.md` |
 | `densify` | "too sparse / too dense" → DENSITY ± | `references/product-ui.md` |
@@ -115,8 +116,10 @@ If any gate fails: fix it. Do not ship and note it as a known issue.
 
 | File | Load when |
 |------|-----------|
+| `skills/finesse-ui/references/divergence.md` | **At §0, before the Design Read.** Output keeps converging / "feels generic" / "every page looks the same". Compose the soul from 5 orthogonal axes instead of picking off a persona list; two-altitude anti-default; break the model's argmax with a die roll; the used-list that makes "don't repeat" executable; assert-then-confirm (never a text menu of adjectives). **Read its §0 register boundary first** — divergence is a goal for brand, a *bounded* tactic for product (never diverge on dashboard nav conventions) |
 | `skills/finesse-ui/references/design-dna.md` | Implementing the substrate layer |
-| `skills/finesse-ui/references/hero-engines.md` | Building a brand hero engine |
+| `skills/finesse-ui/references/hero-engines.md` | Building a brand hero engine (the decision layer: which engine, and hero-only vs full-page scope) |
+| `skills/finesse-ui/references/page-crafting.md` | **The brand implementation layer** (what `chart-crafting.md` is to `dataviz.md`) — when you stop choosing and start writing: the motion gate (`REDUCE`/`FINE` + terminal states; **universal, product too**), canvas DPR + cyclic palettes + Gaussian envelopes, `mask-image` photo dissolve, photographic-hero scrim stack, container-query panels, nav scroll-spy over alternating sections, zero-dependency sticky horizontal pin, exploded-view scrub, colorway pin+snap, `clip-path` wipes, hand-written FLIP lightbox, generative (guillotine-split) layouts, CSS-only geometric collage, full-page engine + section scrims, Fibonacci→KNN→traversal 3D |
 | `skills/finesse-ui/references/3d-effects.md` | Adding a 3D moment: CSS tilt/flip/coverflow/parallax or Three.js model/displacement |
 | `skills/finesse-ui/references/style-personas.md` | Choosing a brand soul/persona |
 | `skills/finesse-ui/references/inspiration-catalog.md` | Wider bench of real pages per persona, or a brief that doesn't fit any of the 10 personas |

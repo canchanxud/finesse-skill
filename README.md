@@ -139,8 +139,10 @@ finesse-skill/
 │   └── finesse-ui/
 │       ├── SKILL.md                      # 主入口：方法论 + 流程
 │       ├── references/
+│       │   ├── divergence.md             # 反同质化层：五轴组合造灵魂（而非清单里挑）+ 反默认双高度检查 + 打破 argmax + 已用清单
 │       │   ├── design-dna.md             # 高级感物理层（配色/字体/grain/vignette）
-│       │   ├── hero-engines.md           # 五类视觉引擎骨架 + reduced-motion + inline-image 技法
+│       │   ├── hero-engines.md           # 五类视觉引擎骨架（决策层）+ 引擎作用域：hero-only vs 全页压暗
+│       │   ├── page-crafting.md          # brand 实现层：动效双 gate + 终态 · Canvas DPR/调色环/高斯包络 · mask 图文融合 · 照片 hero 遮罩栈 · container query · nav 明暗 scroll-spy · 零依赖横向 pin · 爆炸拆解 · clip-path 揭示 · 手写 FLIP · 生成式布局 · CSS 几何拼贴
 │       │   ├── 3d-effects.md             # 3D 效果谱系：CSS 伪 3D（倾斜/翻转/coverflow/景深）+ Three.js 真 3D
 │       │   ├── style-personas.md         # 行业→灵魂 决策矩阵
 │       │   ├── anti-cheap.md             # 反廉价黑名单（AI tells + 禁区 + reflex-reject）
@@ -153,8 +155,8 @@ finesse-skill/
 │       │   ├── design-model.md           # 多页一致性的 token 锁定模板
 │       │   └── inspiration-catalog.md    # 53 页语料中另外 48 页的技法索引（按 persona 分组，不含源文件）
 │       └── examples/
-│           ├── EXAMPLES.md               # 5 个正例对应的 persona/engine
-│           └── *.html                    # 真实 showcase 页（只读参考）
+│           ├── EXAMPLES.md               # 17 个正例的「五轴坐标」表（当维度看，不当模板抄）
+│           └── *.html                    # 17 个自包含可运行页（9 brand + 8 dashboard，零图片素材、零远程依赖）
 ├── .claude-plugin/plugin.json            # Claude Code 原生插件
 ├── .cursor/rules/finesse-ui.mdc          # Cursor 规则（精简单文件，自动加载）
 ├── AGENTS.md                             # OpenAI Codex 指令

@@ -208,19 +208,40 @@ function reducedMotionCheck(text) {
   return null;
 }
 
-// Eyebrow density: count tiny-uppercase-tracked labels vs sections.
+// Eyebrow density: count eyebrows *in the markup*, not uppercase rules in the CSS.
+//
+// An eyebrow is an INSTANCE: a short label element sitting immediately above a
+// heading. The old heuristic counted CSS *rules* (`letter-spacing` × `uppercase`)
+// and over-reported badly on any page with rich metadata — spec labels, dial
+// ticks, nav chips, stat captions and table headers all carry uppercase+tracking,
+// and none of them are eyebrows. A watch or hardware page would light up red
+// while a page with one shared `.eyebrow` class used on six sections passed.
+// False positives are expensive: they train you to ignore the check.
+//
+// So: find each <h1>/<h2>, look at the markup immediately before it, and count a
+// short label element if one is sitting there. A tracked label that is NOT above
+// a heading is metadata (or is itself the section's title) — not an eyebrow.
 function eyebrowCheck(text) {
-  const eyebrows = (text.match(/letter-spacing\s*:\s*0?\.[12]\d*em/gi) || []).length;
-  const uppercases = (text.match(/text-transform\s*:\s*uppercase/gi) || []).length;
   const sections = (text.match(/<section\b/gi) || []).length || 1;
-  const eyebrowish = Math.min(eyebrows, uppercases);
-  if (eyebrowish > Math.ceil(sections / 3) && eyebrowish >= 3) {
+  const cap = Math.ceil(sections / 3);
+
+  const headings = [...text.matchAll(/<h[12]\b/gi)].map((m) => m.index);
+  let count = 0;
+  for (const at of headings) {
+    // the ~240 chars of markup right before the heading, comments stripped
+    const before = text.slice(Math.max(0, at - 240), at).replace(/<!--[\s\S]*?-->/g, '');
+    // …ending in a short, self-contained label element (inner text ≤ 40 chars)
+    const label = /<(div|span|p|small)\b[^>]*>(?:(?!<\/?(?:div|span|p|small|h[12])\b)[\s\S]){1,40}<\/\1>\s*$/i;
+    if (label.test(before.trimEnd())) count++;
+  }
+
+  if (count > cap && count >= 3) {
     return {
       id: 'eyebrow-overuse',
       severity: 'P1',
-      label: `Likely eyebrow on most sections (~${eyebrowish} vs ${sections} sections)`,
+      label: `Eyebrow above ${count} of ${sections} sections (cap ${cap} = ceil(sections/3))`,
       fix: 'typeset',
-      hits: [{ line: 0, text: `${eyebrowish} uppercase+tracked labels` }],
+      hits: [{ line: 0, text: `${count} label-above-heading instances` }],
     };
   }
   return null;

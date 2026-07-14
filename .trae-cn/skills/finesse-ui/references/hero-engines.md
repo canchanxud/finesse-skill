@@ -177,6 +177,23 @@ addEventListener('pointermove', e => {
 
 **Variable-font morph:** animate `font-variation-settings: 'wght' …, 'wdth' …` on scroll or hover for kinetic typography (needs a variable font like Roboto Flex / Barlow).
 
+**Geometric composition** — the fifth E route, and the one that most reliably produces a page that looks like *nobody else's*. A constructivist/Bauhaus collage built from CSS primitives: `clip-path` triangles, one-sided `border-radius: 999px 0 0 999px` half-capsules, `border`-only rings, nested-grid dot fields, four-`clip-path` pinwheels. Percentage offsets inside an `aspect-ratio` box so the whole composition scales as one unit. Zero assets, zero libraries, and **it cannot look generic because you composed it by hand** — there is no default to fall back to. Full recipe, including the de-synced idle-float parameters that keep it from reading as plastic: `page-crafting.md` §9.
+
+> **Engine E is the highest soul-per-byte tier, not the consolation prize.** `bolder` steps *up* from it by reflex — but a hand-composed geometric hero at SPECTACLE 4 beats a stock particle field at SPECTACLE 7 on every axis that matters. Step up when the brief needs *physics* (fluid, depth, a real 3D object). Don't step up just to look busy.
+
+---
+
+## Engine Scope — hero-only, or full-page?
+
+Orthogonal to *which* engine: **where does it run?** The one-engine rule constrains the count, not the extent, and both scopes are legitimate.
+
+- **Hero-only (the default).** The engine is an entrance. It occupies the first viewport, the page then gets on with its job. Cheapest, safest, and correct whenever the engine is *atmosphere* rather than *argument*.
+- **Full-page fixed + per-section scrims.** The canvas is `position: fixed; inset: 0; z-index: 0` and runs the whole scroll; each section sits on a translucent scrim of the page background (`rgba(bg, .55–.90)`), dimming the engine to whatever that section needs. Use it when the engine **is the argument** — the copy is *about* the network, the fluid, the field — so hiding it after 100vh would be throwing away the thesis.
+
+The move that makes the second one work is the **fade band**: the first section below the hero gradients from transparent to the scrim value across its top ~40%, instead of butting a flat scrim against a full-strength hero. Recipe in `page-crafting.md` §10.
+
+Non-negotiable either way: **never run an unscrimmed engine behind body copy.** That's a contrast failure wearing a design decision's clothes. And a full-page engine renders for the entire session — keep the particle count low enough to hold 60fps *while scrolling*, and freeze it to a composed still under `prefers-reduced-motion`.
+
 ---
 
 ## Extended Motion Vocabulary — Secondary Flourishes (not hero engines)

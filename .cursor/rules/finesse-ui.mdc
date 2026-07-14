@@ -1,5 +1,5 @@
 ---
-description: 'finesse-ui design skill — never-cheap, high-craft web interfaces. Routes by register: brand (landing pages, hero sites, portfolios) → soul + spectacle engine; product (dashboards, admin, analytics, 商家后台/consoles, publish wizards, settings) → tinted palette + component system + data viz, split into pages you READ (dashboards) vs pages you OPERATE (consoles/wizards). Enforces premium substrate, anti-slop blacklist, and pre-flight check on every output.'
+description: 'finesse-ui design skill — never-cheap, high-craft web interfaces. Routes by register: brand (landing pages, hero sites, portfolios, lookbooks) → soul + spectacle engine, with four distinct page skeletons (landing · portfolio · lookbook · studio); product (dashboards, admin, analytics, 商家后台/consoles, publish wizards, settings) → tinted palette + component system + data viz, split into pages you READ (dashboards) vs pages you OPERATE (consoles/wizards). Composes a soul from five orthogonal axes instead of picking one off a persona list, so repeat runs stop converging on the same look. Enforces premium substrate, anti-slop blacklist, motion gates, and pre-flight check on every output.'
 globs: ["**/*.html", "**/*.css", "**/*.scss", "**/*.sass", "**/*.tsx", "**/*.jsx", "**/*.ts", "**/*.js", "**/*.vue", "**/*.svelte"]
 alwaysApply: false
 ---
@@ -25,7 +25,8 @@ A full build runs STEP 0–8. To iterate on an existing page, map the request to
 | `audit` | "is this any good? / review it" — **read-only**, never edits | run the blacklist + spectacle-shown + pre-flight, report findings |
 | `bolder` | "too plain / boring" | SPECTACLE +2, engine up a tier (CSS → GSAP → Canvas → Three.js) |
 | `quieter` | "too flashy / janky" | SPECTACLE −2, engine down a tier |
-| `soul` | "feels generic / wrong vibe" | re-pick persona (STEP 2), re-lock the accent |
+| `soul` | "wrong vibe *for this page*" | re-compose the soul (STEP 2), re-lock the accent |
+| `diverge` | "**every page looks the same** / feels generic / 每次都差不多" | **systemic, not per-page.** Recompose from the 5 axes (STEP 2), run the two-altitude anti-default check, roll against your own argmax, and check the used-list. Reaching for `soul` here just picks a *different row from the same table* — which is the problem, not the fix |
 | `animate` | "make it move / different animation" | add/swap the engine only, motion alone |
 | `depth` | "add depth / make it 3D / tilt / parallax" | add **one** 3D moment — CSS pseudo-3D (tilt · flip · coverflow · depth-parallax), Three.js only for a real rendered object |
 | `densify` | "too sparse / too dense" | DENSITY ± — add/remove content |
@@ -43,8 +44,14 @@ Most AI design output is bad because the model jumps to a default aesthetic. Don
 - **brand** — landing page, brand site, launch, portfolio, campaign, hero page. Bold, opinionated, spectacular.
 - **product** — dashboard, admin, analytics, data table, app shell, settings. Clarity, density, usability.
 
-**Output a one-line Design Read before generating:**
-`Design Read: {industry} · {soul in 2-3 words} · register={brand|product} · SPECTACLE={n} · hero-engine={type}`
+**Output a Design Read before generating — name the rejected default first:**
+```
+Lazy default (rejected): {the obvious aesthetic for this category}
+Design Read: {industry} · {soul in 2-3 words} · register={brand|product} · SPECTACLE={n} ·
+             layout={dominant layout family} · engine={type}
+```
+
+**Assert, don't poll.** State the direction and invite a veto ("going with this unless you'd rather push it toward X"). **Do not hand the user a menu of three adjectives** — nobody can choose a design from words they can't see; they'll pick the first one and you've learned nothing. *If the brief genuinely forks* (a "premium" brand that could be austere-Nordic **or** maximal-baroque), don't describe the options — **build them**: three low-fi but real, screenshot-able pages, each moving on a *different* axis (STEP 2). Then apply the **squint test**: label each with one concrete noun (*exhibition · cockpit · playbill · field-manual*) — **if two could take the same label, they're the same page. Rework.** Two dark variants plus one dark variant is not a trio.
 
 **Anti-Default Discipline (two altitudes):** Name the lazy default, then beat it — and check the *second* reflex too.
 - **First-order:** could someone guess theme+palette from the category alone? "Coffee → warm-beige + brass serif." Reject it.
@@ -71,18 +78,25 @@ Set these explicitly from the Design Read.
 
 ---
 
-## STEP 2 — PICK A SOUL (brand register only)
+## STEP 2 — COMPOSE A SOUL (brand register only) — don't pick one off a list
 
-Soul diversity is the job — the same method must yield visually unrelated pages for different briefs.
+Soul diversity is the job. **A closed list of personas yields one page per row** — a model choosing from a menu lands on the same two or three every time, weighted by what it has seen most. So **draw one value per axis and let the combination be the soul.** Five axes with a handful of values each is thousands of combinations, not ten.
 
-- **Cinematic tech** (cyan/magenta, Inter + JetBrains Mono, Three.js particles) — astronomy, AI, crypto
-- **Phosphor terminal** (single neon-green, mono-forward, Canvas data viz) — quant, fintech, security
-- **Editorial publication** (cream/ink, Playfair + Spectral, GSAP scroll-reveal) — magazines, film, journals
-- **Warm heritage** (amber/copper, Fraunces/EB Garamond, Canvas fire) — whisky, coffee, craft
-- **Brutal typographic** (bone/black + hot accent, Anton/Bebas, mix-blend-mode) — fashion, music, culture
-- **Quiet luxury minimal** (off-white/forest, Raleway 100–900, CSS-only parallax) — architecture, hotels
+| Axis | Values (extend freely) |
+|---|---|
+| **A · Palette** | mono + one acid pop · dual-hue conflict · monochrome by opacity ladder only · earth + one saturated · near-black + dual metal · light ground + ink + one signal |
+| **B · Type** | display and body from one superfamily · extreme weight contrast (900 vs 300) · serif italic *inside* a sans headline as the only human note · mono-forward · one variable font in every role · display so large it *is* the layout |
+| **C · Layout family** | hover-expand accordion · pinned horizontal track · generative (algorithmically split) grid · table/list rows instead of cards · geometric collage · asymmetric weighted grid · exploded-view diagram · full-bleed photographic stack · pinned panel stepper |
+| **D · Engine** | Three.js structure · Canvas 2D field · WebGL FBO (fluid / reaction-diffusion) · GSAP scrub choreography · CSS-only geometry · variable-font morph · **no engine — typography carries it** |
+| **E · Material** | film & contact sheet · paper & press · machined metal · water & fluid · signal & phosphor · laboratory & specimen · textile & thread · concrete & light · circuitry & grid |
 
-Rules: **one soul per page**, never fluctuate. Saturated defaults (AI-purple-glow, beige+brass) are banned unless earned.
+**Draw on E first** — the material is where the page's *reason* lives, and it honestly constrains the other four.
+
+These are known-good combinations, for calibration only — **cinematic tech** (cool dual-hue + sans/mono + Three.js + circuitry), **phosphor terminal** (mono+acid + mono-forward + Canvas + signal), **editorial** (cream/ink + serif pair + GSAP + paper), **brutal typographic** (bone/black+hot + display-as-layout + press), **quiet luxury** (off-white/sage + one family 100–900 + CSS-only + concrete).
+
+**Break ties with a die, not with willpower.** When two directions are equally defensible, you will silently take the one you've seen most — that's the whole disease. Roll (`date +%S`, mod the axis length), and **if you override the roll, write down why.**
+
+Rules: **one soul per page**, never fluctuate. Saturated defaults (AI-purple-glow, beige+brass) are banned unless earned. **An *observed* brand fact always beats a ban list and a die roll** — the bans exist to stop *you* defaulting, never to overrule a real brand.
 
 ---
 
@@ -159,17 +173,32 @@ Engine discipline:
 
 ---
 
-## STEP 5 — PAGE SKELETON (brand register)
+## STEP 5 — PAGE SKELETON (brand register) — four skeletons, not one
 
-```
-HERO (100vh) → MARQUEE (≤1) → STATEMENT/MANIFESTO → CORE CONTENT →
-INDUSTRY SECTION → CTA/FINALE (oversized type) → FOOTER (mono, hairline)
-```
+**A single canonical sequence is itself a source of sameness.** A landing page *argues*; a portfolio *proves*; a lookbook *seduces*; a studio site *demonstrates*. Four different arguments → four different structures. Pick by what the page has to **do**.
 
-- Nav: ≤80px, `mix-blend-mode: difference` over imagery, backdrop-blur on scroll.
-- Layout diversification: each layout family (card grid, full-width quote, split) appears at most twice.
-- Eyebrow restraint: max 1 eyebrow per 3 sections. Headlines usually suffice alone.
-- Theme lock: one theme throughout. No warm-paper section in a dark page.
+**A · Landing / launch** — *a thing exists and must be understood*
+`HERO (engine) → SPEC BAND (real numbers) → THE ARGUMENT (exploded view · live demo · full-page engine) → ASYMMETRIC PRODUCT GRID → TECH (dark inversion) → CTA → FOOTER`
+The load-bearing part is **the argument**: *show* the thing working. A page that only asserts quality is a brochure.
+
+**B · Portfolio / personal** — *the work is the argument; you are not*
+`INTRO (full-bleed image or statement — not a headshot+tagline) → THE WORK (filmstrip · generative grid · list-rows w/ thumbnails) → MANIFESTO → CAPABILITIES (a list, not cards) → ONE PROJECT, DEEP → CONTACT → FOOTER`
+Work before words — an "About me" above the first project is a résumé. **Six identical project cards is the failure mode**; use list-rows or a hover-expand filmstrip, so the layout itself says what kind of designer you are. **No "skills" bar charts** — a percentage on "creativity" is the cheapest thing a personal page can contain.
+
+**C · Lookbook / collection** — *the mood is the product*
+`HERO (split, ragged) → BRAND STATEMENT (dark inversion, 100vh) → HORIZONTAL PINNED TRACK (ragged heights, bottom-aligned) → MATERIALS (clip-path wipe) → COLLECTION (gap:2px — a spread, not a card wall) → CTA → FOOTER`
+Light/dark alternation forces a **nav that adapts to what's under it** (scroll-spy class toggle, *not* `mix-blend-mode` — difference goes muddy over mid-tones). Density comes from rhythm, not more sections.
+
+**D · Agency / studio** — *the capability is the product*
+`HERO (composition — geometric collage · type-as-image) → PROOF BAND → CRAFT (split) → SERVICES (≤4, visually DIFFERENT from each other) → DARK INVERSION → TESTIMONIAL RAIL (scroll-snap) → CTA → FOOTER`
+The trap: **four identical icon-cards** (icon + title + 2 lines × 4). Endemic, and the #1 tell. Vary the spans, or make the icons the page's own geometric primitives.
+
+**Across all four:**
+- Nav ≤80px. Over alternating light/dark, **scroll-spy class toggle**; `mix-blend-mode: difference` only over *high-contrast* imagery.
+- Layout diversification: each family appears **at most twice**; **8 sections → ≥4 families**. Count them.
+- Eyebrow restraint: **≤ ceil(sections / 3)** — counted, not felt. Headlines usually suffice alone.
+- Theme lock: one theme, *except* the deliberate dark inversion in C/D (a structural device, not a drift).
+- Numbering (`01 · 02 · 03`) must be **motivated by the material** (frame codes, plate numbers, movement parts). As default architecture it's a tell.
 
 ---
 
@@ -190,12 +219,32 @@ Scan before shipping. *(If working inside the finesse repo, `node skills/finesse
 
 ## STEP 7 — PERFORMANCE & A11Y
 
+**The motion gate — read the two probes once, then branch per effect.** ("Support reduced-motion" as an abstract instruction is why most pages ship it broken.)
+
+```js
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE   = matchMedia('(hover:hover) and (pointer:fine)').matches;
+```
+
+- **`REDUCE`** gates everything that *moves*; **`FINE`** gates everything that depends on a *pointer* (magnetic buttons, cursor followers, hover-expand, tilt) so it never fires on touch.
+- **Every animation ships its terminal state.** The branch is **not** `if (!REDUCE) animate()` — that leaves the element at its *initial* (usually `opacity: 0`) state. **A reveal gated off with no terminal state is an invisible page, not a calm one.** Do: `if (REDUCE) el.classList.add('is-visible'); else gsap.to(el, {...})`.
+- **Canvas loops must actually stop** — put the guard *inside* the loop, never rely on `cancelAnimationFrame` ordering:
+  ```js
+  function frame() { draw(t); if (!REDUCE) { t += .016; raf = requestAnimationFrame(frame); } }
+  frame();   // reduced-motion → one composed still, then stops
+  ```
+  The still must be **composed, not empty** — pick a `t` where the visual reads as designed (`t = 0` is often the degenerate flat state).
+- **Un-pin, don't un-animate.** A pinned section with its animation disabled traps the scroll forever. Under `REDUCE`, set `position: static` and let the panels stack.
+- CSS backstop, always paired: `@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}`
+- **Verify by forcing reduced-motion on and looking**: every section visible, composed, readable. Anything blank is a bug.
+
+**Canvas is blurry on retina unless you say otherwise:** `DPR = Math.min(2, devicePixelRatio||1)`; `canvas.width = W*DPR` (buffer) while `canvas.style.width = W+'px'` (CSS box) — then multiply **every** drawing constant by `DPR`.
+
 - Animate `transform`/`opacity` only. `will-change` sparingly.
-- `prefers-reduced-motion`: stop loops, freeze grain, static fallback.
-- WCAG AA: body ≥ 4.5:1, large text ≥ 3:1.
+- WCAG AA: body ≥ 4.5:1, large text ≥ 3:1 — **on the actual photo, in the actual crop**, not against the average color.
 - Visible focus states on every interactive element.
 - Lazy-load heavy engines. `min-h-dvh` over `100vh`. CLS < 0.1.
-- Touch targets ≥ 44px. Mobile layout declared per multi-column section.
+- Touch targets ≥ 44px. Mobile layout declared per multi-column section. **Hiding the nav links on mobile with no replacement is a bug, not responsive design.**
 
 ---
 

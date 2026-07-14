@@ -1,18 +1,39 @@
 # Examples — Positive Reference Corpus
 
-Thirteen real pages from a showcase corpus (5 brand + 8 dashboards), each a clean instance of one persona + one hero engine (brand register) or one dashboard morphology (product register). Read them to see the substrate, soul, and engine — or the layout shell, chart-crafting, and reduced-motion rules — applied together in shipped code, not as templates to copy verbatim. The 8 dashboards are **self-contained and viewable**: GSAP is bundled at `lib/gsap.min.js`, avatars/photos are inline data-URIs (no remote assets), so opening any one in a browser renders and animates.
+Seventeen real pages (9 brand + 8 dashboards), each a clean instance of one soul + one hero engine (brand register) or one dashboard morphology (product register). Read them to see the substrate, soul, and engine — or the layout shell, chart-crafting, and reduced-motion rules — applied together in shipped code, **not as templates to copy verbatim**.
 
-The other pages aren't bundled as files (repo-size reasons — several carry Three.js/WebGL payloads), but every brand-register one is catalogued as a technique note in `../references/inspiration-catalog.md`, grouped by persona. Check there for a second reference point when these don't cover the brief's industry or mood.
+**All 17 are self-contained and runnable.** No remote assets, no image files: the 8 dashboards inline their avatars/photos as data-URIs, and the 9 brand pages generate every visual in code (canvas, WebGL, SVG, CSS geometry). Libraries, where used at all, come from the bundled `lib/`. Four of the brand pages ship **zero JS libraries**. Opening any file in a browser renders and animates it.
 
-## Brand register (persona + hero engine)
+> **Why no photographs anywhere in this corpus?** Because assets are the one thing that doesn't travel. A recipe travels; a 4 MB JPEG doesn't. Pages whose craft depends on real photography — a photographic hero, a mask-dissolved product shot, a lookbook — are **not** bundled here; their techniques live as paste-ready recipes in `../references/page-crafting.md` (§2 image composition, §2.B the photographic-hero scrim stack) instead. When your brief *does* imply real imagery, that's `../references/asset-sourcing.md`'s job — and shipping zero imagery on an image-implied brief is a bug, not minimalism (`anti-cheap.md`).
 
-| File | Persona | Hero engine | What to study |
-|------|---------|-------------|---------------|
-| `aether-cinematic-tech.html` | Cinematic Tech | A · Three.js + GLSL | fixed 3D canvas, additive-blend particles, cyan/magenta on near-black, grain + vignette |
-| `nova-brutal-typographic.html` | Brutal Typographic | D · GSAP | oversized Anton headline, `mix-blend-mode: difference` nav, bone/black + hot accent, outline+fill type |
-| `offscreen-editorial.html` | Editorial Publication | D · GSAP scroll-reveal | light register, Playfair + Spectral, grayscale photography, ruled hairlines, drop-caps |
-| `signal-phosphor-terminal.html` | Phosphor Terminal | B · Canvas 2D | single neon-green, real-time K-line canvas, CRT scanlines + flicker, mono-forward type |
-| `studio-quiet-luxury.html` | Quiet Luxury Minimal | E · CSS-only | dual-layer mouse mask (no JS lib), Raleway 100–900 weight range, max whitespace, light theme |
+For a wider bench of technique notes beyond these files, `../references/inspiration-catalog.md` catalogues more pages by persona.
+
+## Brand register — read these as COORDINATES, not as templates
+
+> **This table is the antidote to the thing examples otherwise cause.** An open example file exerts a strong pull: the model mirrors its section order, its card counts, its shell — and every page converges. So each row below is annotated with **where it sits on the five divergence axes** (`../references/divergence.md` §3). Use it in two moves:
+>
+> 1. **Open the closest example** and lift the *craft primitives* — the motion gate, the DPR math, the scrim stack, the coordinate normalization. Those **should** be identical on every page; they are the floor.
+> 2. **Then find your brief on this table and deliberately move off it.** If your draw lands on the same palette + layout + material as a row here, you are about to rebuild it. Change an axis on purpose.
+>
+> **Never lift the section sequence, the card count, or the shell.** Those are the page's identity, and copying them is exactly how nine examples become one look.
+
+**Axes:** **A** palette structure · **B** type relationship · **C** dominant layout family · **D** engine · **E** material / metaphor
+
+| File | A · Palette | B · Type | C · Layout family | D · Engine | E · Material | What to study |
+|------|-------------|----------|-------------------|------------|--------------|---------------|
+| `aether-cinematic-tech.html` | dual-hue on near-black (cyan/magenta) | sans + mono | full-bleed engine hero | **A · Three.js + GLSL** | circuitry & signal | fixed 3D canvas, additive-blend particles, grain + vignette |
+| `signal-phosphor-terminal.html` | mono + single acid (neon green) | mono-forward | live data panel | **B · Canvas 2D** | signal & phosphor | real-time K-line canvas, CRT scanlines + flicker |
+| `flux-fluid-simulation.html` ✨ | violet/cyan on deep ink | sans + mono | full-page engine + scrimmed sections | **C · WebGL FBO** | water & fluid | **the only Engine C example** — a real Navier-Stokes solver in ~550 lines, zero libraries. Its reduced-motion still is *composed*: the solver runs 180 steps off-screen to evolve a twin-vortex image, then stops (`page-crafting.md` §0) |
+| `nova-brutal-typographic.html` | bone/black + one hot accent | display-as-layout (Anton) | oversized type | **D · GSAP** | press & ink | `mix-blend-mode: difference` nav, outline+fill type |
+| `offscreen-editorial.html` | light, cream/ink | serif pair (Playfair + Spectral) | ruled editorial columns | **D · GSAP scroll-reveal** | paper & press | grayscale photography, hairline rules, drop-caps |
+| `studio-quiet-luxury.html` | off-white + forest sage | one family, 100–900 range | max-whitespace split | **E · CSS-only** (dual-mask) | concrete & light | dual-layer mouse mask with no JS lib |
+| `sparkcraft-bauhaus-geometric.html` ✨ | warm paper + **five** primary blocks | geometric display + humanist sans | **geometric collage** hero + asymmetric 12-col | **E · CSS-only** (geometry) | building blocks | the hero is drawn from CSS primitives alone — `clip-path` triangles, one-sided `border-radius` half-capsules, `border`-only rings, nested-grid dot fields (`page-crafting.md` §9). De-synced idle-float periods (`i%3`, `i%4`) keep it from breathing in unison. **Note the palette is a deliberate Bauhaus poster ground, not the beige+brass craft default** — the five blocks carry it, not a brass accent |
+| `morph-variable-type.html` ✨ | near-mono, opacity ladder | **one variable font doing every role** | type specimen | **E · CSS-only** (variable font) | letterform as material | `font-variation-settings` driven live. Its reduced-motion state freezes the weight-wave **in space, not in time** — each word keeps the weight it would have had, so the gradient survives with zero pixels moving |
+| `caliber-precision-horology.html` ✨ | near-black + champagne metal | serif display + mono metadata | spec-dense diagram | **E · CSS-only** (SVG + zero JS libs) | machined metal | programmatic SVG dial (ticks, numerals, hairspring generated in JS, no asset), `stroke-dashoffset` schematic draw-in, spec bands that stay legible at density |
+
+✨ = new; **self-contained and runnable** (no images, no remote assets; `sparkcraft` uses the bundled `lib/gsap.min.js`, the other three ship **zero JS libraries**).
+
+**What the table tells you at a glance:** engines A–E are all now covered (Engine C had no example before `flux`). Engine E has four *different* routes — dual-mask, geometric collage, variable font, programmatic SVG — which is the point: **"CSS-only" is not one aesthetic, it's the tier with the most range.** If your brief lands on Engine E, you have four unrelated precedents, not one to copy.
 
 ## Product register (dashboard morphology)
 
@@ -35,4 +56,8 @@ Every product-register example here is a **dashboard** — a page you *read*. Th
 
 The "open the closest example first" rule in `product-ui.md` §0 means *study shipped code of the thing you're building*. When there is no close example, it doesn't fire.
 
-**Note:** these are single-file pages. The **8 dashboards are self-contained and runnable** — GSAP loads from the bundled `lib/gsap.min.js` (+ `lib/ScrollTrigger.min.js`), and every avatar/photo is an inline data-URI (no `assets/` folder, no remote hotlinks). The **brand** pages still reference external libs (`aether` → `three.module.js`) and are read-only references. Lift patterns, not whole files — each new brief deserves its own soul, and (per `chart-crafting.md` §6) load GSAP for real in your own project rather than copying the `lib/` path.
+**Note:** these are single-file pages. All are runnable from disk — GSAP, where used, loads from the bundled `lib/gsap.min.js` (+ `lib/ScrollTrigger.min.js`); `caliber`, `flux` and `morph` ship **zero JS libraries**; `aether` is the one exception and still reaches for an external `three.module.js`, so treat it as read-only. In your own project, install GSAP properly rather than copying the `lib/` path (`chart-crafting.md` §6).
+
+**Every page here passes `scripts/detect.mjs`** — no P0 findings, and the four newest carry no regex-detectable slop at all. That is the bar for the corpus: an example that violates the rules teaches the violation, because a positive reference is copied far more literally than a prose rule is followed. If you add a page here, run the detector on it first. And a clean detector run is still only the regex layer — it cannot see whether the soul is distinct or the engine renders real pixels. Look at the page.
+
+**Lift patterns, not whole files.** Each new brief deserves its own soul.
