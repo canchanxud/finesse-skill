@@ -1,7 +1,7 @@
 ---
 name: finesse-ui
-description: 'Build never-cheap, high-craft web interfaces — brand surfaces (landing pages, brand sites, launches, portfolios, hero pages with real WebGL/Three.js/Canvas/GSAP engines), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow UI (merchant/admin consoles, publish & create wizards, config and settings pages, review queues), and commerce pages (product detail pages, listing/category pages, cart, checkout). Routes by register: brand → soul + spectacle engine; product → palette + component system + density (split further into pages you READ = dashboards, and pages you OPERATE = consoles/wizards); commerce → PDP/PLP skeletons + anti-dark-pattern rules. Ships a product color library (tinted neutral ramps + 16 accents + 12 paste-ready sets) so dashboards stop defaulting to blue. Always reads the brief first and audits against an anti-slop cheapness blacklist. Ships an anti-sameness layer (divergence) that composes a soul from five orthogonal axes instead of picking from a persona list, so repeat runs stop converging on one look. Supports verb commands (audit · bolder · quieter · soul · diverge · animate · densify · redesign) for targeted iteration. Triggers on "make this look premium", "landing page", "personal site", "portfolio", "个人主页", "落地页", "lookbook", "dashboard", "admin panel", "商家后台", "工作台", "back-office", "console", "publish flow", "发布流程", "wizard", "settings page", "analytics UI", "data table", "app UI", "product page", "PDP", "listing page", "checkout", "dashboard colors", "give it a soul / a vibe", "anti-slop", "hero animation", "feels generic", "every page looks the same", "每次都差不多", "/finesse".'
-version: 0.13.0
+description: 'Build never-cheap, high-craft web interfaces — brand surfaces (landing pages, brand sites, launches, portfolios, hero pages with real WebGL/Three.js/Canvas/GSAP engines), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow UI (merchant/admin consoles, publish & create wizards, config and settings pages, review queues), and commerce pages (product detail pages, listing/category pages, cart, checkout). Routes by register: brand → soul + spectacle engine; product → palette + component system + density (split further into pages you READ = dashboards, and pages you OPERATE = consoles/wizards); commerce → PDP/PLP skeletons + anti-dark-pattern rules. Ships a product color library (tinted neutral ramps + 16 accents + 12 paste-ready sets) so dashboards stop defaulting to blue. Always reads the brief first and audits against an anti-slop cheapness blacklist. Ships an anti-sameness layer (divergence) that composes a soul from five orthogonal axes instead of picking from a persona list, so repeat runs stop converging on one look. Routes single-element briefs to a component flow (8 mandatory states + a preview file) instead of the page apparatus. Carries a cross-run build log so rotation is enforced rather than narrated, and a mobile floor covering the six ways a crafted page breaks on a phone. Supports verb commands (audit · bolder · quieter · soul · diverge · animate · densify · redesign) for targeted iteration. Triggers on "make this look premium", "landing page", "personal site", "portfolio", "个人主页", "落地页", "lookbook", "dashboard", "admin panel", "商家后台", "工作台", "back-office", "console", "publish flow", "发布流程", "wizard", "settings page", "analytics UI", "data table", "app UI", "product page", "PDP", "listing page", "checkout", "dashboard colors", "give it a soul / a vibe", "anti-slop", "hero animation", "feels generic", "every page looks the same", "每次都差不多", "make me a button", "just this component", "按钮", "单个组件", "component states", "breaks on mobile", "手机端错位", "/finesse".'
+version: 0.14.0
 user-invocable: true
 argument-hint: "[craft · audit · bolder|quieter|soul|diverge · animate|depth|densify · redesign · init|document] [target]"
 license: MIT
@@ -21,7 +21,8 @@ license: MIT
 
 ## How to use this skill
 
-1. Run **§0 Brand Read** — infer **register** (brand vs product) + soul before touching code. Output a one-line Design Read.
+0. **Check the scope before anything else.** If the brief is a **single element** — a button, an input, a card, a modal, a toast — go to `references/component-scope.md` and follow it instead; steps 1–6 below are page apparatus and are wrong for one component. Detection and the ambiguity question live in that file.
+1. Run **§0 Brand Read** — read `.finesse/log.json` (the rotation memory, `divergence.md` §4), then infer **register** (brand vs product) + soul before touching code. Output a one-line Design Read plus the rotation line.
 2. Set the **§1 Three Dials** (SOUL · SPECTACLE · DENSITY). Product register pins SPECTACLE low, DENSITY high.
 3. **Lay the substrate — the right one for the register.** Both share the **universal craft floor** (tinted neutrals, no `#fff`/`#000`, translucent/hairline borders, tinted shadows, contrast floors — `references/design-dna.md` §1). Above that floor the substrate forks:
    - **brand** → the **§3 brand substrate** (`references/design-dna.md`): grain, vignette, `clamp()` display type, dark-default, layered hero depth.
@@ -32,17 +33,19 @@ license: MIT
      - **pages you read** — dashboards, analytics, monitoring → `references/product-ui.md` (density, tables, charts, interaction states). **Before writing, open the closest dashboard in `examples/`** (index: `examples/EXAMPLES.md`) to see `product-ui.md` §0 applied in shipped code — lift patterns, not whole files.
      - **pages you operate** — publish/create wizards, merchant & admin consoles, config, settings, review queues → `references/workflow-ui.md` **on top of** `product-ui.md` (workflow shell, numbered sections, radio-card choices, live preview, pre-submit check, derived totals, draft/commit). There is **no form-workflow page in `examples/`** — build from the reference, and do **not** force-fit a dashboard example onto a form.
 5. **Assemble the skeleton — again, the right one for the register.** **brand** → pick one of the four **§5 brand skeletons** (landing · portfolio · lookbook · studio) by what the page has to *do*. **product** → the skeleton is the **shell morphology** in `product-ui.md` §1 (sidebar · floating panel · bento · triptych …), **not** §5. Motion-motivated only, in both.
-6. Run the **§6 Cheapness Blacklist** (`references/anti-cheap.md`) and **§8 Pre-Flight** (`references/preflight.md`) before shipping.
+6. Run the **§6 Cheapness Blacklist** (`references/anti-cheap.md`), the **mobile floor** (`references/mobile-floor.md`), and **§8 Pre-Flight** (`references/preflight.md`) before shipping. Then **record the build** — append to `.finesse/log.json` and stamp the CSS (`divergence.md` §4.3). An unrecorded build is one the next run will collide with.
 
 The `references/*.md` files are the deep material. Load the one you need for the current phase — do not inline all of them.
 
 | Reference | When to load |
 |-----------|-------------|
-| `divergence.md` | **At §0, before the Design Read — the anti-sameness layer.** Load it when output keeps converging, when the user says "feels generic / like every other AI site", or before *any* soul decision: the five-axis composition method (compose a soul, don't select one from a list), the anti-default two-altitude check, the die roll that breaks the model's argmax, the used-list that makes "don't repeat" executable, and the assert-then-confirm direction proposal. **Read its §0 register boundary first** — divergence is a goal for brand and a *bounded* tactic for product (never diverge on dashboard navigation conventions) |
+| `component-scope.md` | **Before the Brand Read, when the brief is one element, not a page** — a button, an input, a card, a modal. Routes to the component flow: keeps the register + craft floor + existing tokens, skips the skeleton / hero engine / rotation, and enforces the one gate that decides whether a component is well-made — **all eight states shipped**, plus a preview file that makes them visible instead of claimed |
+| `divergence.md` | **At §0, before the Design Read — the anti-sameness layer.** Load it when output keeps converging, when the user says "feels generic / like every other AI site", or before *any* soul decision: the five-axis composition method (compose a soul, don't select one from a list), the anti-default two-altitude check, the die roll that breaks the model's argmax, and the assert-then-confirm direction proposal. **§4 is the memory** — `.finesse/log.json` + the CSS stamp, with a defined read step (§0) and write step (§8); without it "don't repeat" is a rule with nothing behind it. **Read its §0 register boundary first** — divergence is a goal for brand and a *bounded* tactic for product (never diverge on dashboard navigation conventions) |
 | `design-dna.md` | Laying the **brand** substrate (grain, vignette, display type, color tokens, palette families). Product/dashboard inherits only its **universal craft floor** (§1: tinted neutrals, translucent borders, contrast floors) — the surfaces/cards/type/motion of a dashboard come from `product-ui.md` §0, not here |
 | `theming.md` | Brief asks for a light/dark toggle or multiple swappable named themes — the token-role and hardcoded-color pitfalls of a runtime palette switch (not the single-locked-palette default) |
 | `hero-engines.md` | Building the hero engine (brand register); also covers a secondary motion vocabulary (split-char reveal, magnetic buttons, curtain wipe, scan-line, per-card fly-in) for non-hero moments elsewhere on the page — the **decision** layer (which engine) |
 | `page-crafting.md` | **The brand implementation layer** — what `chart-crafting.md` is to `dataviz.md`. Load it when you stop choosing and start writing: the **motion gate** (`REDUCE`/`FINE` probes + terminal states — universal, product too), canvas **DPR** + cyclic palettes + amplitude envelopes, `mask-image` photo dissolve, the **photographic-hero scrim stack**, container-query panels, nav **scroll-spy** over alternating sections, zero-dependency **sticky horizontal pin**, **exploded-view** scrub, colorway **pin+snap**, `clip-path` wipes, hand-written **FLIP** lightbox, **generative** (guillotine-split) layouts, CSS-only **geometric collage**, full-page engine + section scrims, and the Fibonacci→KNN→traversal 3D recipe |
+| `mobile-floor.md` | **Any build that will be seen on a phone** — i.e. nearly all of them. The six mechanical causes of a broken phone layout, with the fix for each: `overflow-x: clip` vs `hidden` (and why `hidden` kills your sticky nav), `minmax(0,1fr)` on image-bearing grid tracks, clickable text that never wraps at *any* width, `overflow-wrap: anywhere` on display headings, one sticky at `top:0`, and the **all-caps `line-height` floor** that overrides §3's `.86–.95` for uppercase display type. `preflight.md` asks whether it breaks; this file says why it breaks |
 | `3d-effects.md` | Adding a 3D moment — CSS tilt/flip/coverflow/depth-parallax or Three.js model/displacement |
 | `style-personas.md` | Picking a soul (brand register) |
 | `inspiration-catalog.md` | Persona picked but you want a wider menu of proven techniques for that soul, or the brief doesn't fit any of the 10 personas cleanly |
@@ -94,7 +97,7 @@ finesse runs as a full build by default, but supports **verb commands** for targ
    - **a recent `audit` found P0/P1** → lead with `redesign` (fix the backlog) or the specific refine verb the findings point to (gradient-text/eyebrows → `quieter`/`soul`; flat motion → `animate`).
    - **nothing built yet, clear brief** → `craft`.
    Keep it to 2-3 pointed picks with the exact command to type. The menu is the fallback, not the lede.
-4. **A target but no command, building something new** → run the full `craft` flow (§0 → §8). The default for "build me a landing page / dashboard".
+4. **A target but no command, building something new** → **check the scope first.** If the brief names a *single element* (a button, an input, a card, a modal), route to `references/component-scope.md` — the page flow's skeleton, engine, and rotation are all wrong for one component, and the thing that actually decides its quality (all eight states shipped) isn't checked anywhere in the page flow. Otherwise run the full `craft` flow (§0 → §8) — the default for "build me a landing page / dashboard".
 5. **`audit` is read-only.** It only reports findings; it never edits code. Every other command is allowed to modify the target.
 
 > Auto-trigger is unchanged: finesse still activates from natural language via its `description`. Commands are an **added** precision entry-point (`/finesse quieter page.html`), not a replacement — both routes lead to the same references.
@@ -118,7 +121,15 @@ Most AI design output is bad because the model jumps to a default aesthetic inst
   - A **PLP / marketplace with many SKUs** (filters, sort, grid of many products) leans **product**: DENSITY high, SPECTACLE low, same as a dashboard — see `references/product-ui.md` for grid/filter patterns plus `references/commerce-ui.md` for commerce-specific rules (price/CTA placement, cart, checkout, dark-pattern bans).
   - When unsure which it is, ask: *"is this page trying to sell the vibe of one product, or help someone compare/filter many?"*
 
-**Read project memory first.** If a `PRODUCT.md` exists at the project root, read it (register, users, brand personality, locked dials, anti-references) — it **overrides your guesses**. If a `design-model.yaml` exists, read it too for the locked palette/type/substrate so this page matches existing ones. These are written by `init` / `document` (see Commands).
+**Read project memory first — all three files, they answer different questions.**
+
+| File | Answers | Written by |
+|---|---|---|
+| `PRODUCT.md` | *What must stay the same?* — register, users, brand personality, locked dials, anti-references. **Overrides your guesses.** | `init` |
+| `design-model.yaml` | *What is already built?* — locked palette / type / substrate, so this page matches its siblings. | `document` |
+| `.finesse/log.json` | *What must change?* — the last 20 builds' five-axis coordinates. The rotation memory. | every completed build (§8) |
+
+The first two lock **consistency**; the third forces **difference**. They are opposite goals and deliberately live in separate files — see `divergence.md` §4. If `.finesse/log.json` is absent, grep the codebase for a `/* finesse ·` CSS stamp and infer one entry from it; if neither exists, this is the first run and there is no rotation constraint.
 
 - **No `PRODUCT.md`, multi-page or repeat project, thin brief** → offer to run `init` first (one `PRODUCT.md` keeps every later page consistent). Don't force it on a one-off page.
 - **Existing codebase, no `design-model.yaml`** → offer `document` to capture what's there before adding to it.
@@ -132,6 +143,7 @@ Name the rejected default **first** (§0.D), then the direction. Two lines:
 Lazy default (rejected): {the obvious aesthetic for this category}
 Design Read: {industry} · {soul in 2-3 words} · register={brand|product} · SPECTACLE={n} ·
              layout={dominant layout family} · engine={type}
+Rotation: recent {n} → {axis values}; this build differs on {axes} ({k}/5)
 ```
 
 Example:
@@ -139,7 +151,11 @@ Example:
 Lazy default (rejected): dark page, violet glow, floating 3D render, three feature cards.
 Design Read: deep-space astronomy · cinematic + reverent · register=brand · SPECTACLE=8 ·
              layout=full-page engine + scrimmed sections · engine=Three.js particle galaxy
+Rotation: recent 3 → machined-metal / paper-press / signal-phosphor;
+          this build differs on E + C + A (3/5 ✓)
 ```
+
+**The rotation line is not optional, and it is not decoration.** Rotation you perform in your head is indistinguishable — afterwards, to you and to the user — from rotation you merely narrated. Writing the axes down before any code exists is what makes a bad rotation catchable while it's still free to fix. Threshold and format: `divergence.md` §4.4. Omit the line only on the first build of a project (no log, no stamp) — and say that's why.
 
 **STOP after the Design Read. Do not generate any code yet.** Wait for confirmation or redirect.
 
@@ -240,6 +256,7 @@ The difference between a cheap page and an expensive one is mostly a thin physic
 - **Grain** — a fixed SVG `feTurbulence` noise layer at `opacity .025–.05`. Static, but kills the flat "vector slop" look. (Light pages too, lower opacity.)
 - **Vignette** — a radial-gradient darken on dark heroes to create an optical focal point.
 - **Type tension** — display headings at `clamp()` with **negative tracking** (`-.02 to -.045em`) and `line-height .86–.95`; extreme weight contrast against a light body (e.g. 900 against 300). Tight, large, confident.
+  - **Conditional — all-caps display is the exception, and it is not a rare one.** `.86–.95` is correct for **mixed case**, where descenders (g, y, p) hold consecutive lines apart. All-caps has no descenders: cap-tops sit at the top of the line box, so at `.86` the caps of line 2 collide with the baseline and commas of line 1 and the two lines fuse into one band of ink. On a wide screen the headline sits on one line and you never see it; **on a phone it wraps and the collision is guaranteed.** This hits the brutal-typographic souls in §2 (Anton, Bebas) hardest — condensed faces have the tallest caps relative to their em box. So: whenever `text-transform: uppercase` is on display type, the `line-height` **floor is `1.0`, recommended `1.02–1.08`**. Raise the leading or drop the uppercase — one or the other, not a compromise at `.98`. Full reasoning: `references/mobile-floor.md` M6.
 - **Layered z-index** — engine(0) · grain(1) · vignette · content(5). Depth, not flatness.
 - **Translucent borders** — `rgba(255,255,255,.07–.22)` on dark, `rgba(0,0,0,.06–.08)` on light. Never a hard `#333` line.
 - **No pure `#fff` / `#000`.** Tint every neutral a few points toward the brand hue.
@@ -357,12 +374,26 @@ Before declaring done, scan against `references/anti-cheap.md` — the merged an
 - Visible focus states on every interactive element. Nav and CTAs reachable by keyboard.
 - Core Web Vitals: lazy-load heavy engines, `min-h-dvh` over `100vh` on mobile, responsive images (WebP/AVIF), CLS < 0.1.
 - Mobile collapse declared explicitly per multi-column section. Touch targets ≥ 44px.
+- **The mobile floor — six hard rules, full reasoning in `references/mobile-floor.md`.** Test at **320 · 375 · 414 · 768**, not by dragging a desktop window until it looks off. **M1** `overflow-x: clip` on both `html` and `body` — never `hidden`, which makes a scroll container and silently kills every sticky descendant. **M2** image-bearing grid tracks are `minmax(0,1fr)`, never bare `1fr` (whose `auto` minimum is the image's intrinsic width); flex children get `min-width: 0`. **M3** clickable text never wraps at **any** width — shorten the label first, `nowrap` second. **M4** display headings carry `overflow-wrap: anywhere; min-width: 0`. **M5** exactly one sticky at `top: 0`; others offset by `--nav-h`, with `--z-nav` above `--z-sticky`. **M6** all-caps display type has a `line-height` floor of `1.0` (see §3). `scripts/detect.mjs` catches M1/M2/M5/M6 mechanically; M3 and M4 need a rendered page at 320px.
 
 ---
 
 ## 8. PRE-FLIGHT CHECK
 
-Run the full checklist in `references/preflight.md` before saying "done." It merges the substrate check, the cheapness scan, the spectacle-claimed verification, and the a11y gates. If any hard rule fails, it is shipping broken work — fix before delivery.
+Run the full checklist in `references/preflight.md` before saying "done." It merges the substrate check, the cheapness scan, the spectacle-claimed verification, the mobile floor, and the a11y gates. If any hard rule fails, it is shipping broken work — fix before delivery.
+
+### 8.0 Record the build (after Pre-Flight passes, before you say "done")
+
+Two writes. They cost about thirty seconds and they are the only reason the next run can rotate off this one.
+
+1. **Stamp the CSS.** The first non-empty line of the page's stylesheet (or the top of the inline `<style>`) carries the five-axis coordinates:
+   ```css
+   /* finesse · register=brand · A=mono+acid-lime · B=900/300 · C=pinned-h-track
+    * D=GSAP-scrub · E=machined-metal · SOUL=8 SPECTACLE=7 DENSITY=4 */
+   ```
+2. **Append to `.finesse/log.json`** — prepend the entry to the array, trim to the last 20. Schema in `divergence.md` §4.1. Create the directory and file if they don't exist.
+
+**Component-scope builds do neither of these** — they use the component stamp and are never logged (`component-scope.md` §5). Components don't rotate; a project's buttons should look like siblings.
 
 ---
 

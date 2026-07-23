@@ -9,3 +9,11 @@ node_modules/
 
 # 本地优化 backlog,不提交
 OPTIMIZATION.md
+
+# 版本实施计划,本地评审用,不提交
+PLAN-*.md
+
+# finesse 构建记忆(轮换用的五轴坐标)。属于本地构建历史,不是项目资产:
+# 每次构建都会改写,进版本库只会制造无意义的 diff 和合并冲突。
+# 跨机器/跨协作者的兜底是 CSS 里的 /* finesse · ... */ 戳记 —— 那个是提交的。
+.finesse/

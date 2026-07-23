@@ -35,6 +35,7 @@ const NOT_COVERED = [
   'glassmorphism / AI-purple-glow used as decoration',
   'layout-family repetition (§5) and whether the soul is actually distinct',
   'whether the engine RENDERS real pixels (needs the Playwright runtime pass, not a grep)',
+  'mobile-floor M3/M4 — clickable text wrapping to two lines, long-word overflow at 320px (needs a rendered page at 320, not a grep)',
 ];
 
 if (files.length === 0) {
@@ -74,6 +75,17 @@ function stripComments(text) {
     .replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, ' '))
     .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
     .replace(/(^|[^:])\/\/[^\n]*/g, (m, p1) => p1 + m.slice(p1.length).replace(/./g, ' '));
+}
+
+// Innermost `{ ... }` blocks — i.e. CSS declaration blocks, not @media wrappers.
+// Several mobile-floor rules are about two declarations CO-OCCURRING in one rule
+// (uppercase + tight leading; sticky + top:0), which a flat regex can't express.
+function ruleBlocks(text) {
+  const out = [];
+  const re = /\{([^{}]*)\}/g;
+  let m;
+  while ((m = re.exec(text)) !== null) out.push({ index: m.index, body: m[1] });
+  return out;
 }
 
 // ---- generic slop rules ----------------------------------------------------
@@ -156,6 +168,61 @@ const RULES = [
     label: 'Fake-precise metric (e.g. 4.1×, 92.7%) — verify it has a source',
     fix: 'clarify',
     find: (t) => matches(t, />\s*\d{1,3}\.\d+\s*(?:×|x|%)\s*</g),
+  },
+  {
+    // mobile-floor.md M1. `hidden` makes the element a scroll container, which
+    // severs position:sticky/fixed for every descendant — the page stops
+    // scrolling sideways and the sticky nav dies with it. `clip` doesn't.
+    id: 'overflow-x-hidden',
+    severity: 'P1',
+    label: 'overflow-x:hidden at root on a page using position:sticky (use `clip`)',
+    fix: 'mobile-floor M1',
+    find: (t) => {
+      // Gate on sticky. `hidden` on an ancestor makes a scroll container, which
+      // breaks position:sticky descendants — that is the whole harm. Without a
+      // sticky on the page there is nothing to break, and firing anyway would be
+      // a false positive on ~3 of every 4 pages. (position:fixed is NOT affected
+      // by overflow — only by a transform/filter/will-change containing block —
+      // so it deliberately does not gate this rule.)
+      if (!/position\s*:\s*sticky/i.test(t)) return [];
+      const out = [];
+      for (const b of ruleBlocks(t)) {
+        if (!/overflow(-x)?\s*:\s*hidden/i.test(b.body)) continue;
+        // only the root selectors matter; a hidden overflow on a card is fine
+        const sel = t.slice(Math.max(0, b.index - 120), b.index);
+        if (/(^|[\s,}>])(html|body)\s*(,[^{]*)?$/i.test(sel)) {
+          out.push({ line: lineOf(t, b.index), text: 'html/body overflow-x:hidden + sticky on page' });
+        }
+      }
+      return out;
+    },
+  },
+  {
+    // mobile-floor.md M6. All-caps has no descenders, so cap-tops collide with
+    // the line above once the heading wraps. Unitless values only — `1.2em`
+    // and `120%` are not display leading and shouldn't fire.
+    id: 'uppercase-tight-leading',
+    severity: 'P1',
+    label: 'text-transform:uppercase with line-height < 1.0 (cap-collision on wrap)',
+    fix: 'mobile-floor M6',
+    find: (t) => {
+      const out = [];
+      for (const b of ruleBlocks(t)) {
+        if (!/text-transform\s*:\s*uppercase/i.test(b.body)) continue;
+        const lh = b.body.match(/line-height\s*:\s*(0?\.\d+|\d(?:\.\d+)?)\s*(?:;|$)/i);
+        if (lh && parseFloat(lh[1]) < 1) {
+          out.push({ line: lineOf(t, b.index), text: `uppercase + line-height:${lh[1]}` });
+        }
+      }
+      return out;
+    },
+  },
+  {
+    id: 'transition-all',
+    severity: 'P2',
+    label: 'transition: all (name the properties — `all` animates layout props too)',
+    fix: 'animate',
+    find: (t) => matches(t, /transition\s*:\s*all\b[^;]*|\btransition-all\b/gi),
   },
 ];
 
@@ -247,6 +314,96 @@ function eyebrowCheck(text) {
   return null;
 }
 
+// The five-axis build stamp (divergence.md §4.2). It's the fallback memory for
+// rotation when `.finesse/log.json` is absent — a page copied out of its project
+// still carries its own coordinates. P2, not P1: a missing stamp doesn't break
+// the page, it breaks the NEXT build's ability to rotate off this one. Component
+// artifacts stamp differently (component-scope.md §5) and are exempt.
+function stampCheck(text) {
+  if (/\/\*\s*finesse\s*[·|]/i.test(text)) return null;
+  return {
+    id: 'missing-stamp',
+    severity: 'P2',
+    label: 'No /* finesse · … */ build stamp — next run has nothing to rotate against',
+    fix: 'divergence §4.2',
+    hits: [{ line: 0, text: 'no five-axis stamp in CSS' }],
+  };
+}
+
+// mobile-floor.md M2. A bare `1fr` is `minmax(auto, 1fr)`, and `auto` floors the
+// track at the content's max-content width — a 1600px image makes a 1600px
+// minimum track. Only fires when the file actually contains an image.
+function bareFrTrackCheck(text) {
+  // Replaced elements only. `background-image` deliberately does NOT gate this:
+  // a background contributes nothing to intrinsic size, so it can't blow out a
+  // track — including it fired on ~a third of pages for no reason.
+  if (!/<img\b|<picture\b|<video\b/i.test(text)) return null;
+  // A global `img { max-width: 100% }` doesn't fully remove the max-content
+  // floor, but in practice it defuses the common single-column case.
+  if (/(?:^|[\s,}])(?:img|picture|video)[^{]*\{[^}]*max-width\s*:\s*100%/i.test(text)) return null;
+  const hits = matches(text, /grid-template-(?:columns|rows)\s*:\s*[^;}]+/gi).filter((h) => {
+    // blank out minmax(...) — any explicit minimum is fine, only bare 1fr is not
+    const stripped = h.text.replace(/minmax\s*\([^)]*\)/gi, 'MM');
+    return /(?:^|[\s(,:])1fr\b/.test(stripped);
+  });
+  if (!hits.length) return null;
+  return {
+    id: 'bare-1fr-track',
+    severity: 'P2',
+    // P2, not P1: file-level correlation only. The grep knows the page has
+    // images and has bare `1fr` tracks; it cannot know they're the SAME track.
+    // Confirm which track holds the image before changing anything.
+    label: `Bare \`1fr\` track(s) on a page with images — confirm whether an image sits in one, then use \`minmax(0,1fr)\``,
+    fix: 'mobile-floor M2',
+    total: hits.length,
+    hits: hits.slice(0, 8),
+  };
+}
+
+// mobile-floor.md M5. Two elements pinned at top:0 occupy the same strip and the
+// deeper-in-DOM one paints over the nav.
+function dualStickyCheck(text) {
+  const hits = [];
+  for (const b of ruleBlocks(text)) {
+    if (!/position\s*:\s*sticky/i.test(b.body)) continue;
+    if (/(?:^|[;\s])top\s*:\s*0(?:px|rem|em|%)?\s*(?:;|$)/i.test(b.body)) {
+      hits.push({ line: lineOf(text, b.index), text: 'sticky + top:0' });
+    }
+  }
+  if (hits.length < 2) return null;
+  return {
+    id: 'dual-sticky-top0',
+    severity: 'P1',
+    label: `${hits.length} elements sticky at top:0 — they overlap; offset all but the nav by --nav-h`,
+    fix: 'mobile-floor M5',
+    hits: hits.slice(0, 8),
+  };
+}
+
+// anti-cheap.md — mid-build token improvisation. Counts OPAQUE colour literals
+// outside the token block. Deliberately ignores rgba()/hsla(): finesse REQUIRES
+// inline translucent values for borders and tinted shadows (SKILL §3), so
+// counting them would fight the skill's own rule. Threshold, not zero-tolerance
+// — a hand-tuned gradient or an SVG fill is legitimate; a scatter across
+// component rules means the palette stopped being a system somewhere.
+const COLOR_LITERAL_THRESHOLD = 30;
+function inlineColorCheck(text) {
+  const stripped = stripComments(text).replace(
+    /(?::root|\[data-theme[^\]]*\]|@theme)[^{]*\{[^{}]*\}/gi,
+    (m) => m.replace(/[^\n]/g, ' ')
+  );
+  const hits = matches(stripped, /#[0-9a-f]{6}\b|#[0-9a-f]{3}\b|\boklch\([^)]*\)/gi);
+  if (hits.length <= COLOR_LITERAL_THRESHOLD) return null;
+  return {
+    id: 'inline-color-literal',
+    severity: 'P2',
+    label: `${hits.length} opaque colour literals outside :root (>${COLOR_LITERAL_THRESHOLD}) — lift them into named tokens`,
+    fix: 'soul',
+    total: hits.length,
+    hits: hits.slice(0, 8),
+  };
+}
+
 // ---- run -------------------------------------------------------------------
 
 const report = [];
@@ -268,9 +425,20 @@ for (const file of files) {
       findings.push({ id: rule.id, severity: rule.severity, label: rule.label, fix: rule.fix, count: hits.length, hits: hits.slice(0, 8) });
     }
   }
-  for (const fn of [spectacleCheck, reducedMotionCheck, eyebrowCheck]) {
+  for (const fn of [
+    spectacleCheck,
+    reducedMotionCheck,
+    eyebrowCheck,
+    stampCheck,
+    bareFrTrackCheck,
+    dualStickyCheck,
+    inlineColorCheck,
+  ]) {
     const f = fn(text);
-    if (f) findings.push({ ...f, count: f.hits.length });
+    // `total` when the check truncated its own hit list, else the list length.
+    // (Reading .hits.length after a slice(0,8) silently reports every finding as
+    // exactly 8 — the count must come from before the truncation.)
+    if (f) findings.push({ ...f, count: f.total ?? f.hits.length });
   }
 
   findings.sort((a, b) => severityRank(a.severity) - severityRank(b.severity));

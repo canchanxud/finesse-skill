@@ -34,7 +34,7 @@ Everything below §1 is written for **brand**. Apply it to product only through 
 
 Diagnose honestly before fixing. Every one of these is a real mechanism, not a vibe:
 
-1. **The "don't repeat" rule is unenforceable.** `style-personas.md` says *"Rotate; never ship the same lane twice in a row."* **You have no memory of the last run.** Across sessions, "twice in a row" is a rule that can never fire. It reads like discipline and does nothing. → fixed by §4 (persistent used-list).
+1. **The "don't repeat" rule is unenforceable.** `style-personas.md` says *"Rotate; never ship the same lane twice in a row."* **You have no memory of the last run.** Across sessions, "twice in a row" is a rule that can never fire. It reads like discipline and does nothing. → fixed by §4 (`.finesse/log.json` + the CSS stamp — a written record with a defined read step and a defined write step).
 2. **Personas are a closed list.** Ten rows in a table, six of them quoted in SKILL §2. A model choosing from ten options, weighted by training-data familiarity, will land on the same two or three most of the time. → fixed by §3 (compose, don't select).
 3. **`examples/` teaches structure, not just craft.** The instruction is *"lift patterns, not whole files."* That is a soft constraint against a strong pull: a model with an open example file will mirror its section order, its card counts, its shell. This is why every dashboard converges on the sidebar+topbar+KPI-row. **The examples that raise your quality floor are the same examples flattening your variety.** → fixed by §5 (read examples as coordinates, not templates).
 4. **The dial presets are a lookup table.** `"landing page" → SOUL 7 · SPECTACLE 6 · DENSITY 4`. Same words in, same numbers out, same page out. The preset is a *starting* point that is almost never moved off. → fixed by §3's forced perturbation.
@@ -78,23 +78,83 @@ The 10 personas in `style-personas.md` are simply the 10 combinations already va
 
 ## 4. Make "Don't Repeat" Actually Executable
 
-`PRODUCT.md` currently locks **intra-project consistency** (one accent, one theme, one type system — so page 7 matches page 1). That is the *opposite* goal from divergence, and it is the only memory finesse has. Nothing tracks what you've already built **across** projects, so §1.1's rotation rule can never fire.
+`PRODUCT.md` locks **intra-project consistency** (one accent, one theme, one type system — so page 7 matches page 1). That is the *opposite* goal from divergence, and until now it was the only memory finesse had. Nothing tracked what you'd already built **across** pages, so §1.1's rotation rule could never fire.
 
-**Fix: append a used-list, and read it before drawing.** In `PRODUCT.md` (or a `~/.finesse-used.md` for cross-project memory — the user's call):
+**The two jobs are opposites and must not share a file.** `PRODUCT.md` answers *"what must stay the same?"*. The build log answers *"what must change?"*. Putting the second inside the first is why the earlier version of this rule stayed a suggestion — there was no path, no schema, and no step in the main flow that read it.
 
-```markdown
-## Used (do not repeat without a reason)
-| Date | Page | Palette (A) | Type (B) | Layout (C) | Engine (D) | Material (E) |
-|------|------|-------------|----------|------------|------------|--------------|
-| 2026-07-02 | acme-launch | mono + acid lime | 900/300 contrast | pinned h-track | GSAP scrub | machined metal |
-| 2026-07-09 | vela-folio  | opacity ladder    | serif-italic note | generative grid | none | paper & press |
+### 4.1 The build log — `.finesse/log.json`
+
+At the **project root**. A JSON array, **newest entry first**, trimmed to the last **20** entries.
+
+```json
+[
+  {
+    "date": "2026-07-21",
+    "page": "acme-launch",
+    "register": "brand",
+    "axes": {
+      "palette":  "mono + acid lime",
+      "type":     "900/300 contrast",
+      "layout":   "pinned h-track",
+      "engine":   "GSAP scrub",
+      "material": "machined metal"
+    },
+    "dials": { "soul": 8, "spectacle": 7, "density": 4 },
+    "brief": "industrial keyboard launch"
+  }
+]
 ```
 
-Rules:
-- **Read it in §0, before the Design Read.** It is the only thing that makes rotation real.
-- **A collision on one axis is fine. A collision on three is a repeat.** Redraw.
-- If the user *wants* the same soul (a sister page, a sub-brand), that's a `design-model.yaml` consistency job, not a divergence job — the used-list is advisory, and the user's explicit request always wins.
-- Append one row after every completed build. Two lines of upkeep buys the only real memory in the system.
+Create `.finesse/` and the file if absent.
+
+**Gitignore it.** `.finesse/log.json` is local build history, not a project asset — every build rewrites it, so committing it buys nothing but noise in the diff and a merge conflict every time two people build in parallel. Add `.finesse/` to the project's `.gitignore` on first write.
+
+That decision is only affordable **because the stamp is committed.** The two halves split the job: the log is fast local memory for consecutive runs on one machine; the stamp travels with the code, so a fresh clone — or a collaborator who has never run finesse here — can still read what the last build chose and rotate off it. Ignore the log, keep the stamp. Losing both is how a project silently goes back to having no memory at all.
+
+### 4.2 The stamp — the fallback when there is no log
+
+The first non-empty line of the page's CSS (or the top of the inline `<style>`) carries the same coordinates:
+
+```css
+/* finesse · register=brand · A=mono+acid-lime · B=900/300 · C=pinned-h-track
+ * D=GSAP-scrub · E=machined-metal · SOUL=8 SPECTACLE=7 DENSITY=4 */
+```
+
+The log is the primary memory; the stamp is the **backstop**. It survives the cases the log doesn't: the user copied one HTML file out of the project, `.finesse/` is gitignored, the page came from somewhere else. If there is no `log.json`, **grep the target for `/* finesse ·` and infer one entry from the stamp.**
+
+Component-scope builds stamp differently and are **not** logged — see `component-scope.md` §5.
+
+**Short form for back-filled builds.** When stamping a page that already existed (its dials were never recorded), emit the axes and omit `SOUL/SPECTACLE/DENSITY` rather than inventing values — a fabricated dial is worse than an absent one, because the next run will rotate against it as if it were real. The 17 pages in `examples/` carry exactly this short form. Product-register pages record `shell=…` in place of the five axes, per the register boundary in §0.
+
+### 4.3 Wiring — where it reads and where it writes
+
+A memory nothing reads is not a memory. Both ends are mandatory:
+
+| When | Do |
+|---|---|
+| **§0, before the Design Read** | Read `.finesse/log.json`. If absent, grep the codebase for a `/* finesse ·` stamp and infer one entry. If neither exists, this is the first run — no constraint. |
+| **§0.B, with the Design Read** | **Say the rotation out loud** (format below). Pick on the page, not in your head. |
+| **§8, after Pre-Flight passes** | Prepend one entry to the array, trim to 20. Write the stamp into the CSS. |
+
+### 4.4 The threshold, and saying it out loud
+
+**The new page must differ from the most recent entry on ≥3 of the 5 axes.** A collision on one axis is fine; a collision on three is a repeat — redraw the colliding axis.
+
+State it before drawing, next to the Design Read:
+
+```
+Recent (3): machined-metal / paper-press / signal-phosphor
+This build: water & fluid · differs on E + C + A (3/5 ✓)
+```
+
+Without this line the rotation is unfalsifiable — you cannot tell afterwards whether it happened or was narrated. With it, the user can catch a bad rotation before any code exists.
+
+**Two things it is not:**
+
+- **Not a rule for components.** Components don't rotate; a project's buttons should look like siblings. `component-scope.md` skips this entirely.
+- **Not a rule that outranks the user.** If they want the same soul — a sister page, a sub-brand, a second surface of one product — that's a `design-model.yaml` consistency job. The log is advisory; an explicit request always wins. Note the override in the entry's `brief` field so the *next* run doesn't read it as drift.
+
+Two lines of upkeep per build buys the only real memory in the system.
 
 ---
 
@@ -178,7 +238,8 @@ Then, whichever mode you're in: **recommend one, with a one-sentence reason.** A
 
 - [ ] Did I name the first-order **and** second-order default, and reject both? (§2)
 - [ ] Can I state my page's coordinates on all five axes? If any axis is "whatever was easiest", **that is the axis that made it generic**. (§3)
-- [ ] Did I check the used-list, and does this page differ from the last on **≥3 axes**? (§4)
+- [ ] Did I read `.finesse/log.json` (or the CSS stamp), say the rotation out loud, and does this page differ from the last on **≥3 axes**? (§4)
+- [ ] Did I write the log entry and the stamp after Pre-Flight? An unrecorded build is one the next run will collide with. (§4.3)
 - [ ] If I opened an example, did I deliberately move off at least one of its axes? (§5)
 - [ ] Did the die roll happen, and if I overrode it, did I write down why? (§6)
 - [ ] If I showed a trio, does it pass the squint test — three different concrete nouns? (§7)

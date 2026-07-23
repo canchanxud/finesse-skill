@@ -8,6 +8,8 @@ Run before saying "done." Merges the substrate check, the cheapness scan, the sp
 
 - [ ] **Design Read** was committed (industry · soul · register · SPECTACLE · engine).
 - [ ] **Anti-default named** — the lazy aesthetic for this brief was identified and beaten.
+- [ ] **Rotation was read and stated** — `.finesse/log.json` (or a `/* finesse ·` CSS stamp) was read at §0, the rotation line was written out loud alongside the Design Read, and this build differs from the last on **≥3 of 5 axes** (`divergence.md` §4).
+- [ ] **Build recorded** — the five-axis stamp is the first non-empty line of the CSS, and an entry was prepended to `.finesse/log.json` (trimmed to 20). *An unrecorded build is one the next run collides with.* Component-scope builds skip both by design.
 - [ ] **One soul, one accent, locked** across every section. No drift, no second accent unless duotone-by-design.
 - [ ] **Theme locked** — no warm-paper section inside a dark page (unless deliberate one-time switch).
 - [ ] Page matches its **register** (brand = bold/spectacle; if it's really product-UI, finesse is the wrong tool).
@@ -17,7 +19,8 @@ Run before saying "done." Merges the substrate check, the cheapness scan, the sp
 - [ ] **Grain** layer present (`opacity .02–.05`).
 - [ ] **No pure `#fff`/`#000`**; neutrals tinted toward brand hue.
 - [ ] **Translucent borders** only; no hard `#333` lines; shadows hue-tinted (not pure black on light bg).
-- [ ] **Display type tension** — `clamp()` size, negative tracking, line-height .86–.95, weight contrast against light body.
+- [ ] **Display type tension** — `clamp()` size, negative tracking, weight contrast against light body. Line-height **`.86–.95` for mixed case**; **`1.0` floor (`1.02–1.08` recommended) whenever `text-transform: uppercase` is on** — all-caps has no descenders, so tight leading collides cap-tops with the line above the moment the heading wraps, which on a phone it always does (`mobile-floor.md` M6).
+- [ ] **Tokens hold to the end** — every colour and `font-family` in the artifact references a named token; no literal `#hex` / `oklch()` / `rgb()` outside the `:root` block. The colour lock is the decision; this is what enforces it 400 lines in.
 - [ ] **Layered z-index** depth (engine · grain · vignette · content).
 
 ## C. Spectacle (hard if SPECTACLE ≥ 7)
@@ -50,11 +53,24 @@ A page that *claims* SPECTACLE 8 but ships a white hero is broken, not plain. Ve
 - [ ] **Nav** single line, ≤80px tall.
 - [ ] **Eyebrow count ≤ ceil(sections/3).**
 - [ ] **≥4 layout families** on a long page; no family more than twice; ≤2 consecutive image+text zigzags.
-- [ ] **Mobile collapse** declared per multi-column section. No horizontal scroll at 375px. `min-h-dvh` over `100vh`.
+- [ ] **Mobile collapse** declared per multi-column section. `min-h-dvh` over `100vh`.
+
+### D.1 The mobile floor (hard) — test at 320 · 375 · 414 · 768
+
+Not "narrow the window until it looks off" — those four widths. Causes and fixes: `mobile-floor.md`.
+
+- [ ] **M1** — `overflow-x: clip` on **both** `html` and `body`. Not `hidden` (it creates a scroll container and kills every sticky/fixed descendant — the "I fixed the scroll and broke the nav" bug).
+- [ ] **M2** — every grid track that can hold an image is `minmax(0, 1fr)`, not bare `1fr`; flex children that can hold one have `min-width: 0`.
+- [ ] **M3** — no button, nav link, footer link, tab, breadcrumb, or CTA wraps to two lines at **any** width from 320 up. Shorten the label first.
+- [ ] **M4** — display headings carry `overflow-wrap: anywhere; min-width: 0`.
+- [ ] **M5** — exactly one sticky element at `top: 0`; every other sticky offset by `--nav-h`, with `--z-nav` above `--z-sticky`.
+- [ ] **M6** — nothing has both `text-transform: uppercase` and `line-height < 1.0` (see §B).
+- [ ] Ran `node skills/finesse-ui/scripts/detect.mjs --json <target>` — it catches M1/M2/M5/M6. **M3 and M4 it cannot see**; open the page at 320px and read it.
 
 ## E. Cheapness Scan (hard)
 
 - [ ] No em-dashes in copy. No div-based fake screenshots. No gradient-text/glass/AI-purple as default.
+- [ ] **No re-drawn environment chrome** — no hand-built browser bar (URL pill + traffic lights), phone bezel, IDE frame, or terminal window. Real screenshot in a `<figure>`, or no chrome at all. (Distinct from fake screenshots: a *real* screenshot inside a *drawn* MacBook bezel still fails.)
 - [ ] No fake-precise numbers without a source. No banned beige+brass default palette.
 - [ ] No identical card grids. No numbered `01·02·03` unless a real sequence.
 - [ ] **Real imagery** where the brief implies it (food/hotel/fashion/travel/product); sourced per `asset-sourcing.md` (generate/stock/placeholder), not a silent gradient-blob substitute.
@@ -71,7 +87,7 @@ A page that *claims* SPECTACLE 8 but ships a white hero is broken, not plain. Ve
 
 - [ ] Contrast WCAG AA — body ≥4.5:1, large ≥3:1. Includes **buttons over photos** (scrim/stroke), placeholders, helper/error text, focus rings.
 - [ ] Visible focus state on every interactive element; keyboard-reachable nav + CTAs.
-- [ ] Button text fits one line at desktop; no wrapped CTAs.
+- [ ] Button text fits one line at **every width from 320 up** — not just desktop, which is the width where the problem never happens (`mobile-floor.md` M3).
 - [ ] Touch targets ≥44px. Form labels above inputs (never placeholder-as-label).
 
 ## H. Performance (soft)
