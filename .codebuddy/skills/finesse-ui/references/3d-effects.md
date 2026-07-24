@@ -184,9 +184,18 @@ Animate `uProgress` 0→1 with GSAP on `pointerenter` / back on `pointerleave` (
 
 ```js
 const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
+
+// IBL — image-based lighting is the single biggest cheap→premium lever for a PBR object.
+// A generated room env gives real reflections + smooth specular falloff; a bare light can't.
+const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;  // reflections only, not a visible bg
+
 new GLTFLoader().load(url, gltf => {
   scene.add(gltf.scene);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x222233, 1.1));
+  const key = new THREE.DirectionalLight(0xffffff, 1.4);   // one key on top of the env for shape + a highlight
+  key.position.set(4, 6, 3);
+  scene.add(key);
 });
 let drag = 0, vel = 0.003;                       // idle auto-spin
 canvas.addEventListener('pointerdown', e => { drag = e.clientX; vel = 0; });
@@ -195,7 +204,9 @@ addEventListener('pointerup', () => { drag = 0; vel = 0.003; });
 // in loop: if (!drag) scene.rotation.y += vel;
 ```
 - Lazy-load `three` + the loader only when the viewer scrolls into view (`IntersectionObserver`) — never on initial paint.
-- Soft studio light (hemisphere + one key) reads premium; a single flat light reads cheap.
+- **IBL (`scene.environment`) + one key light reads premium; a bare hemisphere or a single flat light reads cheap** — a metal/glass surface with nothing to reflect looks like plastic. Set `scene.environment`, not `scene.background`, so the env lights the model without hijacking the page's own backdrop.
+- The color pipeline from `hero-engines.md` Engine A (`outputColorSpace` + ACES tone mapping) is **mandatory** here, not optional — PBR + IBL without it renders muddy and grey, which is the exact "cheap" tell IBL was meant to kill.
+- `pmrem.dispose()` after the env texture is built; keep the `renderer.dispose()` cleanup from Engine A.
 - Provide a **static product photo poster** for reduced-motion and load failure — never a blank canvas.
 
 ### 2.C Scroll-coupled 3D scene

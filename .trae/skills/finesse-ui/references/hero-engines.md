@@ -29,6 +29,10 @@ const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
+// Color pipeline — the #1 "why does my WebGL look flat/washed" fix. Three lines, always on.
+renderer.outputColorSpace = THREE.SRGBColorSpace;         // r152+ default, but set it explicitly
+renderer.toneMapping = THREE.ACESFilmicToneMapping;       // filmic rolloff — lit scenes stop clipping to grey
+renderer.toneMappingExposure = 1.0;                        // dial 0.8–1.3 to taste
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 2000);
@@ -60,6 +64,29 @@ requestAnimationFrame(loop);
 addEventListener('resize', () => { camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
 ```
 Scroll-couple it (optional): drive `camera.position.z` or `scene.rotation.y` from a GSAP ScrollTrigger `scrub`.
+
+**Bloom — the glow that turns "a field of dots" into an expensive-looking scene.** `AdditiveBlending` alone gives you additive dots; bloom is what makes them *bleed light*. This is the step the engine's name has always promised. Add it only for genuinely luminous souls (galaxies, neural nets, crypto meshes) — bloom on a lit product scene just smears it.
+
+```js
+// lazy-loaded alongside `three` — all three addons share the pinned version
+const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
+const { RenderPass }     = await import('three/addons/postprocessing/RenderPass.js');
+const { UnrealBloomPass }= await import('three/addons/postprocessing/UnrealBloomPass.js');
+
+const composer = new EffectComposer(renderer);
+composer.setPixelRatio(Math.min(devicePixelRatio, 2));
+composer.addPass(new RenderPass(scene, camera));
+composer.addPass(new UnrealBloomPass(
+  new THREE.Vector2(innerWidth, innerHeight),
+  0.8,   // strength — 0.6–1.1 premium; >1.5 reads as a cheap blur
+  0.4,   // radius
+  0.85)); // threshold — only the brightest pixels bloom; lower = everything glows = mud
+// loop: composer.render() REPLACES renderer.render(scene, camera)
+// resize: also composer.setSize(innerWidth, innerHeight)
+```
+- **GSAP is untouched.** Scroll-scrub still mutates `camera`/uniforms exactly as before — bloom only changes the final render call. The one rule: if the scene is scroll-driven, the scrub `onUpdate` (and the rAF loop) must call `composer.render()`, never the bare `renderer.render()`, or the pass is skipped.
+- Keep the DPR cap on the composer too — bloom is a fullscreen multi-pass blur and doubles cheaply into jank at retina resolution.
+- Reduced-motion still freezes on one composed frame — render the composer **once**, then stop the loop.
 
 > For a **rendered 3D object** (GLTF product viewer, image-displacement plane) rather than a particle field, see `3d-effects.md` §2 — same Three.js setup, depth-specific recipes.
 
