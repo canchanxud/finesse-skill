@@ -60,6 +60,15 @@ type: {display family + body family + optional mono, each with the reason}
 
 ## Rules
 
+- **Tell the user what got locked, and how to unlock it.** Writing the file silently is how page 5 becomes a mystery: he asks for a different color, finesse holds the line, and he has no idea what is holding it or where. One short notice at write time, naming the constraints in plain terms and the sentence that releases them — never the filename or the schema (`plain-words.md`):
+
+  ```
+  Locked for this project: warm amber accent (#C8A06A), Fraunces headlines, dark theme.
+  Every later page will follow these. Say "change the accent" (or the type, or the theme)
+  and I'll update this page and the ones already built.
+  ```
+
+  The same applies when `document` writes `design-model.yaml`. A constraint the user can't see is one he'll experience as the tool being stubborn.
 - **`PRODUCT.md` overrides your guesses.** Once it exists, §0 Brand Read reads it instead of inferring register/soul from scratch. If the user's new request contradicts it, surface the conflict rather than silently overriding.
 - **Don't pad it.** Every line is a constraint the next page must honor. If you don't know a field, ask or leave it explicitly `TBD` — never invent a confident-sounding default.
 - **Dials are defaults, not handcuffs.** A single page may run hotter/cooler SPECTACLE with a stated reason; the locked value is the gravity it returns to.

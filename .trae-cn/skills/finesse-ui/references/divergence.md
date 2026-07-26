@@ -133,21 +133,30 @@ A memory nothing reads is not a memory. Both ends are mandatory:
 | When | Do |
 |---|---|
 | **§0, before the Design Read** | Read `.finesse/log.json`. If absent, grep the codebase for a `/* finesse ·` stamp and infer one entry. If neither exists, this is the first run — no constraint. |
-| **§0.B, with the Design Read** | **Say the rotation out loud** (format below). Pick on the page, not in your head. |
+| **§0.B, with the Design Read** | **Say the rotation out loud — as a plain sentence, not axis letters** (§4.4). Pick on the page, not in your head. |
 | **§8, after Pre-Flight passes** | Prepend one entry to the array, trim to 20. Write the stamp into the CSS. |
 
 ### 4.4 The threshold, and saying it out loud
 
 **The new page must differ from the most recent entry on ≥3 of the 5 axes.** A collision on one axis is fine; a collision on three is a repeat — redraw the colliding axis.
 
-State it before drawing, next to the Design Read:
+State it before drawing, next to the Design Read. **Two audiences, two forms — and they are not interchangeable.**
+
+**To yourself (recorded, never shown):** the five-axis coordinates, written to `.finesse/log.json` at §8 and stamped into the CSS.
 
 ```
 Recent (3): machined-metal / paper-press / signal-phosphor
 This build: water & fluid · differs on E + C + A (3/5 ✓)
 ```
 
-Without this line the rotation is unfalsifiable — you cannot tell afterwards whether it happened or was narrated. With it, the user can catch a bad rotation before any code exists.
+**To the user (in the §0.B Design Read):** one plain sentence naming the directions avoided and the one chosen.
+
+```
+Rotation: deliberately steering clear of the last three builds (machined metal / paper press /
+          phosphor terminal) — this one is water and drift.
+```
+
+Without a written record the rotation is unfalsifiable: afterwards, neither you nor anyone else can tell whether it happened or was merely narrated. That argument justifies **writing it down** — it does not justify printing axis letters at a person. `differs on E + C + A (3/5 ✓)` is unfalsifiable *to the user* in the way that matters: he cannot decode E, so he cannot object that machined metal was actually what he wanted. The plain sentence keeps the veto available; the log and the stamp keep the audit trail. Ship both, in their own channels — and never emit the coordinate form in conversation (`plain-words.md`, "terms to never say to a user").
 
 **Two things it is not:**
 
@@ -214,9 +223,15 @@ Going with this unless you'd rather push it toward {one named alternative}.
 
 A three-option menu when the answer is already obvious is theater — it *looks* like consultation and costs a round-trip. Assert. Let them override.
 
-### Mode 2 · Three real visuals (when the brief genuinely forks — and only then)
+### Mode 2 · Three real visuals — two triggers
 
-When the brief legitimately supports very different readings (a "premium" brand that could be austere-Nordic *or* maximal-baroque; a personal site that could be a portfolio *or* a manifesto), **do not describe the options. Build them.**
+**Trigger A — the brief genuinely forks.** It legitimately supports very different readings: a "premium" brand that could be austere-Nordic *or* maximal-baroque; a personal site that could be a portfolio *or* a manifesto.
+
+**Trigger B — the user cannot evaluate an assertion.** Mode 1 assumes a veto is available. It isn't when the brief carried no directional information at all — only undirected praise-words ("好看", "高级", "有质感", "premium", "clean", "modern"), or an explicit "I can't really say what I want." Such a user will approve *any* well-written `You'll see:` line, because he has nothing to compare it against. A rubber-stamp is not consent, and you will find out it wasn't at delivery.
+
+Trigger B is the more common one and the easier one to miss: nothing about the brief *looks* ambiguous — "落地页，要高级一点" reads like a clear instruction, and the category default supplies a confident direction. The ambiguity is on the user's side, not the brief's. **Test:** could this person tell your direction apart from two plausible alternatives, in words? If not, showing him one is theater no matter how plainly it's phrased.
+
+In either case, **do not describe the options. Build them.**
 
 - Produce **three actual pages** — low-fidelity is fine, but they must render and be screenshot-able. The user chooses by *looking*, which is the only way anyone has ever chosen a design.
 - **Each variant moves on a different axis** (§3). Three variants of "the same page in three accent colors" is not a choice.

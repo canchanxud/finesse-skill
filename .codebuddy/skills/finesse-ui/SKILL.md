@@ -1,7 +1,7 @@
 ---
 name: finesse-ui
 description: 'Build never-cheap, high-craft web interfaces — brand surfaces (landing pages, brand sites, launches, portfolios, hero pages with real WebGL/Three.js/Canvas/GSAP engines), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow UI (merchant/admin consoles, publish & create wizards, config and settings pages, review queues), and commerce pages (product detail pages, listing/category pages, cart, checkout). Routes by register: brand → soul + spectacle engine; product → palette + component system + density (split further into pages you READ = dashboards, and pages you OPERATE = consoles/wizards); commerce → PDP/PLP skeletons + anti-dark-pattern rules. Ships a product color library (tinted neutral ramps + 16 accents + 12 paste-ready sets) so dashboards stop defaulting to blue. Always reads the brief first and audits against an anti-slop cheapness blacklist. Ships an anti-sameness layer (divergence) that composes a soul from five orthogonal axes instead of picking from a persona list, so repeat runs stop converging on one look. Routes single-element briefs to a component flow (8 mandatory states + a preview file) instead of the page apparatus. Carries a cross-run build log so rotation is enforced rather than narrated, and a mobile floor covering the six ways a crafted page breaks on a phone. Supports verb commands (audit · bolder · quieter · soul · diverge · animate · densify · redesign) for targeted iteration. Triggers on "make this look premium", "landing page", "personal site", "portfolio", "个人主页", "落地页", "lookbook", "dashboard", "admin panel", "商家后台", "工作台", "back-office", "console", "publish flow", "发布流程", "wizard", "settings page", "analytics UI", "data table", "app UI", "product page", "PDP", "listing page", "checkout", "dashboard colors", "give it a soul / a vibe", "anti-slop", "hero animation", "feels generic", "every page looks the same", "每次都差不多", "make me a button", "just this component", "按钮", "单个组件", "component states", "breaks on mobile", "手机端错位", "/finesse".'
-version: 0.14.0
+version: 0.15.0
 user-invocable: true
 argument-hint: "[craft · audit · bolder|quieter|soul|diverge · animate|depth|densify · redesign · init|document] [target]"
 license: MIT
@@ -22,7 +22,7 @@ license: MIT
 ## How to use this skill
 
 0. **Check the scope before anything else.** If the brief is a **single element** — a button, an input, a card, a modal, a toast — go to `references/component-scope.md` and follow it instead; steps 1–6 below are page apparatus and are wrong for one component. Detection and the ambiguity question live in that file.
-1. Run **§0 Brand Read** — read `.finesse/log.json` (the rotation memory, `divergence.md` §4), then infer **register** (brand vs product) + soul before touching code. Output a one-line Design Read plus the rotation line.
+1. Run **§0 Brand Read** — read `.finesse/log.json` (the rotation memory, `divergence.md` §4), then infer **register** (brand vs product) + soul before touching code. Output the Design Read: the coordinate line, **a plain `You'll see:` line the user can actually veto**, its two most likely objections, and the rotation as a sentence (§0.B).
 2. Set the **§1 Three Dials** (SOUL · SPECTACLE · DENSITY). Product register pins SPECTACLE low, DENSITY high.
 3. **Lay the substrate — the right one for the register.** Both share the **universal craft floor** (tinted neutrals, no `#fff`/`#000`, translucent/hairline borders, tinted shadows, contrast floors — `references/design-dna.md` §1). Above that floor the substrate forks:
    - **brand** → the **§3 brand substrate** (`references/design-dna.md`): grain, vignette, `clamp()` display type, dark-default, layered hero depth.
@@ -49,6 +49,7 @@ The `references/*.md` files are the deep material. Load the one you need for the
 | `3d-effects.md` | Adding a 3D moment — CSS tilt/flip/coverflow/depth-parallax or Three.js model/displacement |
 | `style-personas.md` | Picking a soul (brand register) |
 | `inspiration-catalog.md` | Persona picked but you want a wider menu of proven techniques for that soul, or the brief doesn't fit any of the 10 personas cleanly |
+| `plain-words.md` | **Any time you are writing text the *user* reads** — the §0.B Design Read, `audit` findings, the memory-lock notice. finesse's whole vocabulary (`register`, `SPECTACLE`, `grain`, `scrim`, `eyebrow`, `hairline`) is load-bearing internally and opaque externally, and it leaks out at exactly the moments the user is supposed to make a decision. One-clause observable glosses, plus the list of internal terms (five-axis coordinates, axis letters, reference filenames) that must **never** reach a user |
 | `anti-cheap.md` | Before any delivery — cheapness scan |
 | `product-ui.md` | Dashboard / admin / data app — pages you **read** (product register) |
 | `workflow-ui.md` | Pages you **operate** (product register): publish/create wizards, merchant & admin consoles, config, settings, review queues — the workflow shell, numbered section cards, radio-card choices, live-preview aside, pre-submit check, derived budget panels, draft/commit |
@@ -137,13 +138,15 @@ The first two lock **consistency**; the third forces **difference**. They are op
 
 ### 0.B Output a "Design Read" before generating — assert a direction, don't poll for one
 
-Name the rejected default **first** (§0.D), then the direction. Two lines:
+Name the rejected default **first** (§0.D), then the direction — then **say what the page will look like in words the user can picture**, and give them two concrete ways to object:
 
 ```
 Lazy default (rejected): {the obvious aesthetic for this category}
 Design Read: {industry} · {soul in 2-3 words} · register={brand|product} · SPECTACLE={n} ·
              layout={dominant layout family} · engine={type}
-Rotation: recent {n} → {axis values}; this build differs on {axes} ({k}/5)
+You'll see: {what appears on screen, in plain observable terms — color, motion, type size, structure}
+Not right? Most likely one of these: ① {the most probable objection} ② {the second}
+Rotation: {plain sentence — which recent direction this deliberately avoids}
 ```
 
 Example:
@@ -151,15 +154,25 @@ Example:
 Lazy default (rejected): dark page, violet glow, floating 3D render, three feature cards.
 Design Read: deep-space astronomy · cinematic + reverent · register=brand · SPECTACLE=8 ·
              layout=full-page engine + scrimmed sections · engine=Three.js particle galaxy
-Rotation: recent 3 → machined-metal / paper-press / signal-phosphor;
-          this build differs on E + C + A (3/5 ✓)
+You'll see: a near-black page with slow-drifting star dust behind everything, a very large
+            headline sitting on top of it, and the galaxy rotating as you scroll.
+Not right? Most likely one of these: ① you don't want a moving background
+            ② near-black is too heavy and you want this light.
+Rotation: deliberately steering clear of the last three builds (machined metal / paper press /
+          phosphor terminal) — this one is water and drift.
 ```
 
-**The rotation line is not optional, and it is not decoration.** Rotation you perform in your head is indistinguishable — afterwards, to you and to the user — from rotation you merely narrated. Writing the axes down before any code exists is what makes a bad rotation catchable while it's still free to fix. Threshold and format: `divergence.md` §4.4. Omit the line only on the first build of a project (no log, no stamp) — and say that's why.
+**`You'll see:` is the line the user actually answers.** The `Design Read:` line is a coordinate for *you* — `SPECTACLE=8`, `scrimmed sections`, and `Three.js particle galaxy` are three things a non-designer cannot picture, cannot rank, and therefore cannot veto. A gate only one answer can pass is not a gate. Write what renders: color, whether anything moves, how big the type is, what the structure is. No jargon — `references/plain-words.md` if a term is unavoidable.
+
+**`Not right?` must name real forks, not invite open-ended feedback.** "Let me know what you think" returns nothing. Two specific, likely, *mutually different* objections give the user something to point at, and each one has to be a thing you would genuinely build differently — usually the theme and the motion, since those are the two decisions the whole page hangs off.
+
+**The rotation line is not optional, and it is not decoration.** Rotation you perform in your head is indistinguishable — afterwards, to you and to the user — from rotation you merely narrated. Writing it down before any code exists is what makes a bad rotation catchable while it's still free to fix. **Write it as a sentence, not as axis letters:** `differs on E + C + A (3/5 ✓)` is unfalsifiable *to the user* — they can't tell what E is, so they can't object that they actually wanted machined metal. The five-axis coordinates still get recorded, in `.finesse/log.json` and the CSS stamp (§8.0), which is where an audit reads them from. Threshold and format: `divergence.md` §4.4. Omit the line only on the first build of a project (no log, no stamp) — and say that's why.
 
 **STOP after the Design Read. Do not generate any code yet.** Wait for confirmation or redirect.
 
-**Assert, don't poll.** State the direction you're going and invite a veto ("going with this unless you'd rather push it toward {one named alternative}"). Do **not** hand the user a three-option menu of adjectives — *nobody can choose a design from words they can't see*, so they'll pick the first one and you'll have learned nothing. A menu is theater when the answer is already clear.
+**Assert, don't poll.** State the direction you're going and invite a veto. Do **not** hand the user a three-option menu of adjectives — *nobody can choose a design from words they can't see*, so they'll pick the first one and you'll have learned nothing. A menu is theater when the answer is already clear. Note that `You'll see:` + `Not right?` is **not** a menu: it asserts one direction and pre-names its two most likely failure modes, which is what makes the veto usable instead of ceremonial.
+
+> **When the user can't evaluate the assertion at all, that's Mode 2.** If the brief carried no directional information — only undirected praise-words ("好看", "高级", "有质感", "premium", "clean"), or an explicit "I can't really say" — then `You'll see:` will get a rubber-stamp no matter how plainly it's written, because the user has no basis for comparison. Build three real variants instead (`divergence.md` §7 Mode 2 + the squint test). Undirected adjectives are as strong a fork signal as a genuinely ambiguous brief.
 
 **The exception — when the brief genuinely forks** (a "premium" brand that could be austere-Nordic *or* maximal-baroque; a personal site that could be a portfolio *or* a manifesto): don't describe the options, **build them**. Three low-fidelity but *real*, screenshot-able pages, each moving on a **different axis**, then let the user look. See `references/divergence.md` §7 — including the **squint test** that stops the three variants from collapsing into one.
 
@@ -168,6 +181,18 @@ Rotation: recent 3 → machined-metal / paper-press / signal-phosphor;
 ### 0.C If the brief is ambiguous, ask ONE question — do not guess blind
 
 One sharp question beats five rounds of wrong defaults. Ask the thing that most changes the output: *"Is this meant to feel restrained-editorial or maximal-spectacle?"* / *"What should a visitor remember 10 seconds after leaving?"* Then commit. **Wait for the answer before proceeding.**
+
+### 0.C.1 Say it in words the user can act on
+
+finesse's vocabulary is internal. `register`, `SPECTACLE`, `grain`, `scrim`, `eyebrow`, `hairline`, `layout family` all earn their place in the reasoning and none of them are answerable by the person reading. They leak out in exactly three places, and all three are places where the user is supposed to decide something:
+
+| Where | What breaks without a gloss |
+|---|---|
+| §0.B Design Read | the confirmation gate — he can only say "go ahead" |
+| `audit` findings | he can't tell which finding to fix first |
+| the memory-lock notice (`init.md`) | he doesn't know what got locked, or how to unlock it |
+
+**The rule: first time a term appears in user-facing text, follow it with a one-clause gloss in observable terms; after that use it bare.** Table of glosses, plus the internal terms that must never reach a user at all: `references/plain-words.md`. This applies to output only — reason in whatever vocabulary you like.
 
 ### 0.D Anti-Default Discipline
 

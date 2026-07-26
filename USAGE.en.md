@@ -9,10 +9,10 @@ This isn't the rules file the Skill reads (`skills/finesse-ui/SKILL.md` — thou
 ## The 30-second version
 
 1. State the **page type** (landing/dashboard/portfolio/commerce) + **1-2 mood words**.
-2. It replies with a one-line judgment (Design Read) — **it only starts writing code once you confirm.**
+2. It tells you **what you'll see** and names the two things most likely to be wrong — **it only starts writing code once you confirm.** Can't say what you want? Say so, and it builds three directions for you to look at.
 3. Don't say "redo it" — **point at the specific thing you don't like** (one sentence, e.g. "too plain"); it fixes only that.
-4. Building a whole page set? Say "keep these consistent" up front — it locks a spec that every later page follows.
-5. Before shipping, run `audit` — a read-only diagnostic that reports findings without touching code; you decide what to fix.
+4. Building a whole page set? Say "keep these consistent" up front — it locks a spec, and tells you what got locked and how to unlock it.
+5. Before shipping it checks the built page against that "what you'll see" line; you can also say `audit` any time for a read-only diagnostic — it reports, you decide what to fix.
 
 Each point is expanded below.
 
@@ -54,23 +54,32 @@ If you have a reference in mind ("something like the vibe of [brand]"), naming i
 
 ---
 
-## 2. It replies with a judgment first — the Design Read
+## 2. It tells you what it's about to build — the Design Read
 
-Before finesse writes any code, it **always** outputs a one-line judgment, roughly:
+Before finesse writes any code, it **always** stops and describes what it's going to make:
 
 ```
-Design Read: deep-space astronomy · cinematic + reverent · register=brand · SPECTACLE=8 · hero-engine=Three.js particle galaxy
+Design Read: deep-space astronomy · cinematic + reverent · register=brand · SPECTACLE=8 · engine=Three.js particle galaxy
+You'll see: a near-black page with slow-drifting star dust behind everything, a very large
+            headline sitting on top of it, and the galaxy rotating as you scroll.
+Not right? Most likely one of these: ① you don't want a moving background
+            ② near-black is too heavy and you want this light.
+Rotation: deliberately steering clear of the last three builds (machined metal / paper press /
+          phosphor terminal) — this one is water and drift.
 ```
 
-Breaking it down: **industry positioning · style direction · which route (brand/product/commerce) · how ambitious the visuals are on a 1-10 scale · what technique drives the visual centerpiece**.
+**The only line you need to read is `You'll see`.** The `Design Read` line is a coordinate for its own use (`SPECTACLE=8` and the like) — ignore it. The second line is what the page will actually look like.
 
-**This step stops and waits for you to confirm.** You have three ways to respond:
+**This step stops and waits for you to confirm.** Four ways to respond:
 
-1. **"Go ahead" / "looks good"** — only then does it actually start writing code.
-2. **Point out what's wrong** — e.g. "too techy, we want it warmer", "that's not the right tone for this industry." It re-judges and gives you a new Design Read instead of plowing through a full page with the wrong direction, which you'd only discover afterward.
-3. **Add missing context** — if the direction is mostly right but missing something (e.g. "this is mainly for older users"), just add it — it folds that into the judgment.
+1. **"Go ahead"** — only then does it start writing code.
+2. **Reply with a number** — e.g. "②, too heavy, our shop is bright." The easiest way to redirect: those two are the mistakes this kind of page most often makes.
+3. **Point at the `You'll see` line** — "no moving dust, static is fine", "the headline doesn't need to be that big." No vocabulary required; that line is written entirely in things you can look at.
+4. **Add context it missed** — e.g. "this is mainly for older users," and it re-judges with that folded in.
 
-**Why this step matters**: skipping confirmation and saying "whatever, you decide" means that if the direction turns out wrong, redoing it costs far more than the 10 seconds it takes to confirm now.
+**Why this step matters**: skipping confirmation and saying "whatever, you decide" means that if the direction turns out wrong, redoing it costs far more than the 10 seconds it takes now. It also matters *after* — before delivery, finesse takes that `You'll see` line back and checks the finished page against it clause by clause, so what you get is what you nodded at. The pickier you are here, the more accurate the result.
+
+> **If you genuinely can't say what you want** — you say "I can't really tell", or the only words you have are "premium" / "clean" / "nice" — finesse switches to **building three low-fidelity pages in different directions** for you to look at. Choosing by eye beats choosing by adjective, every time.
 
 ---
 
@@ -134,6 +143,22 @@ If you're not starting from zero and pages already exist, say "check what design
 
 ## 5. Before you ship: the final check
 
+### 5.1 It checks itself against the line you agreed to
+
+Before saying "done," finesse takes the **`You'll see`** line from step 2 and walks the finished page against it, clause by clause:
+
+```
+Promise kept
+  ✅ deep brown base
+  ❌ slow-rising embers  →  shipped as a static background image  →  must fix
+  ✅ large serif headline over it
+  ✅ uneven-width product cards
+```
+
+This exists to catch one specific thing: **the direction quietly drifting mid-build.** On a long page, a moving element can get swapped for a static image because it wouldn't run smoothly, or a dark theme can lighten section by section. Each of those changes looks fine on its own — a static image actually scores *better* on contrast — and only checking against what you originally agreed to will surface it.
+
+### 5.2 You can ask for a check-up any time
+
 Say "check this page for me" or just `audit` — finesse runs a **read-only diagnostic** (changes no code) and scores it against several hard rule categories:
 
 - **Directional consistency** — has the palette drifted, is there a stray second accent color that showed up somewhere
@@ -141,7 +166,15 @@ Say "check this page for me" or just `audit` — finesse runs a **read-only diag
 - **Accessibility/usability** — is text contrast sufficient, are buttons reachable on mobile, is it keyboard-navigable, does motion respect the system's "reduce motion" setting
 - **Performance** — will images/animation slow the page down, is there an unwanted horizontal scrollbar on mobile
 
-The result is a prioritized findings list — **it does not touch code on its own**. You review it and say "fix X first" — you always keep the call on what to fix and when.
+Findings come back in three tiers, each one saying **what to look for** and **what it costs you**:
+
+| Tier | Means |
+|---|---|
+| **P0** | ships broken |
+| **P1** | clearly reads as AI-generated |
+| **P2** | polish |
+
+See the end of Example 1 for the shape. The diagnostic **does not touch code on its own** — you review it and say "fix X first." What to fix and when is always your call.
 
 ---
 
@@ -152,25 +185,51 @@ The result is a prioritized findings list — **it does not touch code on its ow
 ```
 You: A landing page for a specialty coffee roastery — warm, a little vintage-craft feeling
 
-finesse: Design Read: specialty coffee · warm vintage craft · register=brand · SPECTACLE=5 · hero-engine=Canvas particles/fire
+finesse: Design Read: specialty coffee · warm vintage craft · register=brand · SPECTACLE=5 · engine=Canvas fire particles
+         You'll see: a deep brown base, with a small patch of slowly rising embers on the first
+                     screen (like the flame inside a roaster), a large serif headline over it,
+                     and a row of uneven-width product cards below.
+         Not right? Most likely one of these: ① you don't want moving embers
+                     ② deep brown is too heavy and you want a light cream base.
          (stops and waits for your confirmation)
+
+You: ②, our shop is very bright — go light
+
+finesse: (re-issues the Design Read on a cream base; only starts coding once you confirm)
 
 You: yes, go ahead
 
 finesse: (generates the full page)
 
-You: overall good, but the hero feels too plain, want more impact
+You: overall good, but the first screen feels too plain, want more impact
 
-finesse: (adjusts only the hero's SPECTACLE, leaves everything else)
+finesse: (adjusts only the first screen, leaves everything else)
 
 You: can you review how this page is doing?
 
-finesse: audit read-only report: ✅ anti-slop blacklist clear ⚠️ mobile touch targets a bit small ⚠️ one contrast issue
+finesse: audit read-only report: solid structure, but two details are costing you
 
-You: fix the touch targets first
+         P0 — ships broken
+           • Button text unreadable on the hero photo (index.html:112)
+             On screen: the white "Book a table" label sits on a bright part of the photo.
+             Cost: in daylight on a phone it vanishes — your main action disappears.
+             → /finesse redesign index.html
+
+         P1 — clearly reads as AI-generated
+           • Gradient headline (index.html:47)
+             On screen: the main headline fades purple to blue instead of one solid color.
+             Cost: the single most-recognized AI-page signature; visitors assume a template.
+             → /finesse quieter index.html
+
+         Fix this one first: /finesse redesign index.html — the invisible button is costing
+         you bookings today.
+
+You: fix the button first
 
 finesse: (fixes only that)
 ```
+
+Note the report: every finding tells you **where to look** and **what happens if you leave it**, so you can triage without knowing any terminology.
 
 ### Example 2: a product dashboard
 
@@ -178,6 +237,11 @@ finesse: (fixes only that)
 You: An infrastructure monitoring dashboard for the ops team, dark theme
 
 finesse: Design Read: infrastructure monitoring · calm and precise · register=product · SPECTACLE=2 · component-system
+         You'll see: a dark grey base (not pure black), fixed navigation down the left, a row of
+                     key numbers across the top, then line charts and a sortable alerts table.
+                     Almost no motion.
+         Not right? Most likely one of these: ① you want more metrics in that top row
+                     ② you want navigation across the top instead of down the left.
          (stops and waits for your confirmation)
 
 You: yes
@@ -190,15 +254,24 @@ finesse: densify (reverse) — trims card count, opens up spacing, surfaces the 
 
 You: these pages (monitoring / alerts / settings) need to stay consistent going forward
 
-finesse: (establishes a design-model, records the color/type/component spec, every later page follows it)
+finesse: Locked for this project: slate-teal accent, Geist headlines, dark theme, left navigation.
+         Every later page will follow these. Say "change the accent" (or the type, or the theme)
+         and I'll update this page and the ones already built.
 ```
+
+Note that last reply — finesse tells you **what got locked** and **how to unlock it**. You won't hit the "page five, I want a different color, and it just won't change and I don't know why" situation.
 
 ### Example 3: an e-commerce product page
 
 ```
 You: A product detail page for a flagship pair of headphones, should feel premium
 
-finesse: Design Read: high-end headphones · precision engineering feel · register=commerce(PDP, brand-leaning) · SPECTACLE=6 · hero-engine=product photography + light parallax
+finesse: Design Read: high-end headphones · precision engineering feel · register=commerce(PDP, brand-leaning) · SPECTACLE=6 · engine=product photography + light parallax
+         You'll see: a near-black base, one large product shot on the first screen, and as you
+                     scroll the image moves slightly slower than the text so it reads as depth;
+                     then specs, reviews, and the purchase area.
+         Not right? Most likely one of these: ① you want a light base to set the product off
+                     ② you don't want the offset-on-scroll effect.
          (stops and waits for your confirmation)
 
 You: yes, go ahead
@@ -215,7 +288,10 @@ finesse: (adjusts only the CTA button's visual weight, leaves everything else)
 ## 7. FAQ
 
 **Q: I don't know any design terminology, I can only say "looks good / doesn't look good" — is that okay?**
-Yes, but the more specific the better. Swap "doesn't look good" for something with more direction, like "feels dated" or "too flashy" — the more information finesse has, the more accurate the first draft is, and the fewer rounds of rework you need.
+Yes. Two things keep you unstuck: everything it tells you is phrased as *what you'll see*, not as jargon, so you can point at it directly; and if you can't give it a direction at all (only words like "premium" or "nice"), it won't guess — it builds three low-fidelity pages in different directions for you to pick from. Choosing by eye beats choosing by adjective.
+
+**Q: It keeps using words I don't know (eyebrow, grain, contrast ratio) — do I need to learn them?**
+No. The first time any of them appears, it comes with a plain-language gloss in parentheses (e.g. "eyebrow — the small all-caps line above a headline"). If one shows up unglossed, just ask "what's that?" — that's a bug on its side, not a gap on yours.
 
 **Q: I can't edit code at all — what if something's wrong?**
 Just describe the problem to it ("this part doesn't display fully on mobile") — you don't need to understand the code, finesse locates and fixes the issue itself.

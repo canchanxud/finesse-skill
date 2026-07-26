@@ -1,14 +1,36 @@
 # Pre-Flight Check
 
-Run before saying "done." Merges the substrate check, the cheapness scan, the spectacle verification, and the accessibility gates. Failing any **hard rule** is shipping broken work — fix before delivery. Soft rules are judgment calls; if you skip one, say why.
+Run before saying "done." Merges the promise check, the substrate check, the cheapness scan, the spectacle verification, and the accessibility gates. Failing any **hard rule** is shipping broken work — fix before delivery. Soft rules are judgment calls; if you skip one, say why.
+
+---
+
+## Gate 0. Promise Kept (hard — run this first, before anything below)
+
+Every check in §A–§I asks *"does this page follow the rules?"* None of them asks **"is this the page the user agreed to?"** Those are different questions, and only the second one can fail silently: a page can pass every rule in this file while having quietly become something the user never approved. Long builds drift — a moving hero degrades into a static image, a dark theme lightens section by section, an engine gets stubbed out when it wouldn't run and never gets restored. Nothing downstream notices, because a static image has perfect contrast and zero jank.
+
+**Paste the `You'll see:` line from the §0.B Design Read back in, and check it item by item against the built page.**
+
+```
+Gate 0 — Promise kept
+  ✅ near-black page
+  ❌ slow-drifting star dust  →  shipped as a static background image  →  P0
+  ✅ very large headline over it
+  ✅ galaxy rotates on scroll
+```
+
+- [ ] **Every clause of `You'll see:` is verifiably present.** Not "an equivalent effect" — the thing described. Any miss is **P0**: the user confirmed *that* sentence, and shipping something else is shipping work he did not approve.
+- [ ] **A clause that could not be built was renegotiated, not silently dropped.** If the engine wouldn't hold 60fps and you fell back to a still frame, that is a legitimate call (§1.B says so) — but it changes what the user agreed to, so it gets said out loud at delivery, not buried.
+- [ ] **`Not right?` was answered.** If the user picked ① or ②, the built page reflects that pick, not the original assertion.
+
+> This generalizes §1.B. "Spectacle claimed, spectacle shown" is the same test applied to one dial — and it is finesse's signature audit precisely because claimed-vs-shipped is the failure that rule-checking cannot see. `You'll see:` is the *whole* claim, so it gets the same treatment.
 
 ---
 
 ## A. Direction & Soul (hard)
 
-- [ ] **Design Read** was committed (industry · soul · register · SPECTACLE · engine).
+- [ ] **Design Read** was committed (industry · soul · register · SPECTACLE · engine) **and the `You'll see:` line was written in plain observable terms** — no `SPECTACLE=n`, no `scrimmed sections`, no library names in the sentence the user was asked to confirm (§0.C.1, `plain-words.md`).
 - [ ] **Anti-default named** — the lazy aesthetic for this brief was identified and beaten.
-- [ ] **Rotation was read and stated** — `.finesse/log.json` (or a `/* finesse ·` CSS stamp) was read at §0, the rotation line was written out loud alongside the Design Read, and this build differs from the last on **≥3 of 5 axes** (`divergence.md` §4).
+- [ ] **Rotation was read and stated** — `.finesse/log.json` (or a `/* finesse ·` CSS stamp) was read at §0, the rotation was stated to the user **as a plain sentence** (not axis letters), and this build differs from the last on **≥3 of 5 axes** (`divergence.md` §4). The five-axis coordinates themselves live in the log and the stamp, not in the user-facing line.
 - [ ] **Build recorded** — the five-axis stamp is the first non-empty line of the CSS, and an entry was prepended to `.finesse/log.json` (trimmed to 20). *An unrecorded build is one the next run collides with.* Component-scope builds skip both by design.
 - [ ] **One soul, one accent, locked** across every section. No drift, no second accent unless duotone-by-design.
 - [ ] **Theme locked** — no warm-paper section inside a dark page (unless deliberate one-time switch).

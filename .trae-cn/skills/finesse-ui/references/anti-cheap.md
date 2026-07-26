@@ -4,6 +4,8 @@ Merged from production-tested AI tells, absolute design bans, and training-data 
 
 > Philosophy: most of these are *defaults the model reaches for without thinking*. The fix is almost never "add more" — it's "name the reflex, reject it, commit to an intentional choice."
 
+> **This list is written for you, not for the user.** `eyebrow`, `glassmorphism`, `side-stripe`, `grain`, `scrim`, `hairline`, `two-altitude` are precise internally and unreadable externally. When any entry here becomes a line in an `audit` report or an explanation of why you changed something, translate it: *what it looks like on screen* + *what it costs a visitor*, with a one-clause gloss on any term the user hasn't used himself. Glosses: `plain-words.md`. Report shape: `audit.md`.
+
 ---
 
 ## 0. The Two-Altitude Reflex Check (run before everything)
@@ -110,15 +112,16 @@ Failing any item below is a **shipping blocker**. Fix before delivery.
 
 ## 4. The 30-Second Self-Check
 
-Before shipping, answer honestly:
-1. **Anti-default named?** Did I identify the lazy aesthetic for this brief and beat it?
-2. **One accent, locked?** Same accent every section?
-3. **Eyebrow count ≤ ceil(sections/3)?**
-4. **≥4 layout families?** No family more than twice?
-5. **Real imagery** where the brief implies it?
-6. **Spectacle shown** (if claimed)? Holds 60fps? Reduced-motion fallback?
-7. **Copy clean?** No em-dashes, no fake numbers, no AI-cute strings?
-8. **Contrast AA?** Buttons, placeholders, focus rings included?
-9. **Charts real?** Every bar/line/arc computed from data (no maxed / uniform / barcode / faked marks), axes labeled, right chart type for the question?
+Before shipping, answer honestly. Each item carries the plain-sight version — that's the phrasing to use if any of this reaches the user.
+
+1. **Anti-default named?** Did I identify the lazy aesthetic for this brief and beat it? — *would anyone guess this page's colors from the industry alone?*
+2. **One accent, locked?** Same accent every section? — *does a different highlight color show up partway down?*
+3. **Eyebrow count ≤ ceil(sections/3)?** — *how many sections have a small all-caps line above the headline?*
+4. **≥4 layout families?** No family more than twice? — *do sections keep repeating the same arrangement (three cards, three cards, three cards)?*
+5. **Real imagery** where the brief implies it? — *is this selling something physical with no photographs of it?*
+6. **Spectacle shown** (if claimed)? Holds 60fps? Reduced-motion fallback? — *does the thing that's supposed to move actually move, smoothly, and hold still for people who turned animation off?*
+7. **Copy clean?** No em-dashes, no fake numbers, no AI-cute strings? — *any long dashes used for drama, any exact-looking stat with no source, any too-clever line?*
+8. **Contrast AA?** Buttons, placeholders, focus rings included? — *is every piece of text dark enough against what's behind it, including button labels on photos?*
+9. **Charts real?** Every bar/line/arc computed from data (no maxed / uniform / barcode / faked marks), axes labeled, right chart type for the question? — *do the bars actually differ in height according to the numbers, and is every axis labeled?*
 
 Any "no" is unshipped work.
