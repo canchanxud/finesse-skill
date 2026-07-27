@@ -2,202 +2,329 @@
 
 ![finesse-skill cover](assets/cover.jpg)
 
+<div align="center">
+
 # finesse-skill
 
-> **Never-cheap, high-craft web interfaces — brand spectacle + product precision**
-> A design skill for AI coding assistants that builds interfaces that never look templated.
+**Never-cheap interfaces — brand spectacle · product precision · native on phones**
 
-`finesse` is a design skill for AI coding assistants (Claude Code, Codex, Cursor, Copilot, and more). It routes by **register**:
+A design skill for AI coding assistants. It doesn't produce pages that are "fine". It produces pages with a soul, with craft, that hold up when you look closely.
 
-- **brand** — design IS the product: landing pages, brand sites, launches, portfolios, hero pages. Optimize for **spectacle + soul + first impression** with a real visual engine (Three.js / GLSL / Canvas / WebGL / GSAP).
-- **product** — design SERVES the product: dashboards, admin panels, analytics, data tables, app shells, settings. Optimize for **clarity + density + usability** with a component system and data visualization.
-- **commerce** — the hybrid: PDPs, listing pages, cart, checkout. Routed to one of the two above by what the specific page is doing.
-- **h5** — pages that only ever live on a phone: H5 / 移动端页面 / 活动页 / mini-program screens / app prototypes / mobile PDPs / report H5. This one is a **container register**: it fixes the phone frame, safe areas, thumb zone and native furniture first, then wraps one of the three above for the content grammar. A mobile PDP is `h5` + `commerce`; an app data screen is `h5` + `product`.
+[![version](https://img.shields.io/badge/version-0.16.0-111?style=flat-square)](https://github.com/mouse-lin/finesse-skill/releases)
+[![license](https://img.shields.io/badge/license-MIT-111?style=flat-square)](LICENSE)
+[![rules](https://img.shields.io/badge/design_rules-26_files-c9863f?style=flat-square)](skills/finesse-ui/references)
+[![examples](https://img.shields.io/badge/example_pages-19-5ee9c8?style=flat-square)](skills/finesse-ui/examples)
 
-All paths share the same foundation: **premium physical substrate + anti-slop audit**. Dashboards are not allowed to look cheap either — and neither is an H5 page.
+[Quick start](#quick-start) · [Four registers](#four-registers) · [What's inside](#whats-inside) · [Examples](#examples) · [Install](#installation--tool-support) · [Usage guide](USAGE.en.md)
 
-## How it works
+</div>
 
-1. **Read the brief** (register: first ask whether the page has a desktop form at all — if not, it's h5; then split brand / product / commerce) → output one-line Design Read to commit direction.
-2. **Set three dials**: SOUL · SPECTACLE (the signature dial) · DENSITY. Product register pins SPECTACLE low, DENSITY high.
-3. **All paths**: lay the premium substrate (grain · vignette · type tension · translucent borders · OKLCH color lock). For h5, **the frame goes up first**, then the substrate of whichever register it wraps.
-4. **Fork**:
-   - **brand** → pick a soul (industry → style persona) + build one hero engine (five types, done at 100%).
-   - **product** → component system + data viz (information architecture · tables · charts · forms · interaction states).
-   - **h5** → pick one of six phone morphologies (app shell / paged deck / snap narrative / commerce stack / longform site / ambient screen) + build the native furniture from the recipes (status bar · TabBar · bottom sheet · FAB · push and FLIP transitions).
+---
+
+## Quick start
+
+```bash
+npx skills add https://github.com/mouse-lin/finesse-skill
+```
+
+Then just talk to it:
+
+> "Use finesse to build a landing page for a specialty coffee roaster"
+> "Build a data dashboard for our ops team"
+> "Design the UI for a budgeting app"
+
+It **tells you what it's about to build first** — in words you can actually picture — and waits for your nod before writing any code.
+
+> [!TIP]
+> First time here, and no design background? Start with the **[usage guide](USAGE.en.md)** — how to brief it, how to veto it, how to iterate.
+
+---
+
+## Four registers
+
+The same brief, routed differently, produces **genuinely different design languages**. finesse decides the register first, and everything else follows from it.
+
+| Register | What it builds | Optimizes for | Core method |
+|:---|:---|:---|:---|
+| **brand**<br><sub>design IS the product</sub> | landing pages · brand sites · launches<br>portfolios · hero pages | spectacle + soul<br>first impression | pick a soul, build **one** real visual engine<br><sub>Three.js / GLSL / Canvas / WebGL / GSAP</sub> |
+| **product**<br><sub>design SERVES the product</sub> | dashboards · admin · analytics<br>data tables · app shells · settings | clarity + density<br>usability | component system + data viz<br><sub>pick the palette first, or every dashboard comes out blue</sub> |
+| **commerce**<br><sub>hybrid</sub> | PDP · listing · cart · checkout | conversion<br>without dark patterns | routed to one of the two above by what the page does<br><sub>selling one item leans brand, filtering many leans product</sub> |
+| **h5**<br><sub>container register</sub> | H5 · phone-only pages · campaign pages<br>mini-program screens · app prototypes | how it feels in the hand | **nail the phone frame first**, then wrap one of the above<br><sub>a mobile PDP is h5 + commerce</sub> |
+
+All four share the same foundation: **premium physical substrate + anti-slop audit**. Dashboards aren't allowed to look cheap, and neither are H5 pages.
+
+<details>
+<summary><b>How it actually runs (five steps)</b></summary>
+
+<br>
+
+1. **Read the brief** — first ask whether the page has a desktop form at all; if not, it's h5. Then split brand / product / commerce. Output a one-line Design Read to commit direction, then **stop and wait for you**.
+2. **Set three dials** — SOUL (how distinct the personality is) · SPECTACLE (technical ambition, the signature dial) · DENSITY (information per screen). Product register pins SPECTACLE low, DENSITY high.
+3. **Lay the substrate** — grain · vignette · type tension · translucent borders · OKLCH color lock. For h5, **the frame goes up first**, then the substrate of whichever register it wraps.
+4. **Fork**
+   - **brand** → pick a soul (industry → style persona) + build one hero engine, five types, **done at 100%** (not five half-built ones)
+   - **product** → component system + data viz (information architecture · tables · charts · forms · full interaction-state inventory)
+   - **h5** → pick one of six phone morphologies (app shell / paged deck / snap narrative / commerce stack / longform site / ambient screen) + build the native furniture from the recipes
 5. **Anti-slop blacklist + pre-flight check**, then ship.
 
-> First time here? See **[USAGE.en.md](USAGE.en.md)** — a checklist for getting good results with zero design experience.
+</details>
+
+---
 
 ## What's inside
 
-- **Premium physical substrate** — SVG grain / vignette / type weight tension / color family (distilled from 53 pages of industry showcase analysis)
-- **Five hero engine types** — Three.js / Canvas / WebGL-FBO / GSAP / CSS-only, each with a `prefers-reduced-motion` fallback skeleton
-- **3D effects spectrum** — CSS pseudo-3D (pointer-tilt cards / flip cards / coverflow / depth-parallax) + Three.js real 3D (model viewer / image-displacement plane); the `depth` command drops in one 3D moment
-- **Industry soul decision matrix** — industry → style / palette / typeface / engine selection table; cures "every page looks the same"
-- **Product UI route** — dashboard information architecture · 25 chart types · data tables · forms · interaction state inventory · component system · cognitive load
-- **H5 mobile spec** — the phone-only rule set: the viewport contract · the locked-`body` / scrolling-container architecture inversion · the 560px desktop phone frame · safe-area math · **the thumb-zone inversion** (primary actions at the bottom) · touch rules with no desktop equivalent (`passive` / `pointercancel` / tap-highlight / 44px) · six phone morphologies · native furniture recipes (status bar · TabBar · bottom sheet · FAB · push and hand-written FLIP transitions)
-- **Register-driven routing** — brand / product / commerce / h5, each with its own rule set; h5 is a container that wraps one of the other three
-- **Anti-slop blacklist** — production-verified AI tells + absolute bans + reflex-reject font/palette/aesthetic list
-- **Design-model token lock** — multi-page consistency + generate → self-audit → iterate loop
-- **OKLCH color strategy ladder** — four commitment levels: restrained / committed / full / drenched
-
-## Examples
-
-Pages built from the same design DNA — brand path (visual engines · soul-driven) across multiple industries:
-
-| | |
-|:---:|:---:|
-| ![Nexus — Three.js particle orbital rings, distributed intelligence](assets/examples/nexus.png) | ![Drift — Canvas 2D flow field particles, brand landing page](assets/examples/drift.png) |
-| ![Forge — Three.js particle fire, game studio](assets/examples/forge.png) | ![Volt — all-electric car, bold typographic hero](assets/examples/volt.png) |
-| ![Morning Ritual — specialty coffee, editorial light theme](assets/examples/coffee.png) | ![Eclipse — data gravity platform, bold typographic](assets/examples/eclipse.png) |
-
-Product register (component system · data viz · information architecture):
-
-| | |
-|:---:|:---:|
-| ![Buildly — AI growth intelligence, canonical sidebar shell + area-chart draw-in + donut](assets/examples/buildly.jpg) | ![Pulsegrid — infrastructure monitoring, glowing sparklines + premium custom slider](assets/examples/stakent.jpg) |
-| ![ACRU — team productivity, canonical sidebar shell + hover-tooltip bar chart](assets/examples/acru.jpg) | ![PawCare+ — pet health companion, real-photo hotspot annotations + theme switcher](assets/examples/pawcare.jpg) |
-| ![Nodeflux — API console, floating panel + true bento (2.15fr 1.7fr 1fr…) + concentric usage rings](assets/examples/nodeflux.jpg) | ![Inkline — publishing CMS, top-nav triptych + browser-preview hotspot annotations](assets/examples/inkline.jpg) |
-| ![Huddle — team workspace, top-nav bento + colored task cards + multi-arc donut + voice waveform](assets/examples/huddle.jpg) | ![Threadline — support operations, floating panel + asymmetric bento + circular gauge + allocation table](assets/examples/ledgerio.jpg) |
-
-h5 path (phone-only · native furniture · six morphologies) — 390×844 portrait, auto-framed as a phone on desktop:
-
 <table>
 <tr>
-<td width="50%" align="center">
-<img src="assets/examples/h5-pawpal.jpg" width="290" alt="PAWPAL — pet care app, floating pill TabBar + raised center FAB + thick tri-segment rings + white bottom sheet"><br>
-<b>Morphology A · app shell</b> (wraps product)<br>
-<sub>Floating pill TabBar + raised FAB · thick tri-segment rings · capsule bars · white bottom sheet · switching pets repaints the page while the furniture never moves</sub>
+<td width="50%" valign="top">
+
+**Visual craft**
+
+- **Premium physical substrate** — grain / vignette / type tension / color families<br><sub>distilled from a 53-page industry showcase corpus</sub>
+- **Five hero engine types** — Three.js · Canvas · WebGL-FBO · GSAP · CSS-only, each with a reduced-motion fallback skeleton
+- **3D effects spectrum** — CSS pseudo-3D (tilt / flip / coverflow / depth-parallax) + Three.js real 3D
+- **OKLCH color ladder** — four commitment levels: restrained / committed / full / drenched
+
 </td>
-<td width="50%" align="center">
-<img src="assets/examples/h5-brew.jpg" width="290" alt="Brew Journal — drip coffee product detail page, scroll-snap gallery + SKU sheet + sticky four-segment buy bar"><br>
-<b>Morphology D · commerce stack</b> (wraps commerce)<br>
-<sub>scroll-snap gallery + pager · SKU sheet driving live price · add-to-cart parabola + badge pop · sticky buy bar</sub>
+<td width="50%" valign="top">
+
+**Decisions & guardrails**
+
+- **Anti-sameness engine** — composes a soul from five orthogonal axes instead of picking off a list<br><sub>with a cross-run build log, so "don't repeat" can actually fire</sub>
+- **Anti-slop blacklist** — production-verified AI tells + absolute bans + reflex-reject font/palette lists
+- **Pre-flight check** — promise kept · cheapness scan · a11y · mobile floor
+- **Local detector** — `detect.mjs` mechanically scans for slop and claimed-but-not-shipped spectacle
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**product route**
+
+- Dashboard information architecture · six shell morphologies
+- 25 chart types × a11y grade × library picks
+- Hand-built chart implementation layer (zero-dependency SVG recipes)
+- Data tables · forms · full interaction-state inventory
+- **A product color library** — 5 tinted neutral ramps + 16 accents + 12 paste-ready sets
+
+</td>
+<td width="50%" valign="top">
+
+**h5 route**
+
+- The viewport contract · the locked-`body` / scrolling-container **architecture inversion**
+- 560px desktop phone frame · safe-area math
+- **The thumb-zone inversion** — primary actions always at the bottom
+- Touch rules (`passive` / `pointercancel` / tap-highlight / 44px)
+- Six phone morphologies + native furniture recipes<br><sub>status bar · TabBar · bottom sheet · FAB · push and hand-written FLIP transitions</sub>
+
 </td>
 </tr>
 </table>
 
-> Both ship in `skills/finesse-ui/examples/` and run straight from disk. Their imagery is a code-generated SVG placeholder (`PH()`) — swap it for a real image URL and not one line of the surrounding CSS changes.
+---
 
-## Installation & Tool Support
+## Examples
 
-### npx skills (recommended · one command for Claude Code / Codex / Cursor, etc.)
+Built from the same design DNA, yet deliberately unrelated to each other — which is exactly what the anti-sameness engine is for.
 
-[`npx skills`](https://github.com/vercel-labs/skills) is Vercel Labs' open-source cross-tool skill installer; it asks which agent to install into at runtime.
+<details open>
+<summary><b>brand route</b> — visual engines · soul-driven · across industries</summary>
+
+<br>
+
+| | |
+|:---:|:---:|
+| ![Nexus — Three.js particle orbital rings, distributed intelligence](assets/examples/nexus.png) | ![Drift — Canvas 2D flow field particles, brand landing page](assets/examples/drift.png) |
+| **Nexus** · Three.js particle orbital rings | **Drift** · Canvas 2D flow-field particles |
+| ![Forge — Three.js particle fire, game studio](assets/examples/forge.png) | ![Volt — all-electric car, bold typographic hero](assets/examples/volt.png) |
+| **Forge** · Three.js particle fire | **Volt** · bold typographic · EV |
+| ![Morning Ritual — specialty coffee, editorial light theme](assets/examples/coffee.png) | ![Eclipse — data gravity platform, bold typographic](assets/examples/eclipse.png) |
+| **Morning Ritual** · editorial light | **Eclipse** · data gravity platform |
+
+</details>
+
+<details>
+<summary><b>product route</b> — component systems · data viz · six shell morphologies</summary>
+
+<br>
+
+| | |
+|:---:|:---:|
+| ![Buildly — AI growth intelligence, canonical sidebar shell + area-chart draw-in + donut](assets/examples/buildly.jpg) | ![Pulsegrid — infrastructure monitoring, glowing sparklines + premium custom slider](assets/examples/stakent.jpg) |
+| **Buildly** · canonical sidebar + area draw-in | **Pulsegrid** · glowing sparklines + custom slider |
+| ![ACRU — team productivity, canonical sidebar shell + hover-tooltip bar chart](assets/examples/acru.jpg) | ![PawCare+ — pet health companion, real-photo hotspot annotations + theme switcher](assets/examples/pawcare.jpg) |
+| **ACRU** · light sidebar + tooltip bars | **PawCare+** · photo hotspots + theme switcher |
+| ![Nodeflux — API console, floating panel + true bento + concentric usage rings](assets/examples/nodeflux.jpg) | ![Inkline — publishing CMS, top-nav triptych + browser-preview hotspot annotations](assets/examples/inkline.jpg) |
+| **Nodeflux** · floating panel + true bento | **Inkline** · top-nav triptych + browser preview |
+| ![Huddle — team workspace, top-nav bento + colored task cards + multi-arc donut + voice waveform](assets/examples/huddle.jpg) | ![Threadline — support operations, floating panel + asymmetric bento + circular gauge](assets/examples/ledgerio.jpg) |
+| **Huddle** · top-nav bento + multi-arc donut | **Threadline** · asymmetric bento + circular gauge |
+
+</details>
+
+<details open>
+<summary><b>h5 route</b> — 390×844 portrait, auto-framed as a phone on desktop</summary>
+
+<br>
+
+<table>
+<tr>
+<td width="50%" align="center" valign="top">
+<img src="assets/examples/h5-pawpal.jpg" width="270" alt="PAWPAL — pet care app, floating pill TabBar + raised center FAB + thick tri-segment rings + white bottom sheet"><br><br>
+<b>Morphology A · app shell</b> &nbsp;<sub>(wraps product)</sub><br>
+<sub>Floating pill TabBar + raised FAB · thick tri-segment rings<br>capsule bars · white bottom sheet<br><b>Switching pets repaints the page, furniture never moves</b></sub>
+</td>
+<td width="50%" align="center" valign="top">
+<img src="assets/examples/h5-brew.jpg" width="270" alt="Brew Journal — drip coffee product detail page, scroll-snap gallery + SKU sheet + sticky four-segment buy bar"><br><br>
+<b>Morphology D · commerce stack</b> &nbsp;<sub>(wraps commerce)</sub><br>
+<sub>scroll-snap gallery + pager · SKU sheet driving live price<br>add-to-cart parabola + badge pop<br><b>Sticky buy bar with the safe area in its padding</b></sub>
+</td>
+</tr>
+</table>
+
+> Both ship in `skills/finesse-ui/examples/` and **run straight from disk**. Their imagery is a code-generated SVG placeholder (`PH()`) — swap it for a real image URL and not one line of the surrounding CSS changes.
+
+</details>
+
+---
+
+## Installation & tool support
+
+> [!NOTE]
+> `npx skills` is the recommended path — one command, works with every agent. Manual instructions for other tools are in the collapsed section below.
 
 ```bash
-# Install all skills
+# Install everything (it'll ask which agent to install into)
 npx skills add https://github.com/mouse-lin/finesse-skill
 
-# Install a single skill
+# Just finesse-ui
 npx skills add https://github.com/mouse-lin/finesse-skill --skill "finesse-ui"
 ```
 
-After installation, say "use finesse to build a …" or `/finesse` in the conversation to trigger the skill.
+Once installed, say "use finesse to build …" or `/finesse` in the chat to trigger it.
 
-Alternatively, copy `skills/finesse-ui/` manually into your `.claude/skills/` (or `.agents/skills/`, `~/.claude/skills/`).
+| Tool | Depth | How |
+|:---|:---|:---|
+| **Claude Code** | full | `npx skills`, or the native plugin at `.claude-plugin/plugin.json` |
+| **Trae / Trae CN** | full mirror | copy the whole `.trae/skills/finesse-ui/` directory |
+| **CodeBuddy** | full mirror | copy the whole `.codebuddy/skills/finesse-ui/` directory |
+| **Cursor** | single-file rule | copy `.cursor/rules/finesse-ui.mdc` |
+| **OpenAI Codex** | single-file instructions | copy `AGENTS.md` to your project root |
+| **GitHub Copilot** | single-file instructions | copy `.github/copilot-instructions.md` |
+| **Anything else (ChatGPT / API)** | manual | paste `SKILL.md` into the system prompt |
+
+<details>
+<summary><b>Per-tool commands</b></summary>
+
+<br>
 
 ### Cursor
-
-Copy `.cursor/rules/finesse-ui.mdc` into your project's `.cursor/rules/` directory:
 
 ```bash
 cp .cursor/rules/finesse-ui.mdc your-project/.cursor/rules/
 ```
 
-Cursor automatically loads this rule when you are editing HTML / CSS / JS / TS / Vue / Svelte files — no manual trigger needed.
+Loads automatically when you edit HTML / CSS / JS / TS / Vue / Svelte files.
 
 ### OpenAI Codex
-
-Copy `AGENTS.md` into your project root. Codex reads it automatically and follows the finesse workflow:
 
 ```bash
 cp AGENTS.md your-project/AGENTS.md
 ```
 
-Or paste the contents of `skills/finesse-ui/SKILL.md` directly into a Codex conversation.
+Or paste the contents of `skills/finesse-ui/SKILL.md` straight into the Codex conversation.
 
 ### GitHub Copilot
-
-Copy `.github/copilot-instructions.md` into your project's `.github/` directory:
 
 ```bash
 cp .github/copilot-instructions.md your-project/.github/
 ```
 
-Copilot reads it automatically and generates code to finesse standards.
+Copilot reads it automatically and generates to the finesse standard.
 
 ### Trae
 
-Copy the full `.trae/skills/finesse-ui/` directory (SKILL.md + references + examples + scripts) into your project:
-
 ```bash
 cp -r .trae/skills/finesse-ui your-project/.trae/skills/
-# Trae CN uses .trae-cn, same full directory:
+# China edition:
 cp -r .trae-cn/skills/finesse-ui your-project/.trae-cn/skills/
 ```
 
-This is a full mirror, not a condensed rule — Trae's Skills folder convention (`.trae/skills/<name>/SKILL.md`) matches Claude Code's natively and can load every reference file on demand, so copying the whole directory gets you the same depth as Claude Code. **Maintenance note:** any change to `skills/finesse-ui/` must be copied into `.trae/skills/finesse-ui/` and `.trae-cn/skills/finesse-ui/` by hand — these are independent static copies, not symlinks, and won't update themselves.
-
 ### CodeBuddy
-
-Copy the full `.codebuddy/skills/finesse-ui/` directory (SKILL.md + references + examples + scripts) into your project:
 
 ```bash
 cp -r .codebuddy/skills/finesse-ui your-project/.codebuddy/skills/
 ```
 
-Also a full mirror — CodeBuddy's Skills folder convention (`.codebuddy/skills/<name>/SKILL.md`) matches Claude Code's natively. **Maintenance note:** any change to `skills/finesse-ui/` must be copied into `.codebuddy/skills/finesse-ui/` by hand — this is an independent static copy, not a symlink, and won't update itself.
+> **Why these three are "full mirrors"**: Trae and CodeBuddy use the same Skills directory layout as Claude Code, so they can load every reference file on demand. Copying the directory gets you the full depth, not a condensed version.
+>
+> **Maintenance note**: any change to `skills/finesse-ui/` has to be propagated to all three mirrors — they're independent static copies. There's a script for it:
+> ```bash
+> bash scripts/sync-mirrors.sh          # sync
+> bash scripts/sync-mirrors.sh --check  # report drift only
+> ```
 
-### Any other tool (ChatGPT / direct API / etc.)
-
-Paste the contents of `skills/finesse-ui/SKILL.md` into the system prompt or the first user message. No installation required.
+</details>
 
 ---
 
-## Repository structure
+## Repository layout
+
+<details>
+<summary><b>Expand the full tree</b></summary>
+
+<br>
 
 ```
 finesse-skill/
-├── skills/
-│   └── finesse-ui/
-│       ├── SKILL.md                      # Main entry: methodology + workflow
-│       ├── references/
-│       │   ├── design-dna.md             # Premium substrate (palette/type/grain/vignette)
-│       │   ├── hero-engines.md           # Five engine skeletons + reduced-motion fallbacks + inline-image technique
-│       │   ├── 3d-effects.md             # 3D spectrum: CSS pseudo-3D (tilt/flip/coverflow/parallax) + Three.js real 3D
-│       │   ├── style-personas.md         # Industry → soul decision matrix
-│       │   ├── anti-cheap.md             # Anti-slop blacklist (AI tells + bans + reflex-reject)
-│       │   ├── product-ui.md             # Product route: dashboards/tables/charts/forms/states
-│       │   ├── dataviz.md                # Chart decision matrix: 25 types × a11y grade × library picks
-│       │   ├── commerce-ui.md            # Commerce route: PDP/PLP/cart/checkout + dark-pattern blacklist
-│       │   ├── h5-mobile.md              # h5 route: viewport contract · locked body/scrolling container · 560px phone frame · safe-area math · thumb-zone inversion · touch rules · six phone morphologies · native furniture (status bar/TabBar/sheet/FAB/push/FLIP)
-│       │   ├── asset-sourcing.md         # No assets on hand: generate vs. real stock vs. placeholder + authorization gate
-│       │   ├── preflight.md              # Pre-flight checklist (includes strategic omissions)
-│       │   ├── redesign-mode.md          # Redesign protocol: audit-first, six-step upgrade
-│       │   ├── design-model.md           # Multi-page token consistency template
-│       │   └── inspiration-catalog.md    # Technique index for 48 more pages from the 53-page corpus (grouped by persona, no source files)
-│       └── examples/
-│           ├── EXAMPLES.md               # Five-axis coordinate table for 19 positive references (read as dimensions, not templates)
-│           └── *.html                    # 19 self-contained runnable pages (9 brand + 8 dashboard + 2 h5; zero image assets, zero remote deps)
-├── .claude-plugin/plugin.json            # Claude Code native plugin
-├── .cursor/rules/finesse-ui.mdc          # Cursor rules (condensed single file, auto-loaded)
-├── AGENTS.md                             # OpenAI Codex instructions
-├── .github/copilot-instructions.md       # GitHub Copilot instructions (condensed single file)
-├── .trae/skills/finesse-ui/              # Trae (full mirror, same depth as skills/finesse-ui, synced by hand)
-├── .trae-cn/skills/finesse-ui/           # Trae CN (same, full mirror)
-├── README.md                             # Chinese README
-├── README.en.md                          # This file
-└── LICENSE
+├── skills/finesse-ui/
+│   ├── SKILL.md                  # main entry: methodology + flow + routing
+│   ├── references/               # 26 detailed rule files, loaded on demand
+│   └── examples/                 # 19 runnable example pages + an index
+├── scripts/sync-mirrors.sh       # mirror sync / drift check
+├── .claude-plugin/plugin.json    # Claude Code native plugin
+├── .cursor/rules/finesse-ui.mdc  # Cursor rule (single file, auto-loaded)
+├── AGENTS.md                     # OpenAI Codex instructions
+├── .github/copilot-instructions.md
+├── .trae/ · .trae-cn/ · .codebuddy/   # full mirrors (script-synced)
+├── USAGE.md · USAGE.en.md        # usage guide for non-designers
+└── README.md · LICENSE
 ```
+
+### What those 26 rule files cover
+
+| Group | Files |
+|:---|:---|
+| **Method** | `divergence.md` the five anti-sameness axes · `style-personas.md` industry→soul · `inspiration-catalog.md` 48-page technique index |
+| **brand** | `design-dna.md` the substrate · `hero-engines.md` five engines · `page-crafting.md` implementation layer · `3d-effects.md` |
+| **product** | `product-ui.md` · `product-palettes.md` color library · `workflow-ui.md` wizards & consoles · `dataviz.md` chart selection · `chart-crafting.md` hand-built charts |
+| **commerce / h5** | `commerce-ui.md` · **`h5-mobile.md`** the full phone-only spec |
+| **Mobile** | `mobile-floor.md` the six ways a desktop page breaks on a phone |
+| **Quality gates** | `anti-cheap.md` anti-slop · `preflight.md` pre-flight · `audit.md` read-only diagnostic · `redesign-mode.md` audit-first redesign · `component-scope.md` the eight component states |
+| **Project memory** | `init.md` write PRODUCT.md · `document.md` extract an existing design system · `design-model.md` multi-page consistency · `theming.md` theme switching |
+| **Communication** | `plain-words.md` translating internal jargon into plain language · `asset-sourcing.md` imagery decisions |
+
+</details>
+
+---
 
 ## Out of scope
 
-finesse covers brand, product, commerce **and** h5, so its range is wide. The only cases that don't fit: **pure backend / API / data tasks with no interface**, or a brief that explicitly requires a **generic, zero-craft page** (finesse always brings craft — if you genuinely want bland, that's a different tool). Everything from a spectacle landing page to a dense admin dashboard to a phone-only campaign page is in scope: set the register in §0 and route accordingly.
+finesse covers brand, product, commerce and h5, so its range is wide. Only two cases don't fit:
 
-One boundary worth naming on the h5 line: it covers the **design** of a phone-only page, not the **platform plumbing** around it. WeChat JS-SDK wiring, share-card configuration, payment integration, native bridges, and mini-program scaffolding are engineering tasks, not design ones — build the screen, hand those off.
+- **Pure backend / API / data tasks with no interface**
+- A brief that explicitly wants a **generic, zero-craft page** — finesse always brings craft; if you genuinely want bland, that's a different tool
 
-## License
+One more boundary on the h5 route: it covers the **design** of a phone-only page, not the **platform plumbing** around it. WeChat JS-SDK wiring, share-card configuration, payment integration, native bridges, and mini-program scaffolding are engineering tasks — build the screen, hand those off.
 
-MIT
+---
+
+<div align="center">
+<sub>
+
+**MIT License** · by 西瓜同学
+
+If you find it useful, a ⭐ helps others find it too
+
+</sub>
+</div>
