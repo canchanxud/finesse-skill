@@ -4,6 +4,8 @@ Merged from production-tested AI tells, absolute design bans, and training-data 
 
 > Philosophy: most of these are *defaults the model reaches for without thinking*. The fix is almost never "add more" — it's "name the reflex, reject it, commit to an intentional choice."
 
+> **h5 register: this list applies in full, and there are more.** A phone-only page has its own tells — no `env()` anywhere, a desktop layout squeezed into 406px, a visible scrollbar inside the frame, a grey tap flash, nothing happening on press, a hardcoded `9:41`, a bottom bar covering the last row, copy-pasted iOS chrome. They're in `h5-mobile.md` §9, kept there because they're only diagnosable against that register's frame.
+
 > **This list is written for you, not for the user.** `eyebrow`, `glassmorphism`, `side-stripe`, `grain`, `scrim`, `hairline`, `two-altitude` are precise internally and unreadable externally. When any entry here becomes a line in an `audit` report or an explanation of why you changed something, translate it: *what it looks like on screen* + *what it costs a visitor*, with a one-clause gloss on any term the user hasn't used himself. Glosses: `plain-words.md`. Report shape: `audit.md`.
 
 ---

@@ -11,17 +11,20 @@
 
 - **brand** — design IS the product: landing pages, brand sites, launches, portfolios, hero pages. Optimize for **spectacle + soul + first impression** with a real visual engine (Three.js / GLSL / Canvas / WebGL / GSAP).
 - **product** — design SERVES the product: dashboards, admin panels, analytics, data tables, app shells, settings. Optimize for **clarity + density + usability** with a component system and data visualization.
+- **commerce** — the hybrid: PDPs, listing pages, cart, checkout. Routed to one of the two above by what the specific page is doing.
+- **h5** — pages that only ever live on a phone: H5 / 移动端页面 / 活动页 / mini-program screens / app prototypes / mobile PDPs / report H5. This one is a **container register**: it fixes the phone frame, safe areas, thumb zone and native furniture first, then wraps one of the three above for the content grammar. A mobile PDP is `h5` + `commerce`; an app data screen is `h5` + `product`.
 
-Both paths share the same foundation: **premium physical substrate + anti-slop audit**. Dashboards are not allowed to look cheap either.
+All paths share the same foundation: **premium physical substrate + anti-slop audit**. Dashboards are not allowed to look cheap either — and neither is an H5 page.
 
 ## How it works
 
-1. **Read the brief** (register: brand vs product) → output one-line Design Read to commit direction.
+1. **Read the brief** (register: first ask whether the page has a desktop form at all — if not, it's h5; then split brand / product / commerce) → output one-line Design Read to commit direction.
 2. **Set three dials**: SOUL · SPECTACLE (the signature dial) · DENSITY. Product register pins SPECTACLE low, DENSITY high.
-3. **Both paths**: lay the premium substrate (grain · vignette · type tension · translucent borders · OKLCH color lock).
+3. **All paths**: lay the premium substrate (grain · vignette · type tension · translucent borders · OKLCH color lock). For h5, **the frame goes up first**, then the substrate of whichever register it wraps.
 4. **Fork**:
    - **brand** → pick a soul (industry → style persona) + build one hero engine (five types, done at 100%).
    - **product** → component system + data viz (information architecture · tables · charts · forms · interaction states).
+   - **h5** → pick one of six phone morphologies (app shell / paged deck / snap narrative / commerce stack / longform site / ambient screen) + build the native furniture from the recipes (status bar · TabBar · bottom sheet · FAB · push and FLIP transitions).
 5. **Anti-slop blacklist + pre-flight check**, then ship.
 
 > First time here? See **[USAGE.en.md](USAGE.en.md)** — a checklist for getting good results with zero design experience.
@@ -33,7 +36,8 @@ Both paths share the same foundation: **premium physical substrate + anti-slop a
 - **3D effects spectrum** — CSS pseudo-3D (pointer-tilt cards / flip cards / coverflow / depth-parallax) + Three.js real 3D (model viewer / image-displacement plane); the `depth` command drops in one 3D moment
 - **Industry soul decision matrix** — industry → style / palette / typeface / engine selection table; cures "every page looks the same"
 - **Product UI route** — dashboard information architecture · 25 chart types · data tables · forms · interaction state inventory · component system · cognitive load
-- **Register-driven routing** — brand vs product split into two completely different rule sets
+- **H5 mobile spec** — the phone-only rule set: the viewport contract · the locked-`body` / scrolling-container architecture inversion · the 560px desktop phone frame · safe-area math · **the thumb-zone inversion** (primary actions at the bottom) · touch rules with no desktop equivalent (`passive` / `pointercancel` / tap-highlight / 44px) · six phone morphologies · native furniture recipes (status bar · TabBar · bottom sheet · FAB · push and hand-written FLIP transitions)
+- **Register-driven routing** — brand / product / commerce / h5, each with its own rule set; h5 is a container that wraps one of the other three
 - **Anti-slop blacklist** — production-verified AI tells + absolute bans + reflex-reject font/palette/aesthetic list
 - **Design-model token lock** — multi-page consistency + generate → self-audit → iterate loop
 - **OKLCH color strategy ladder** — four commitment levels: restrained / committed / full / drenched
@@ -56,6 +60,25 @@ Product register (component system · data viz · information architecture):
 | ![ACRU — team productivity, canonical sidebar shell + hover-tooltip bar chart](assets/examples/acru.jpg) | ![PawCare+ — pet health companion, real-photo hotspot annotations + theme switcher](assets/examples/pawcare.jpg) |
 | ![Nodeflux — API console, floating panel + true bento (2.15fr 1.7fr 1fr…) + concentric usage rings](assets/examples/nodeflux.jpg) | ![Inkline — publishing CMS, top-nav triptych + browser-preview hotspot annotations](assets/examples/inkline.jpg) |
 | ![Huddle — team workspace, top-nav bento + colored task cards + multi-arc donut + voice waveform](assets/examples/huddle.jpg) | ![Threadline — support operations, floating panel + asymmetric bento + circular gauge + allocation table](assets/examples/ledgerio.jpg) |
+
+h5 path (phone-only · native furniture · six morphologies) — 390×844 portrait, auto-framed as a phone on desktop:
+
+<table>
+<tr>
+<td width="50%" align="center">
+<img src="assets/examples/h5-pawpal.jpg" width="290" alt="PAWPAL — pet care app, floating pill TabBar + raised center FAB + thick tri-segment rings + white bottom sheet"><br>
+<b>Morphology A · app shell</b> (wraps product)<br>
+<sub>Floating pill TabBar + raised FAB · thick tri-segment rings · capsule bars · white bottom sheet · switching pets repaints the page while the furniture never moves</sub>
+</td>
+<td width="50%" align="center">
+<img src="assets/examples/h5-brew.jpg" width="290" alt="Brew Journal — drip coffee product detail page, scroll-snap gallery + SKU sheet + sticky four-segment buy bar"><br>
+<b>Morphology D · commerce stack</b> (wraps commerce)<br>
+<sub>scroll-snap gallery + pager · SKU sheet driving live price · add-to-cart parabola + badge pop · sticky buy bar</sub>
+</td>
+</tr>
+</table>
+
+> Both ship in `skills/finesse-ui/examples/` and run straight from disk. Their imagery is a code-generated SVG placeholder (`PH()`) — swap it for a real image URL and not one line of the surrounding CSS changes.
 
 ## Installation & Tool Support
 
@@ -149,14 +172,15 @@ finesse-skill/
 │       │   ├── product-ui.md             # Product route: dashboards/tables/charts/forms/states
 │       │   ├── dataviz.md                # Chart decision matrix: 25 types × a11y grade × library picks
 │       │   ├── commerce-ui.md            # Commerce route: PDP/PLP/cart/checkout + dark-pattern blacklist
+│       │   ├── h5-mobile.md              # h5 route: viewport contract · locked body/scrolling container · 560px phone frame · safe-area math · thumb-zone inversion · touch rules · six phone morphologies · native furniture (status bar/TabBar/sheet/FAB/push/FLIP)
 │       │   ├── asset-sourcing.md         # No assets on hand: generate vs. real stock vs. placeholder + authorization gate
 │       │   ├── preflight.md              # Pre-flight checklist (includes strategic omissions)
 │       │   ├── redesign-mode.md          # Redesign protocol: audit-first, six-step upgrade
 │       │   ├── design-model.md           # Multi-page token consistency template
 │       │   └── inspiration-catalog.md    # Technique index for 48 more pages from the 53-page corpus (grouped by persona, no source files)
 │       └── examples/
-│           ├── EXAMPLES.md               # 5 showcase pages with persona/engine annotations
-│           └── *.html                    # Real showcase pages (read-only reference)
+│           ├── EXAMPLES.md               # Five-axis coordinate table for 19 positive references (read as dimensions, not templates)
+│           └── *.html                    # 19 self-contained runnable pages (9 brand + 8 dashboard + 2 h5; zero image assets, zero remote deps)
 ├── .claude-plugin/plugin.json            # Claude Code native plugin
 ├── .cursor/rules/finesse-ui.mdc          # Cursor rules (condensed single file, auto-loaded)
 ├── AGENTS.md                             # OpenAI Codex instructions
@@ -170,7 +194,9 @@ finesse-skill/
 
 ## Out of scope
 
-finesse covers both brand and product UI, so its range is wide. The only cases that don't fit: **pure backend / API / data tasks with no interface**, or a brief that explicitly requires a **generic, zero-craft page** (finesse always brings craft — if you genuinely want bland, that's a different tool). Everything from a spectacle landing page to a dense admin dashboard is in scope: set the register in §0 and route accordingly.
+finesse covers brand, product, commerce **and** h5, so its range is wide. The only cases that don't fit: **pure backend / API / data tasks with no interface**, or a brief that explicitly requires a **generic, zero-craft page** (finesse always brings craft — if you genuinely want bland, that's a different tool). Everything from a spectacle landing page to a dense admin dashboard to a phone-only campaign page is in scope: set the register in §0 and route accordingly.
+
+One boundary worth naming on the h5 line: it covers the **design** of a phone-only page, not the **platform plumbing** around it. WeChat JS-SDK wiring, share-card configuration, payment integration, native bridges, and mini-program scaffolding are engineering tasks, not design ones — build the screen, hand those off.
 
 ## License
 

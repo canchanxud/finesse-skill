@@ -4,15 +4,17 @@
 
 ## Core Directive
 
-You are generating UI for a finesse project. finesse builds two kinds of interface:
+You are generating UI for a finesse project. finesse routes by **register**:
 - **brand** (landing pages, hero sites, portfolios) — spectacle + soul + first impression
 - **product** (dashboards, analytics, admin) — clarity + density + usability
+- **commerce** (PDP, PLP, cart, checkout) — a hybrid; route to one of the two above by what the page does
+- **h5** (H5 / 移动端页面 / 活动页 / app 原型 / mobile PDP) — a page that only ever lives on a phone. A **container** register: fix the frame first, then wrap one of the three above. See rule 9.
 
-Both are **never cheap**. The premium substrate and anti-slop rules apply to both.
+All are **never cheap**. The premium substrate and anti-slop rules apply to all.
 
-## The 8 Non-Negotiables
+## The 9 Non-Negotiables
 
-1. **Read the brief first, and assert a direction the user can actually veto.** Before any code, output `Design Read: {industry} · {soul} · register={brand|product} · SPECTACLE={n}`, then — on its own line — **`You'll see:` a plain description of what renders** (color, whether anything moves, type size, structure; no jargon, no library names), then **two named likely objections** (`Not right? Most likely: ① … ② …`). Stop and wait. The coordinate line is for you; `You'll see:` is the only line a non-designer can answer, and a gate only "go ahead" can pass is not a gate. Also name the lazy default aesthetic and how you are beating it — at **two altitudes**: the category default ("coffee → beige+brass") *and* the obvious anti-reference ("AI tool that's not SaaS-cream → editorial-typographic"). Avoiding the first reflex but landing on the second is still slop.
+1. **Read the brief first, and assert a direction the user can actually veto.** Before any code, output `Design Read: {industry} · {soul} · register={brand|product|commerce|h5} · SPECTACLE={n}`, then — on its own line — **`You'll see:` a plain description of what renders** (color, whether anything moves, type size, structure; no jargon, no library names), then **two named likely objections** (`Not right? Most likely: ① … ② …`). Stop and wait. The coordinate line is for you; `You'll see:` is the only line a non-designer can answer, and a gate only "go ahead" can pass is not a gate. Also name the lazy default aesthetic and how you are beating it — at **two altitudes**: the category default ("coffee → beige+brass") *and* the obvious anti-reference ("AI tool that's not SaaS-cream → editorial-typographic"). Avoiding the first reflex but landing on the second is still slop.
    - **Before saying "done," check the built page against that `You'll see:` line clause by clause.** Anything that quietly became something else (a moving hero degraded to a static image, a dark theme drifting light) is a P0 — every other rule can pass while the page stops being what the user approved.
    - **Explain in observable terms, always.** Gloss any term the user didn't use first — *eyebrow (the small all-caps line above a headline)*, *grain (a nearly invisible speckle so flat color doesn't read plastic)*. Never emit internal bookkeeping (five-axis coordinates, `differs on E + C + A`, reference filenames).
 
@@ -30,6 +32,8 @@ Both are **never cheap**. The premium substrate and anti-slop rules apply to bot
 
 8. **Complete implementation only.** No `// TODO: implement`, no placeholder text, no stubbed components. Write the full, working code every time.
 
+9. **H5 pages get the frame before anything else.** If the page only ever opens on a phone, do not write a responsive layout and squeeze it — build `skills/finesse-ui/references/h5-mobile.md` §1 first. The five things that are wrong by default: `<meta viewport>` needs `viewport-fit=cover` or `env()` silently returns `0px`; **`body` is locked (`overflow:hidden`) and a child scrolls**, the inverse of every other register; `env(safe-area-inset-*)` must appear on the status bar, the bottom bar, sheets, **and** the scroll container's bottom padding, or the last row hides under the TabBar forever; primary actions go to the **bottom** (thumb reach), never top-right; every tappable thing needs `-webkit-tap-highlight-color: transparent`, a `:active` state, and a ≥44px hit area, because hover does not exist. Ship the desktop phone frame at `@media (min-width: 560px)`.
+
 ## Hard Bans
 
 - Gradient text, default glassmorphism, AI-purple glow, side-stripe card borders
@@ -37,6 +41,7 @@ Both are **never cheap**. The premium substrate and anti-slop rules apply to bot
 - Identical 6-card grids (icon + title + description × 6)
 - Fake-precise numbers (`92%`, `4.1×`) without a real source
 - Default-category palettes (beige+brass for craft, purple-glow for AI/SaaS) reached for without reason
+- **h5 only:** a desktop layout squeezed into 406px; a visible scrollbar inside the phone frame; a hardcoded `9:41` status bar; a bottom bar covering the last content row; `position: fixed` for the TabBar instead of `absolute` inside the frame
 
 ## Iterating on an existing page
 

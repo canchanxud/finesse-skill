@@ -18,15 +18,17 @@ A dashboard fails by being **unusable** — and usability is *built on conventio
 
 So the axes split by register:
 
-| | `brand` | `product` (dashboard · console · admin) |
-|---|---|---|
-| **Diverge freely on** | all five axes (§3) — palette, type, layout family, engine, material | **palette** (`product-palettes.md` — the real fix for "every dashboard is blue"), **shell morphology** (`product-ui.md` §1 — sidebar / floating panel / bento / triptych), **density**, surface treatment, chart style |
-| **Never diverge on** | — | **navigation conventions** (position, icon+label, depth ≤3), **interaction affordances** (what's clickable, sort, filter, selection), **table & form behavior**, **status color semantics** (red = bad, green = good), the §7 a11y floor |
-| **The failure this prevents** | a forgettable page | an unusable one |
+| | `brand` | `product` (dashboard · console · admin) | `h5` (phone-only) |
+|---|---|---|---|
+| **Diverge freely on** | all five axes (§3) — palette, type, layout family, engine, material | **palette** (`product-palettes.md` — the real fix for "every dashboard is blue"), **shell morphology** (`product-ui.md` §1 — sidebar / floating panel / bento / triptych), **density**, surface treatment, chart style | **palette**, **type**, **material/metaphor**, **morphology** (`h5-mobile.md` §4 — app shell / deck / snap narrative / commerce stack / longform / ambient), chart language, transition character |
+| **Never diverge on** | — | **navigation conventions** (position, icon+label, depth ≤3), **interaction affordances** (what's clickable, sort, filter, selection), **table & form behavior**, **status color semantics** (red = bad, green = good), the §7 a11y floor | **the frame** (`h5-mobile.md` §1 — viewport contract, locked `body`, the 560px phone frame), **safe-area math** (§2), **the native furniture** (§5 — where the back button is, which edge the TabBar sits on, that a sheet rises from the bottom with a grab handle), **touch affordances** (§3 — 44px, `:active`, no tap flash) |
+| **The failure this prevents** | a forgettable page | an unusable one | a page that feels *wrong* in the hand |
 
 Concretely: two dashboards for two different clients **should** look unrelated — different neutral ramp, different accent, different shell, different chart language. They should **not** navigate differently. Product-register sameness is fixed by `product-palettes.md` and shell selection, **not** by reinventing the shell.
 
-Everything below §1 is written for **brand**. Apply it to product only through the left column above.
+**The h5 column is the same carve-out, one step stricter.** OS furniture is a convention users navigate by muscle memory, and muscle memory is exactly the thing originality destroys. A TabBar that sits on the left, a sheet that slides in from the side, a back button top-right — each of these is "distinctive" and each makes the page feel broken rather than fresh. Diverge on the palette, the type, the metaphor, the transitions. **Never on where things are.** Note also that h5 is a *container* register: when it wraps `product`, that column's bans apply too.
+
+Everything below §1 is written for **brand**. Apply it to product and h5 only through the columns above.
 
 ---
 

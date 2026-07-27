@@ -81,6 +81,8 @@ A page that *claims* SPECTACLE 8 but ships a white hero is broken, not plain. Ve
 
 Not "narrow the window until it looks off" — those four widths. Causes and fixes: `mobile-floor.md`.
 
+> **h5 register: run `h5-mobile.md` §10 instead of this section.** A phone-only page has no width range to survive, so most of D.1 doesn't apply — M1/M4/M6 still hold inside the frame, but M2 and M5 largely evaporate (one column, one bottom bar). Its gate list is a different set of failures: `viewport-fit=cover` present; `env(safe-area-inset-*)` on the status bar, bottom bar, sheets **and** the scroll container's bottom padding; `body` locked with a child scrolling; every hit area ≥44px with an `:active` state and no tap flash; nothing cut off at `height: 640px`; ambient motion layers **removed** rather than frozen under reduced motion.
+
 - [ ] **M1** — `overflow-x: clip` on **both** `html` and `body`. Not `hidden` (it creates a scroll container and kills every sticky/fixed descendant — the "I fixed the scroll and broke the nav" bug).
 - [ ] **M2** — every grid track that can hold an image is `minmax(0, 1fr)`, not bare `1fr`; flex children that can hold one have `min-width: 0`.
 - [ ] **M3** — no button, nav link, footer link, tab, breadcrumb, or CTA wraps to two lines at **any** width from 320 up. Shorten the label first.

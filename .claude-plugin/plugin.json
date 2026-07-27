@@ -1,8 +1,8 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "finesse-ui",
-  "description": "Build technically-spectacular, soul-distinct, never-cheap showcase websites — landing pages, brand sites, product launches, portfolios, and industry hero pages with a real visual engine (Three.js/Canvas/GLSL/GSAP) and zero AI-slop.",
-  "version": "0.15.0",
+  "description": "Build technically-spectacular, soul-distinct, never-cheap interfaces — brand sites, landing pages and portfolios with a real visual engine (Three.js/Canvas/GLSL/GSAP), dashboards and consoles, commerce pages, and H5 / phone-only screens with a proper mobile frame and native furniture. Zero AI-slop.",
+  "version": "0.16.0",
   "author": {
     "name": "西瓜同学"
   },
@@ -13,6 +13,6 @@
   },
   "license": "MIT",
   "category": "design",
-  "keywords": ["design", "frontend", "landing-page", "webgl", "three.js", "gsap", "canvas", "anti-slop", "showcase", "hero"],
+  "keywords": ["design", "frontend", "landing-page", "webgl", "three.js", "gsap", "canvas", "anti-slop", "showcase", "hero", "h5", "mobile", "mobile-ui", "dashboard"],
   "skills": ["./skills/finesse-ui"]
 }

@@ -7,12 +7,14 @@
 
 ## What finesse does
 
-finesse builds two kinds of interface, routed by **register**:
+finesse builds interfaces routed by **register**:
 
 - **brand** — landing pages, brand sites, launches, portfolios, hero pages. Design IS the product. Optimize for spectacle + soul + first impression. Uses a real visual engine (Three.js / Canvas / GLSL / GSAP).
 - **product** — dashboards, admin panels, analytics, data tables, app shells, settings. Design SERVES the product. Optimize for clarity + density + usability.
+- **commerce** — PDP, PLP, cart, checkout. A hybrid: route to brand or product by what the specific page is doing.
+- **h5** — pages that only ever live on a phone: H5 / 移动端页面 / 活动页 / mini-program screens / app prototypes / mobile PDPs. A **container** register — it fixes the phone frame, safe areas, thumb zone and native furniture, then wraps one of the three above for content. A mobile PDP is `h5` + `commerce`.
 
-Both share the same premium substrate and anti-slop blacklist. Neither is allowed to look cheap.
+All share the same premium substrate and anti-slop blacklist. None is allowed to look cheap.
 
 ---
 
@@ -81,6 +83,13 @@ Non-negotiables — see `skills/finesse-ui/references/design-dna.md` for exact v
 - Build component system + data viz per `skills/finesse-ui/references/product-ui.md`
 - Skip soul personas and hero engines
 
+**h5 path:**
+- Read `skills/finesse-ui/references/h5-mobile.md` **before** any layout decision — the frame goes up first
+- Build the frame (§1): viewport contract, locked `body` + scrolling container, the 560px desktop phone frame, safe-area math (§2)
+- Pick one of six morphologies (§4), then load the content register it wraps and follow that path above
+- Furniture comes from §5's recipes, not from invention (§11 — diverge on the soul, never on where the back button is)
+- Run §10's gates instead of the mobile floor
+
 ### 5. Run the cheapness blacklist
 Run the local detector first (no network, pure file scan), then add your own eye:
 
@@ -130,6 +139,7 @@ If any gate fails: fix it. Do not ship and note it as a known issue.
 | `skills/finesse-ui/references/chart-crafting.md` | Hand-building charts in a single self-contained file — no-library SVG+GSAP recipes: coordinate normalization, line/area draw-in, donut/gauge grow, stacked bars, sparklines, reduced-motion pairing (the implementation layer) |
 | `skills/finesse-ui/references/theming.md` | Brief asks for a light/dark toggle or swappable named themes |
 | `skills/finesse-ui/references/commerce-ui.md` | Commerce register: PDP, PLP, cart, checkout, dark-pattern blacklist |
+| `skills/finesse-ui/references/h5-mobile.md` | **h5 register — the page only ever lives on a phone.** Load it *before* any layout decision: the viewport contract, the locked-`body`/scrolling-container inversion, the 560px desktop phone frame, `env(safe-area-inset-*)` math, the thumb-zone inversion (primary actions at the **bottom**), touch rules with no desktop equivalent (`passive`, `pointercancel`, tap-highlight, 44px), six phone morphologies, and the native furniture recipes — status bar, TabBar, bottom sheet, FAB, push and hand-written FLIP transitions. **Not `mobile-floor.md`**: that keeps a desktop page from breaking on a phone; this is for a page with no desktop form at all |
 | `skills/finesse-ui/references/asset-sourcing.md` | No real imagery on hand: generate vs. real stock vs. placeholder fallback, with the authorization step for each |
 | `skills/finesse-ui/references/preflight.md` | Pre-flight checklist |
 | `skills/finesse-ui/references/redesign-mode.md` | Upgrading an existing page, audit-first |

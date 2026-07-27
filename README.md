@@ -7,21 +7,24 @@
 > **绝不廉价的高级界面 —— 品牌惊艳 + 产品精密**
 > A design skill for building never-cheap, high-craft web interfaces — both brand surfaces and product UI.
 
-`finesse` 是一个给 AI 编码助手（Claude Code / Codex 等）用的设计技能。它按 **register** 分两条路：
+`finesse` 是一个给 AI 编码助手（Claude Code / Codex 等）用的设计技能。它按 **register** 分路：
 
 - **brand**（设计即产品）—— 落地页 / 品牌站 / 发布页 / 作品集 / 行业 hero 页。追求 **惊艳 + 灵魂 + 第一印象**，拥抱真正的视觉引擎（Three.js / GLSL / Canvas / WebGL / GSAP）。
 - **product**（设计服务产品）—— 仪表盘 / 后台 / analytics / 数据表 / app shell / 设置。追求 **清晰 + 密度 + 可用性**，组件系统 + 数据可视化。
+- **commerce**（混合）—— 商详 / 列表 / 购物车 / 结算。按这一页在做什么，分别归到上面两路。
+- **h5**（只活在手机上）—— H5 / 移动端页面 / 活动页 / 小程序页 / app 原型 / 移动端商详 / 报告 H5。它是个**容器 register**：先钉死手机框架、安全区、拇指区和原生家具，再套上面三路之一来写内容。移动端商详 = `h5` + `commerce`，app 数据页 = `h5` + `product`。
 
-两条路共享同一底色：**高级感物理层 + 反廉价审查**。仪表盘也不许长得廉价。
+所有路共享同一底色：**高级感物理层 + 反廉价审查**。仪表盘也不许长得廉价，H5 也一样。
 
 ## 它怎么工作
 
-1. **先读 brief**（register：brand vs product）→ 输出一句 Design Read，定方向。
+1. **先读 brief**（register：先问"这页有没有桌面形态"，没有就是 h5；再分 brand / product / commerce）→ 输出一句 Design Read，定方向。
 2. **拧三个旋钮**：SOUL · SPECTACLE（招牌）· DENSITY。product 模式 SPECTACLE 压低、DENSITY 拉高。
-3. **两路共用**：铺高级感物理层（grain · vignette · 字重张力 · 半透明边框 · OKLCH 色彩锁定）。
+3. **各路共用**：铺高级感物理层（grain · vignette · 字重张力 · 半透明边框 · OKLCH 色彩锁定）。h5 则**先立框架**，再铺所套 register 的物理层。
 4. **分流**：
    - **brand** → 选灵魂（行业→风格人格）+ 造一个 hero 引擎（五类选一，100% 做透）。
    - **product** → 组件系统 + 数据可视化（信息架构 · 表格 · 图表 · 表单 · 交互状态全集）。
+   - **h5** → 选六种手机形态之一（app 壳 / 翻页 deck / snap 叙事 / 移动商详 / 手机官网 / 沉浸单屏）+ 照抄原生家具（状态栏 · TabBar · 底部 sheet · FAB · push 与 FLIP 转场）。
 5. **反廉价黑名单 + 起飞前自检**，再交付。
 
 > 第一次用？看 **[使用清单 USAGE.md](USAGE.md)**——没有设计经验也能照着用好。
@@ -33,7 +36,8 @@
 - **3D 效果谱系** — CSS 伪 3D（指针倾斜卡 / 翻转卡 / coverflow / 景深视差）+ Three.js 真 3D（模型查看器 / 图片扭曲平面），`depth` 命令一键加一个 3D 时刻
 - **行业灵魂决策矩阵** — 行业 → 风格 / 配色 / 字体 / 引擎 的选型表，专治"千页一面"
 - **product UI 路线** — 仪表盘信息架构 · 25 种图表选型 · 数据表 · 表单 · 交互状态全集 · 组件系统 · 认知负载
-- **register 驱动** — brand vs product 分流，两套完全不同的设计规则
+- **H5 移动端规范** — 手机专属的一整套：视口契约 · `body` 锁死 / 容器滚动的架构反转 · 560px 桌面手机画框 · 安全区数学 · **拇指区反转**（主操作放底部）· 触摸法则（`passive` / `pointercancel` / tap-highlight / 44px）· 六种手机形态 · 原生家具配方（状态栏 · TabBar · 底部 sheet · FAB · push 与手写 FLIP 转场）
+- **register 驱动** — brand / product / commerce / h5 分流，各自一套设计规则；h5 是容器，会包住另外三路之一
 - **反廉价黑名单** — 经生产验证的 AI tells + 绝对禁区 + reflex-reject 字体/配色清单
 - **design-model token 锁定** — 多页一致性 + 生成 → 自检 → 迭代闭环
 - **OKLCH 配色策略阶梯** — restrained / committed / full / drenched 四档承诺
@@ -56,6 +60,25 @@ product 路线（组件系统 · 数据可视化 · 信息架构）：
 | ![ACRU — 团队效率，侧边栏经典 shell + 悬停 tooltip 柱状图](assets/examples/acru.jpg) | ![PawCare+ — 宠物健康看护，真实照片热点标注 + 主题色切换](assets/examples/pawcare.jpg) |
 | ![Nodeflux — API 控制台，浮层面板 + 真 bento（2.15fr 1.7fr 1fr…）+ 同心用量环](assets/examples/nodeflux.jpg) | ![Inkline — 内容发布 CMS，三栏 triptych + 浏览器预览热点标注](assets/examples/inkline.jpg) |
 | ![Huddle — 团队协作，顶部导航 bento + 撞色任务卡 + 多弧甜甜圈 + 语音波形](assets/examples/huddle.jpg) | ![Threadline — 客服运营，浮层面板 + 不对称 bento + 环形仪表盘 + 分配表](assets/examples/ledgerio.jpg) |
+
+h5 路线（手机专属 · 原生家具 · 六种形态）—— 竖屏 390×844，桌面上自动套一层手机画框：
+
+<table>
+<tr>
+<td width="50%" align="center">
+<img src="assets/examples/h5-pawpal.jpg" width="290" alt="PAWPAL 毛毛档案 — 宠物养护 App，浮起药丸 TabBar + 中间凸起 FAB + 三段粗圆环 + 白色底部 sheet"><br>
+<b>形态 A · app 壳</b>（包 product）<br>
+<sub>浮起药丸 TabBar + 凸起 FAB · 三段粗圆环 · 胶囊柱状图 · 白色底部 sheet · 切换宠物整页重绘而家具不动</sub>
+</td>
+<td width="50%" align="center">
+<img src="assets/examples/h5-brew.jpg" width="290" alt="烘豆日记 — 挂耳咖啡商品详情，scroll-snap 图集 + SKU 面板 + 吸底四段购买栏"><br>
+<b>形态 D · 移动商详</b>（包 commerce）<br>
+<sub>scroll-snap 图集 + 页码 · SKU 面板联动改价 · 加购小球抛物线飞入 + 角标弹跳 · 吸底购买栏</sub>
+</td>
+</tr>
+</table>
+
+> 这两页也在 `skills/finesse-ui/examples/` 里，可直接打开运行。图片是代码生成的 SVG 占位符（`PH()`），把它换成真实图片 URL 即可，周围的 CSS 一行都不用改。
 
 ## 安装 & 工具支持
 
@@ -149,14 +172,15 @@ finesse-skill/
 │       │   ├── product-ui.md             # product 路线：仪表盘/表格/图表/表单/状态/组件
 │       │   ├── dataviz.md                # 图表决策矩阵：25 种类型 × a11y 分级 × 库推荐
 │       │   ├── commerce-ui.md            # 电商路线：PDP/PLP/购物车/结算 + 暗黑模式黑名单
+│       │   ├── h5-mobile.md              # h5 路线：视口契约 · body 锁死/容器滚动 · 560px 手机画框 · 安全区数学 · 拇指区反转 · 触摸法则 · 六种手机形态 · 原生家具（状态栏/TabBar/sheet/FAB/push/FLIP）
 │       │   ├── asset-sourcing.md         # 无素材时的取图决策：生图/真实图库/占位兜底 + 授权节点
 │       │   ├── preflight.md              # 起飞前自检清单（含战略遗漏清单）
 │       │   ├── redesign-mode.md          # 改造模式：审计优先 + 六步改造协议
 │       │   ├── design-model.md           # 多页一致性的 token 锁定模板
 │       │   └── inspiration-catalog.md    # 53 页语料中另外 48 页的技法索引（按 persona 分组，不含源文件）
 │       └── examples/
-│           ├── EXAMPLES.md               # 17 个正例的「五轴坐标」表（当维度看，不当模板抄）
-│           └── *.html                    # 17 个自包含可运行页（9 brand + 8 dashboard，零图片素材、零远程依赖）
+│           ├── EXAMPLES.md               # 19 个正例的「五轴坐标」表（当维度看，不当模板抄）
+│           └── *.html                    # 19 个自包含可运行页（9 brand + 8 dashboard + 2 h5，零图片素材、零远程依赖）
 ├── .claude-plugin/plugin.json            # Claude Code 原生插件
 ├── .cursor/rules/finesse-ui.mdc          # Cursor 规则（精简单文件，自动加载）
 ├── AGENTS.md                             # OpenAI Codex 指令
@@ -169,7 +193,9 @@ finesse-skill/
 
 ## 范围之外
 
-finesse 同时覆盖 brand 和 product UI，范围很宽。只有这两种情况不适合：**纯后端 / API / 无界面的数据任务**，或明确要求"无个性、零打磨"的页面（finesse 总会带上工艺；真要平庸是另一种工具）。
+finesse 覆盖 brand、product、commerce 和 h5，范围很宽。只有这两种情况不适合：**纯后端 / API / 无界面的数据任务**，或明确要求"无个性、零打磨"的页面（finesse 总会带上工艺；真要平庸是另一种工具）。
+
+h5 这条线还有一个边界值得说明：它管的是手机页面的**设计**，不是外围的**平台管道**。微信 JS-SDK 接入、分享卡片配置、支付对接、原生 bridge、小程序框架脚手架都是工程活儿不是设计活儿 —— 页面做完，这些交出去。
 
 ## License
 

@@ -22,13 +22,16 @@ Each point is expanded below.
 
 ### 1.1 State the page type first — this is the single most important sentence
 
-finesse splits pages into three genuinely different routes. Naming the type tells it which logic to apply:
+finesse splits pages into genuinely different routes. Naming the type tells it which logic to apply:
 
 | Type | What it is | Examples | Layout thinking |
 |---|---|---|---|
 | **brand (landing/marketing)** | Design IS the product — landing pages, brand sites, launches, portfolios, industry hero pages | "A landing page for a yoga studio", "a photographer's personal portfolio", "a product launch page" | Goes for spectacle and first impression, one point per screen, reaches for a real visual engine (3D particles / Canvas motion / GSAP scroll storytelling) |
 | **product (dashboard/app)** | Design SERVES the product — dashboards, admin panels, data analytics, settings pages | "A data dashboard for our ops team", "an order-management page for an e-commerce backend", "a SaaS admin panel" | Goes for clarity and information density, no showing off — charts/tables/forms need to survive daily use |
 | **commerce (selling pages)** | Pages that sell something — product detail pages, listing pages, cart, checkout | "A flagship product's detail page", "a filterable product listing page", "the checkout flow" | Selling one item leans brand (needs a vibe); listing/filter pages lean product (density, efficiency first) |
+| **h5 (phone-only pages)** | Pages that only ever open on a phone — campaign H5s, mini-program / in-app screens, app UI prototypes, mobile PDPs, report H5s | "A Black Friday campaign page", "design the UI for a budgeting app", "a product detail page for mobile", "a year-in-review H5" | Builds on a real phone (390×844) first, then applies one of the three routes above for content. Primary buttons always go to the **bottom** (thumb reach), and it's built to actually feel like an app: status bar, bottom TabBar, sheets that slide up, detail pages that push in from the right |
+
+**The one thing to be clear about on the h5 route: is this page phone-only?** "It should look good on a phone too" and "it only ever opens on a phone" are different jobs — the first is a normal page with proper mobile handling, only the second goes h5. If you can't tell, that's fine: finesse will ask you *"does this page only open on a phone, or does it need to look good on a desktop too?"*
 
 **Not sure which bucket?** Just say so — "I'm not sure if this should feel more showcase-y or more tool-y" — and it will ask a clarifying question rather than guess blindly.
 
