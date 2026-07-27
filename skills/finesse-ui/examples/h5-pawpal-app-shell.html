@@ -23,7 +23,7 @@
    *   §2.A  env(safe-area-inset-*) 出现在状态栏 / TabBar / sheet / .view 底部内距四个地方
    *   §2.C  .view 的 padding-bottom = 安全区 + 108px（实测 116px），
    *         最后一行内容才不会被 TabBar 吃掉
-   *   §5.B  浮起药丸 TabBar：blur(22px) + 46px 圆形按钮（>44 ✓）+ 填充式选中态
+   *   §5.B  悬浮胶囊 TabBar：blur(22px) + 46px 圆形按钮（>44 ✓）+ 填充式选中态
    *   §5.B  中间凸起 FAB 替掉中间那个 tab，:active{scale(.92)}
    *   §5.A  白色底部 sheet：translateY(102%)（不是 100%）+ grab handle + 可点击 scrim
    *   §5.C  home indicator，118×4px / opacity .16
@@ -348,7 +348,7 @@
   .sw.on { background: var(--acc); border-color: transparent; }
   .sw.on::after { transform: translateX(18px); background: #180703; }
 
-  /* ── 浮起药丸 TabBar + 中间凸起 ───────────────────── */
+  /* ── 悬浮胶囊 TabBar + 中间凸起 ───────────────────── */
   .tabbar {
     position: absolute; z-index: 50; left: 18px; right: 18px;
     bottom: calc(env(safe-area-inset-bottom) + 16px);
