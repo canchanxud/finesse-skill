@@ -1,7 +1,7 @@
 ---
 name: finesse-ui
 description: 'Build never-cheap, high-craft web interfaces — brand surfaces (landing pages, brand sites, launches, portfolios, hero pages with real WebGL/Three.js/Canvas/GSAP engines), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow UI (merchant/admin consoles, publish & create wizards, config and settings pages, review queues), commerce pages (product detail pages, listing/category pages, cart, checkout), and H5 / phone-only screens (app UI prototypes, 活动页, mobile PDP, data-report H5, mobile sites). Routes by register: brand → soul + spectacle engine; product → palette + component system + density (split further into pages you READ = dashboards, and pages you OPERATE = consoles/wizards); commerce → PDP/PLP skeletons + anti-dark-pattern rules; h5 → a fixed 390×844 frame, safe-area math, thumb-zone hierarchy, and native furniture (status bar, TabBar, bottom sheet, FAB, push & FLIP transitions) across six phone morphologies. Ships a product color library (tinted neutral ramps + 16 accents + 12 paste-ready sets) so dashboards stop defaulting to blue. Always reads the brief first and audits against an anti-slop cheapness blacklist. Ships an anti-sameness layer (divergence) that composes a soul from five orthogonal axes instead of picking from a persona list, so repeat runs stop converging on one look. Routes single-element briefs to a component flow (8 mandatory states + a preview file) instead of the page apparatus. Carries a cross-run build log so rotation is enforced rather than narrated, and a mobile floor covering the six ways a crafted page breaks on a phone. Supports verb commands (audit · bolder · quieter · soul · diverge · animate · densify · redesign) for targeted iteration. Triggers on "make this look premium", "landing page", "personal site", "portfolio", "个人主页", "落地页", "lookbook", "dashboard", "admin panel", "商家后台", "工作台", "back-office", "console", "publish flow", "发布流程", "wizard", "settings page", "analytics UI", "data table", "app UI", "product page", "PDP", "listing page", "checkout", "dashboard colors", "H5", "H5 页面", "移动端页面", "手机端页面", "活动页", "小程序页面", "公众号页面", "app 原型", "mobile app UI", "app screen", "in-app page", "移动端商详", "报告 H5", "give it a soul / a vibe", "anti-slop", "hero animation", "feels generic", "every page looks the same", "每次都差不多", "make me a button", "just this component", "按钮", "单个组件", "component states", "breaks on mobile", "手机端错位", "/finesse".'
-version: 0.16.0
+version: 0.17.0
 user-invocable: true
 argument-hint: "[craft · audit · bolder|quieter|soul|diverge · animate|depth|densify · redesign · init|document] [target]"
 license: MIT
@@ -24,7 +24,7 @@ license: MIT
 ## How to use this skill
 
 0. **Check the scope before anything else.** If the brief is a **single element** — a button, an input, a card, a modal, a toast — go to `references/component-scope.md` and follow it instead; steps 1–6 below are page apparatus and are wrong for one component. Detection and the ambiguity question live in that file.
-1. Run **§0 Brand Read** — read `.finesse/log.json` (the rotation memory, `divergence.md` §4), then infer **register** (brand vs product) + soul before touching code. Output the Design Read: the coordinate line, **a plain `You'll see:` line the user can actually veto**, its two most likely objections, and the rotation as a sentence (§0.B).
+1. Run **§0 Brand Read** — read `.finesse/log.json` (the rotation memory, `divergence.md` §4), then infer **register** (brand vs product) + soul before touching code. Output the Design Read: the coordinate line, **a plain `You'll see:` line the user can actually veto**, the **`Images:` line naming every slot a picture would carry and where it would come from**, its two most likely objections, and the rotation as a sentence (§0.B). Before writing that `Images:` line, **check this session's actual tool list** — an image-gen tool, an MCP image tool, a network fetch, or none — because it decides what you can honestly offer (`asset-sourcing.md` §1). Offer it and **wait**; never generate or download off your own inference.
 2. Set the **§1 Three Dials** (SOUL · SPECTACLE · DENSITY). Product register pins SPECTACLE low, DENSITY high.
 3. **Lay the substrate — the right one for the register.** All share the **universal craft floor** (tinted neutrals, no `#fff`/`#000`, translucent/hairline borders, tinted shadows, contrast floors — `references/design-dna.md` §1). Above that floor the substrate forks:
    - **brand** → the **§3 brand substrate** (`references/design-dna.md`): grain, vignette, `clamp()` display type, dark-default, layered hero depth.
@@ -63,7 +63,7 @@ The `references/*.md` files are the deep material. Load the one you need for the
 | `dataviz.md` | Chart-heavy product UI beyond the starter table — full 25-type selection matrix, a11y grade + mandatory fallback, library picks (the **decision** layer) |
 | `chart-crafting.md` | **Any** hand-built dashboard chart in a single self-contained file (mandatory for bars — the barcode-chart trap) — the no-library **implementation** layer: the value→height rule, `div height:value/max%` bar recipe, SVG coordinate normalization, line/area draw-in, donut/gauge grow, stacked bars, sparklines, the three animations × reduced-motion pairing, slider-driven live update |
 | `commerce-ui.md` | Product detail page (PDP), listing/category page (PLP), cart, checkout — commerce register |
-| `asset-sourcing.md` | Brief implies real imagery but no assets provided — generate vs. real stock vs. placeholder fallback, with the authorization step for each |
+| `asset-sourcing.md` | **At §0.B, as soon as the page has anywhere a picture would carry it** — a hero, a gallery, an H5 cover or scene, a PDP shot, even a dashboard's empty state or avatar row. Not a category checklist and not a delivery-time scan: the paths (generate · real stock · generative placeholder) and the **ask-first gate on all of them** only work if they fire before the layout is written. Carries the session-capability check that decides which path you can honestly offer, and the rule that naming images is an offer the user answers — never a licence to generate or download |
 | `preflight.md` | Final checklist before saying "done" |
 | `design-model.md` | Multi-page projects — token consistency |
 | `redesign-mode.md` | Upgrading an existing page — audit-first protocol |
@@ -152,6 +152,7 @@ Lazy default (rejected): {the obvious aesthetic for this category}
 Design Read: {industry} · {soul in 2-3 words} · register={brand|product} · SPECTACLE={n} ·
              layout={dominant layout family} · engine={type}
 You'll see: {what appears on screen, in plain observable terms — color, motion, type size, structure}
+Images: {how many, of what, and where they'd come from — or "none, and here's why"}
 Not right? Most likely one of these: ① {the most probable objection} ② {the second}
 Rotation: {plain sentence — which recent direction this deliberately avoids}
 ```
@@ -163,6 +164,9 @@ Design Read: deep-space astronomy · cinematic + reverent · register=brand · S
              layout=full-page engine + scrimmed sections · engine=Three.js particle galaxy
 You'll see: a near-black page with slow-drifting star dust behind everything, a very large
             headline sitting on top of it, and the galaxy rotating as you scroll.
+Images: 3 — a wide nebula plate behind the hero, 2 square instrument details in the spec band.
+        I can generate them here (they'd share one cold-blue grade); say the word and I'll
+        list the shots before spending anything. Or the page ships engine-only, no photography.
 Not right? Most likely one of these: ① you don't want a moving background
             ② near-black is too heavy and you want this light.
 Rotation: deliberately steering clear of the last three builds (machined metal / paper press /
@@ -170,6 +174,12 @@ Rotation: deliberately steering clear of the last three builds (machined metal /
 ```
 
 **`You'll see:` is the line the user actually answers.** The `Design Read:` line is a coordinate for *you* — `SPECTACLE=8`, `scrimmed sections`, and `Three.js particle galaxy` are three things a non-designer cannot picture, cannot rank, and therefore cannot veto. A gate only one answer can pass is not a gate. Write what renders: color, whether anything moves, how big the type is, what the structure is. No jargon — `references/plain-words.md` if a term is unavoidable.
+
+**`Images:` is here because the user cannot ask for what he doesn't know you can do.** Every register has places a picture would carry the page — a brand hero, a PDP gallery, an H5 cover or ambient scene, even a dashboard's empty state or avatar row — and the default failure is silent: the page gets built with a gradient where a photograph belonged, and nobody ever said the word "image". **So name the image slots at the Design Read, before any code exists, whatever the register and whatever the category.** Count them, say what each depicts, and say where they'd come from **in this session** — which means checking your actual tool list first (image-gen tool → you can offer to generate; network fetch only → real stock; neither → say so). `references/asset-sourcing.md` is the protocol for all three paths and its authorization rules still hold — this line is what makes it fire *early*, when a "yes" is still cheap.
+
+> **Naming the slots is an offer, never a green light. Ask, then wait — do not generate and do not download.** This line exists so the user learns the option is on the table; it is not permission to spend his generation budget or to pull assets off the open network because you inferred he'd want it. Both are actions with real cost and real provenance consequences, and the *only* thing that authorizes either is the user answering yes. The failure this prevents is the mirror of the silent-gradient one: a page where four images appeared, billed and un-asked-for, because the model decided the brief implied them. State the count and the source, stop, and let him answer — same gate `asset-sourcing.md` §2/§3 puts on both paths, just moved to where it's still free.
+
+If the page genuinely wants no photography (a phosphor-terminal build, a pure-type brutalist page), write `none` and one clause of why; that is a decision the user can veto too, and stating it is not optional.
 
 **`Not right?` must name real forks, not invite open-ended feedback.** "Let me know what you think" returns nothing. Two specific, likely, *mutually different* objections give the user something to point at, and each one has to be a thing you would genuinely build differently — usually the theme and the motion, since those are the two decisions the whole page hangs off.
 
@@ -400,7 +410,7 @@ Before declaring done, scan against `references/anti-cheap.md` — the merged an
 - **fake-precise numbers** (`92%`, `4.1×`) with no real source.
 - **default-category palette** (beige+brass for craft, purple-glow for AI/SaaS) — name it, reject it.
 - **`Inter`/`Fraunces`/`Instrument Serif` as unexamined defaults** — fine if chosen with a reason, a tell if reached for blindly.
-- **zero imagery** on an image-implied brief (food, hotel, fashion, travel) — that's a bug, not minimalism.
+- **zero imagery in a slot the page actually has for one** — hero, gallery, PDP shot, H5 cover/scene, empty state. Judged off the skeleton, not the industry; that's a bug, not minimalism. Its mirror fails too: **images that appeared without the user saying yes** (`asset-sourcing.md` §0).
 
 ---
 

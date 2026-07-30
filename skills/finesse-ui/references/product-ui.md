@@ -132,6 +132,7 @@ Pick by the question the data answers, not by what looks nice:
 
 - **Loading:** skeleton (matches final shape) for views/tables; small spinner only for button submits. Show feedback past ~300ms.
 - **Empty:** icon/illustration + "what's missing + why + next step" + CTA. Composed, not a void.
+  - **This is a real image slot, and "it's a dashboard" is not a reason to skip the question.** Product register spends most of its pixels on data, so the handful of places a picture belongs — empty states, avatar rows, onboarding scenes, the §1 non-card centerpiece — get overlooked entirely rather than decided. Raise them in the Design Read (`SKILL.md` §0.B `Images:`) alongside everything else, then follow `asset-sourcing.md`: offer the options, wait for the answer, and don't generate or download because you judged an illustration would help.
 - **Error:** field-level (below input) · form-level (top, lists issues + locations) · global/network (toast or centered, with retry).
 - **Success:** `aria-live="polite"` toast 3–5s, or page-level confirm with the key facts (order #, timestamp) + next action.
 - **Disabled:** `opacity .5; cursor: not-allowed; pointer-events: none`. Used for unmet conditions, not as a mystery.

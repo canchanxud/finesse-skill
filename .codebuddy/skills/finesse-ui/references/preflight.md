@@ -97,7 +97,8 @@ Not "narrow the window until it looks off" — those four widths. Causes and fix
 - [ ] **No re-drawn environment chrome** — no hand-built browser bar (URL pill + traffic lights), phone bezel, IDE frame, or terminal window. Real screenshot in a `<figure>`, or no chrome at all. (Distinct from fake screenshots: a *real* screenshot inside a *drawn* MacBook bezel still fails.)
 - [ ] No fake-precise numbers without a source. No banned beige+brass default palette.
 - [ ] No identical card grids. No numbered `01·02·03` unless a real sequence.
-- [ ] **Real imagery** where the brief implies it (food/hotel/fashion/travel/product); sourced per `asset-sourcing.md` (generate/stock/placeholder), not a silent gradient-blob substitute.
+- [ ] **Real imagery in every slot the built page has for one** — hero photograph, gallery/lookbook rail, PDP shot, H5 cover or scene, empty state, avatar row. Judged off the skeleton, not the industry; food/hotel/fashion/travel/product are the obvious cases, not the boundary. Sourced per `asset-sourcing.md` (generate/stock/placeholder), not a silent gradient-blob substitute.
+- [ ] **Every image on the page has an answer to "who said yes to this?"** — the slots were named at the Design Read (`SKILL.md` §0.B `Images:`) and the user approved the count + source. Nothing was generated, downloaded, or hotlinked off your own inference that the brief implied it. A page that quietly spent the user's generation budget fails this check as hard as one that quietly shipped gradients.
 - [ ] Real SVG logos (not text wordmarks) on any "trusted by" wall.
 - [ ] Fonts chosen with a reason — not a blind reach for Inter/Fraunces/Instrument Serif.
 

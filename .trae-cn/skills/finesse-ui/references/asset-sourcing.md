@@ -1,8 +1,32 @@
 # Asset Sourcing — Where the Imagery Actually Comes From
 
-`anti-cheap.md` bans zero imagery on an image-implied brief (food, hotel, fashion, travel, product…) but doesn't say where the pictures come from. Most briefs arrive with **no real assets attached**. This file is the decision protocol for getting real imagery into the page without silently fabricating it, silently spending the user's generation budget, or silently pulling from the network.
+`anti-cheap.md` bans zero imagery where the page has an image slot, but doesn't say where the pictures come from. Most briefs arrive with **no real assets attached**. This file is the decision protocol for getting real imagery into the page without silently fabricating it, silently spending the user's generation budget, or silently pulling from the network.
 
 > The core rule, regardless of path: **name what you're about to fetch or generate, then wait for a go-ahead, before you do it.** Never ship a page where the images appeared with no accountable source. Path B (downloading/hotlinking free stock resources) gets this treatment **especially** — it's pulling from the open network into the user's project, so it is a stop-and-confirm step, not an FYI-then-proceed. This mirrors the harness-level rule that external fetches / uploads / spend get flagged, not auto-run.
+
+---
+
+## 0. When This File Fires — and the two ways it gets it wrong
+
+**Fire it at the Design Read (`SKILL.md` §0.B), the moment the page has anywhere a picture would carry it.** Not at delivery, and not off a category checklist.
+
+The trigger is **the skeleton you're about to build, not the industry**:
+
+| Register | Slots that count |
+|---|---|
+| brand | photographic hero, lookbook/gallery rail, "the work" thumbnails, atelier/about band, texture plates |
+| product | empty states, avatar rows, onboarding scenes, the one non-card centerpiece (`product-ui.md` §1.5), annotated-photo hotspot surfaces |
+| commerce | PDP gallery, PLP card images, colorway swatch shots, size/material details |
+| h5 | cover screen, morph B campaign art, morph C report scenes, morph D product shots, morph F's full-bleed ambient scene |
+
+Food/hotel/fashion/travel/product briefs are the *obvious* cases — they are not the boundary. **A dashboard's empty state deserves the question as much as a hotel hero does.**
+
+### The two failure modes are symmetric — avoid both, not just one
+
+1. **Silent gradient.** The slot exists, nobody said the word "image", and it ships filled with a CSS blob. The user never learned that photography was available in this session, so he never asked. That is the failure this file's *early* trigger prevents.
+2. **Silent spend.** You inferred the brief wanted pictures and generated four of them, or pulled six off Unsplash into his project — billed, fetched, and never authorized. That is the failure the *gate below* prevents, and it is not the lesser of the two.
+
+> **The resolution is the same sentence for both: raise it, then wait.** Naming the slots is an **offer**, and an offer is answered by the user, not by you. "The brief clearly implies imagery" is a reason to **ask**, never a reason to proceed — an implication is your reading of his intent, and his intent is the one thing you cannot infer on his behalf when the action costs money or reaches the open network. State count + subjects + source in one line, stop, and let him answer.
 
 ---
 
@@ -55,11 +79,13 @@ When neither A nor B is available, **say so explicitly** — don't silently ship
 - **Never fabricate provenance.** Don't caption/attribute an image in a way that misrepresents where it came from (generated vs. real; stock vs. brand-owned).
 - **Performance still applies.** Responsive images, `srcset`/`sizes`, WebP/AVIF, lazy-load below the fold — this is unchanged by source (`preflight.md` §7).
 - **One confirmation ask per page, not per image.** The goal is accountability, not friction — ask once, in one line covering the whole page's image needs, and wait for the answer before fetching/generating any of it.
+- **An unanswered ask is a "no", not a "probably yes".** If you raised the slots and the user redirected onto something else without addressing them, build the page with the slots composed but unfilled (Path C, disclosed) and re-raise once at delivery. Do **not** read silence, enthusiasm about the design, or a generic "looks great, go ahead" on a different question as authorization to spend or fetch. The only yes that counts is a yes to *this* question.
 
 ## 6. Quick Decision Table
 
 | Session has | Path | Gate before acting |
 |---|---|---|
+| **Any** of the above, and the page has an image slot | — | **name the slots at the Design Read** (`SKILL.md` §0.B `Images:`), before the layout is written — an offer, not a green light |
 | Image-gen tool | A — generate | shot list (count + one-line prompt each) — **wait for go-ahead** |
 | Network fetch, no image-gen | B — real stock, hotlinked by specific ID | source + picks, one line — **wait for go-ahead** (downloading into the user's project is an external-fetch action, treat it as one) |
 | Neither | C — generative CSS/Canvas placeholder | explicit "this is a stand-in" disclosure |

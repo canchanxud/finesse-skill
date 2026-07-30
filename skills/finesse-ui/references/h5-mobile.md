@@ -424,6 +424,8 @@ All eighteen reference templates ship this block. Note the second line: for H5, 
 
 ## 8. Images & performance
 
+> **Where do the images come from? Ask before you build, not after.** This register leans on photography harder than any other — morph F *is* a full-bleed scene, morph B is campaign art, morph C is a scene per section, morph D is product shots — and none of those briefs say "food/hotel/fashion", so the category-shaped instinct never fires and the screen quietly ships a gradient. **Name the image slots in the Design Read** (`SKILL.md` §0.B's `Images:` line): how many, what each depicts, and where they'd come from in this session. Then follow `asset-sourcing.md` — including its gate: naming them is an **offer the user answers**, never permission to generate or download because the morphology obviously wants pictures.
+
 - **Everything is at DPR 3.** A 390px-wide hero is a 1170px image. Under-supply and it's mush; over-supply and a 活动页 opened over 4G never paints.
 - **Full-bleed scene images:** `object-fit: cover; object-position: 50% 100%` plus a per-scene `transform: scale(var(--z))` with `transform-origin: 50% 100%` — bottom-anchored so the horizon survives the drawer (§4.F).
 - **Lazy-load anything below the first screen** (`loading="lazy"`), and give every `<img>` explicit dimensions or an `aspect-ratio` — CLS on a phone is far more visible than on desktop.
