@@ -15,8 +15,8 @@
 // hooks / humans who want a hard gate). The `audit` command (references/audit.md)
 // consumes the --json output and decides for itself; it does not need exit codes.
 
-import { readFileSync } from 'node:fs';
-import { basename } from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
+import { basename, dirname, resolve } from 'node:path';
 
 const args = process.argv.slice(2);
 const asJson = args.includes('--json');
@@ -36,6 +36,7 @@ const NOT_COVERED = [
   'layout-family repetition (§5) and whether the soul is actually distinct',
   'whether the engine RENDERS real pixels (needs the Playwright runtime pass, not a grep)',
   'mobile-floor M3/M4 — clickable text wrapping to two lines, long-word overflow at 320px (needs a rendered page at 320, not a grep)',
+  'root-relative asset paths (`/img/x.png`) — dead-ref only resolves file-relative ones; a broken `/…` link needs the real serving root',
 ];
 
 if (files.length === 0) {
@@ -404,6 +405,61 @@ function inlineColorCheck(text) {
   };
 }
 
+// preflight.md Gate 1. The page references a local file that isn't there — a
+// `<link>` to a stylesheet that was never written, an `<img>` to a missing asset.
+// This is the one failure that makes every OTHER check in this file vacuous: a
+// page whose stylesheet 404s renders as unstyled Times New Roman, and it will
+// pass the grain check, the pure-#fff check and the eyebrow count all the same,
+// because none of those rules ever fire on a file that doesn't exist. It is also
+// the classic truncated-build tell — the HTML got written, the run ended before
+// the CSS did, and nothing downstream noticed. P0, always.
+const SKIP_REF = /^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/i; // http:, data:, mailto:, tel:, //cdn, #anchor
+function deadLocalRefCheck(text, file) {
+  const base = dirname(resolve(file));
+  const hits = [];
+  const seen = new Set();
+  const re =
+    /(?:\b(?:href|src|poster)\s*=\s*["']([^"']+)["'])|(?:\burl\(\s*["']?([^"')]+)["']?\s*\))/gi;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    const raw = (m[1] ?? m[2] ?? '').trim();
+    if (!raw) continue;
+    // Decode BEFORE the skip test. finesse's own grain layer is an inline
+    // `url("data:image/svg+xml,…filter='url(%23n)'…")` — the outer ref is skipped
+    // as a data: URI, but the regex also matches the *inner* `url(%23n)`, and
+    // `%23n` is `#n`, an SVG fragment, not a file. Testing the raw form misses it.
+    let ref = raw;
+    try {
+      ref = decodeURIComponent(raw);
+    } catch {
+      /* malformed escape — fall through with the raw form */
+    }
+    if (SKIP_REF.test(ref)) continue;
+    if (ref.startsWith('/')) continue; // root-relative — see NOT_COVERED
+    if (/[{}$<>]/.test(ref)) continue; // {{tpl}}, ${expr}, <placeholder>
+    const path = ref.split(/[?#]/)[0];
+    if (!path) continue;
+    if (existsSync(resolve(base, path))) continue;
+    if (seen.has(path)) continue;
+    seen.add(path);
+    hits.push({ line: lineOf(text, m.index), text: path });
+  }
+  if (!hits.length) return null;
+  const css = hits.some((h) => /\.css($|[?#])/i.test(h.text));
+  return {
+    id: 'dead-local-ref',
+    severity: 'P0',
+    label:
+      `${hits.length} local file reference(s) point at nothing on disk` +
+      (css ? ' — including a stylesheet, so the page renders unstyled' : '') +
+      ': ' +
+      hits.slice(0, 4).map((h) => h.text).join(', '),
+    fix: 'write the missing file (or fix the path) before delivery',
+    total: hits.length,
+    hits: hits.slice(0, 8),
+  };
+}
+
 // ---- run -------------------------------------------------------------------
 
 const report = [];
@@ -440,6 +496,10 @@ for (const file of files) {
     // exactly 8 — the count must come from before the truncation.)
     if (f) findings.push({ ...f, count: f.total ?? f.hits.length });
   }
+  // Needs the file's own path to resolve relative refs, so it can't join the
+  // text-only list above.
+  const dead = deadLocalRefCheck(text, file);
+  if (dead) findings.push({ ...dead, count: dead.total ?? dead.hits.length });
 
   findings.sort((a, b) => severityRank(a.severity) - severityRank(b.severity));
   p0Count += findings.filter((f) => f.severity === 'P0').length;

@@ -41,6 +41,22 @@ Before picking a path, look at what the current session can do — this skill ru
 
 Don't guess capability — check the actual tool list for this session before committing to a path.
 
+### 1.1 Listed ≠ usable — verify before you promise it
+
+**A tool appearing in the list is not proof it will run.** The generator may need a credential the environment doesn't have; the network may be sandboxed off. If you name Path A at the Design Read on the strength of the listing alone, you are making a promise on the user's behalf that the environment may refuse — and you'll discover it *after* he said yes, which is the worst moment to renegotiate.
+
+**So before the `Images:` line names a source, spend one cheap call proving it.** A `--help`, a credential check, a single small fetch — whatever costs seconds rather than image-generation budget. If it fails, that path is **not available** for §1's purposes; drop to the next one and say which, in the same breath: *"image generation is installed but has no API key here, so these would be real Unsplash photos instead — ok?"*
+
+> **Codex specifically, two traps.** ① The bundled `imagegen` skill calls the OpenAI Image API through the Python SDK and **requires `OPENAI_API_KEY`** — a Codex/ChatGPT sign-in does **not** satisfy it. Being able to generate images in the Codex app proves nothing about the CLI agent. ② Codex sandboxes often ship with **network disabled by default**, so your own `curl` failing is weak evidence: **the agent having no network does not mean the user's browser has none.** Hotlinked Unsplash URLs still resolve fine when the page is opened. Don't demote Path B because *you* couldn't reach the CDN — wire the URLs, and say at delivery that those images load over the network.
+
+### 1.2 If a path fails mid-build, re-enter this list — never skip a rung
+
+The check above is a *pre*-flight, and pre-flights are sometimes wrong. When the path you committed to turns out unusable once you're actually building on it — no credential, a refused install, a blocked host — **return to §1 and re-run from the next step down.** Take the next path that qualifies, not the last one on the list.
+
+**Falling from A straight to C is the failure this rule exists to stop.** It is the tempting move: generation is out, so you reach for something you can draw yourself, and hand-authored SVG blobs arrive dressed as a design decision. They are not — they are `anti-cheap.md`'s banned "hero = text + gradient blob" with extra steps, and Path B (real photographs, one line of URL each) was sitting right there, unattempted.
+
+**Whatever you land on, the drop gets said out loud** — one line naming the path you left, why, and where you are now. A silent downgrade turns an approved plan into a different deliverable, which is Gate 0's failure in `preflight.md`.
+
 ---
 
 ## 2. Path A — Generate
@@ -86,7 +102,9 @@ When neither A nor B is available, **say so explicitly** — don't silently ship
 | Session has | Path | Gate before acting |
 |---|---|---|
 | **Any** of the above, and the page has an image slot | — | **name the slots at the Design Read** (`SKILL.md` §0.B `Images:`), before the layout is written — an offer, not a green light |
-| Image-gen tool | A — generate | shot list (count + one-line prompt each) — **wait for go-ahead** |
+| Image-gen tool, **verified runnable** (§1.1) | A — generate | shot list (count + one-line prompt each) — **wait for go-ahead** |
+| Image-gen tool listed but **not runnable** (missing key/credential, refused install) | Not A — drop to B, then C (§1.2) | say which path you left and why, in the same line that offers the new one |
+| Path A/B failed **after** the user already approved it | Re-enter §1 from the next step down (§1.2) | **name the drop out loud** — a silent downgrade fails `preflight.md` Gate 0 |
 | Network fetch, no image-gen | B — real stock, hotlinked by specific ID | source + picks, one line — **wait for go-ahead** (downloading into the user's project is an external-fetch action, treat it as one) |
 | Neither | C — generative CSS/Canvas placeholder | explicit "this is a stand-in" disclosure |
 | User has real assets for a specific real subject | Use those, skip A/B/C | n/a — always preferred over stock/generated when the brief needs a *specific* real thing |

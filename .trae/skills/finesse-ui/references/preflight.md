@@ -26,6 +26,29 @@ Gate 0 — Promise kept
 
 ---
 
+## Gate 1. It Actually Renders (hard — run this second, before §A)
+
+Every check in §A–§I asks *"is this page well-made?"* — and every one of them **passes vacuously on a page that never rendered**. A `<link>` pointing at a stylesheet that was never written produces unstyled Times New Roman: no grain to be missing, no `#fff` to be banned, no eyebrow to over-count. The taste layer cannot see a file that isn't there. So the file-existence check runs before the taste layer, not inside it.
+
+**This is also the truncated-build tell.** The HTML gets written, the run ends before the CSS does, and nothing downstream notices — the most common way a long build ships broken. `.finesse/log.json` will even be there, correctly recording a build that doesn't exist on screen.
+
+**Resolve the detector first.** The path is **not** relative to the user's project unless the skill was vendored into it — under Codex it lives in `~/.codex/skills/`, under Claude Code in `~/.claude/skills/` or the plugin dir. Resolve it once, reuse `$DETECT` for the rest of this file:
+
+```bash
+for p in skills/finesse-ui .claude/skills/finesse-ui \
+         "$HOME/.claude/skills/finesse-ui" "$HOME/.codex/skills/finesse-ui"; do
+  [ -f "$p/scripts/detect.mjs" ] && DETECT="$p/scripts/detect.mjs" && break
+done
+node "$DETECT" --json <every built file>
+```
+
+- [ ] **Every local `href` / `src` / `url()` resolves to a file that exists.** A `P0 dead-local-ref` is a hard fail — write the missing file or fix the path. The detector resolves file-relative refs and skips `http(s):` / `data:` / `#anchor` / `mailto:`; **root-relative `/img/x.png` it cannot judge** (it has no serving root), so check those by hand.
+- [ ] **The detector was found and ran.** If `$DETECT` resolved to nothing, say so and check the refs by hand — an unrun detector is not a pass, and silently skipping it is how M1/M2/M5/M6 go unchecked for an entire project.
+- [ ] **Every file the page needs was actually written.** Walk your own build list: stylesheet, script, each asset. A file you *planned* and a file that exists on disk are different things, and only one of them renders.
+- [ ] **The page was opened.** Load it (Playwright MCP, or tell the user to open it) and confirm it is a styled page, not a stack of serif text. If no browser is available, say so — don't claim it.
+
+---
+
 ## A. Direction & Soul (hard)
 
 - [ ] **Design Read** was committed (industry · soul · register · SPECTACLE · engine) **and the `You'll see:` line was written in plain observable terms** — no `SPECTACLE=n`, no `scrimmed sections`, no library names in the sentence the user was asked to confirm (§0.C.1, `plain-words.md`).
@@ -58,9 +81,9 @@ Gate 0 — Promise kept
 
 A page that *claims* SPECTACLE 8 but ships a white hero is broken, not plain. Verify in two passes:
 
-1. **Static (always):** run the detector — it greps for a real engine and the reduced-motion fallback, and fails on "claimed-not-shown":
+1. **Static (always):** run the detector (`$DETECT`, resolved per Gate 1) — it greps for a real engine and the reduced-motion fallback, and fails on "claimed-not-shown":
    ```bash
-   node skills/finesse-ui/scripts/detect.mjs --json <target>
+   node "$DETECT" --json <target>
    ```
    A `P0 spectacle-not-shown` or `P0 no-reduced-motion` in the output (`p0 > 0`) is a hard fail — fix before shipping. The script always exits 0 (findings live in the JSON); add `--strict` if you want it to block with a non-zero exit in a git hook / CI. If the script isn't present, fall back to the by-hand checks above — don't treat its absence as a pass.
 2. **Runtime (when a browser is available):** the grep only proves the *code* exists, not that it *renders*. Open the page and confirm real pixels:
@@ -89,7 +112,7 @@ Not "narrow the window until it looks off" — those four widths. Causes and fix
 - [ ] **M4** — display headings carry `overflow-wrap: anywhere; min-width: 0`.
 - [ ] **M5** — exactly one sticky element at `top: 0`; every other sticky offset by `--nav-h`, with `--z-nav` above `--z-sticky`.
 - [ ] **M6** — nothing has both `text-transform: uppercase` and `line-height < 1.0` (see §B).
-- [ ] Ran `node skills/finesse-ui/scripts/detect.mjs --json <target>` — it catches M1/M2/M5/M6. **M3 and M4 it cannot see**; open the page at 320px and read it.
+- [ ] Ran `node "$DETECT" --json <target>` (Gate 1) — it catches M1/M2/M5/M6. **M3 and M4 it cannot see**; open the page at 320px and read it.
 
 ## E. Cheapness Scan (hard)
 
