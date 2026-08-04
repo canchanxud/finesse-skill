@@ -39,6 +39,7 @@ Yes if **any** of these is true:
 | The page is… | Morphology (§4) | SOUL | SPECTACLE | DENSITY |
 |---|---|---|---|---|
 | an **app screen** (tabs, lists, detail, settings) | **A · App shell** | 6 | 3 | 6–8 |
+| a **专属工作台 / 每日工作台 / 打卡页** (revolves around one thing done over and over — not a batch of business objects) | **A.1 · Daily desk** | 6 | 2 | 4–5 |
 | a **campaign / 活动页** (coupon, launch, invite) | **B · Paged deck** | 8 | 6 | 3–4 |
 | a **数据报告 / year-in-review** | **C · Snap narrative** | 8 | 6 | 5 |
 | a **商品详情 / PDP** (mobile commerce) | **D · Commerce stack** | 6 | 3 | 8 |
@@ -228,6 +229,42 @@ Pick one in §0. They are structurally different pages, not themes — mixing tw
 The TabBar has two accepted forms: **floating pill** (`left/right: 18px`, `border-radius: 99px`, `backdrop-filter: blur(22px)`) or **edge-to-edge bar** (`left/right: 0`, `border-top: 1px hairline`). The pill reads modern and lets content scroll visibly beneath it; the bar reads utilitarian and is safer on a busy background. Pick one — a floating pill with a top border is neither.
 
 A **center FAB** (54px, raised, accent-filled, `:active { scale(.92) }`) may replace the middle tab when there is one dominant create action. Never add a FAB *and* a fifth tab.
+
+#### A.1 · The daily-desk variant — *专属工作台 / 每日工作台 / 打卡页*
+
+**It revolves around one thing done over and over, and it is *his*.** 记账 · 喝水 · 体重 · 用药 · 喂宠 · 练腿 · 陪孩子读书 · 每日写作 · 小组站会. Same frame and same TabBar contract as A — but the dials, the first screen and the palette latitude differ enough that building it as a generic app shell produces a page nobody opens twice.
+
+> **Head-count is not the test, and neither is the screen.** A family sharing a 记账台 and a team sharing a 站会台 are both 专属工作台; one person running an inventory system is still a **back-office**. The test is what it revolves around: **一件反复做的事 → 这里；一批业务对象（N 个客户 / 订单 / 设备）→ `product-ui.md`.** This variant's default surface is the phone, but it has a desktop form — that one is `product` register carrying A.1's density and soul, **not** a dashboard with charts poured into it.
+
+**The distinction that matters most is against a dashboard, not against A.** They look adjacent — both product-register, both stat tiles, both charts — and they are opposites in the three places that decide whether the page survives:
+
+| | **后台 dashboard** | **专属工作台 (A.1)** |
+|---|---|---|
+| Why it's open | there's work to process — orders, tickets, an alert | it's the time of day he checks in |
+| Who writes the data | systems, integrations, other people | **he does**, in seconds, and it must cost almost nothing |
+| Soul | **neutral by obligation** — it sits inside someone else's brand next to eleven other tools; personality reads as noise | **mandatory** — it's his; a neutral one has no reason to be opened a second time |
+| Charts | a grid of them, comparing across the business | **one**, comparing him to his own past |
+| Fails by | being unreadable | **having nothing new to say tomorrow** |
+
+The soul row is the load-bearing one, and it's why `h5-fern-meal-desk.html` (暖沙 + 赭石, light frame) and `h5-peach-daily-desk.html` (粉彩渐变) look nothing alike despite being the same morphology. **Pouring `product-ui.md`'s neutral dashboard grammar into A.1 is the most common way to build this wrong** — the result is competent, correct, and dead by Thursday.
+
+| | generic app shell (A) | **daily desk (A.1)** |
+|---|---|---|
+| DENSITY | 6–8 | **4–5** — a page you touch for 15 seconds should not be full |
+| First screen | a list or a feed | **今天** — one状态 line, then the entry control within thumb reach |
+| Primary action | browse | **record**, and it must be **one tap with a sensible default**, never a form |
+| Charts | as needed | **one**, and it looks back at *his own* past — a gauge, a ring, a small curve. Not a dashboard's grid of four |
+| Fails by | unreadable | **nothing new to see tomorrow** — the top line is identical every day, so the third open is the last one |
+
+**The examples are the spec.** `examples/h5-fern-meal-desk.html` (warm sand + ochre, light phone frame, 11-segment arc gauge, FAB + scan sheet) and `examples/h5-peach-daily-desk.html` (pastel gradient, three habits on one concentric ring, mood/water/weight tiles). Open both before building — they are the same morphology at opposite ends of the palette range, which is the point: **rotate the soul, never the furniture** (§8).
+
+**Three rules this variant adds:**
+
+1. **The top line must contain something that changed since yesterday.** A greeting, a date, or a total that only grows are all constants wearing a variable's clothes. If nothing on the page can differ tomorrow, the page has no reason to be opened tomorrow — and a browser page has no push notification to rescue it.
+2. **Day-one state is a designed screen, not a `--`.** He arrives with zero rows. Compose what that screen says and what single action it invites; an empty gauge reading `0` is how a daily page dies before it starts. This is a real image slot too (`asset-sourcing.md`).
+3. **Every extra field costs more than it looks.** Input is the tax; the payoff must visibly exceed it. Three fields per entry is already a form, and a form at 23:50 is a page he stops opening. Derive what you can (weekday, streak, deltas) instead of asking.
+
+> **This is the interface half of a personal workbench.** If the brief arrives without its modules, its fields, or what the top line reads on day one, that half is `finesse-brief`'s job (a separate skill) — it outputs a spec you can paste in here as the brief. Not installed, or the user would rather just see something? Build from the two examples and **name your assumptions in the Design Read**, where they cost one line to correct.
 
 ### B · Paged deck — *campaign / 活动页, one message per screen*
 
