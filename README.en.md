@@ -259,11 +259,7 @@ cp -r .codebuddy/skills/finesse-ui your-project/.codebuddy/skills/
 
 > **Why these three are "full mirrors"**: Trae and CodeBuddy use the same Skills directory layout as Claude Code, so they can load every reference file on demand. Copying the directory gets you the full depth, not a condensed version.
 >
-> **Maintenance note**: any change to `skills/finesse-ui/` has to be propagated to all three mirrors — they're independent static copies. There's a script for it:
-> ```bash
-> bash scripts/sync-mirrors.sh          # sync
-> bash scripts/sync-mirrors.sh --check  # report drift only
-> ```
+> **Send PRs against `skills/finesse-ui/` only** — that is the single source of truth; the three mirrors and the Cursor rule are static copies derived from it and are re-synced by the maintainer. A PR editing a mirror directly gets overwritten on the next sync.
 
 </details>
 
@@ -282,7 +278,6 @@ finesse-skill/
 │   ├── SKILL.md                  # main entry: methodology + flow + routing
 │   ├── references/               # 27 detailed rule files, loaded on demand
 │   └── examples/                 # 22 runnable example pages + an index
-├── scripts/sync-mirrors.sh       # mirror sync / drift check
 ├── .claude-plugin/plugin.json    # Claude Code native plugin
 ├── .cursor/rules/finesse-ui.mdc  # Cursor rule (single file, auto-loaded)
 ├── AGENTS.md                     # OpenAI Codex instructions

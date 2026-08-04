@@ -259,11 +259,7 @@ cp -r .codebuddy/skills/finesse-ui your-project/.codebuddy/skills/
 
 > **为什么这三个是"完整镜像"**：Trae / CodeBuddy 的 Skills 目录结构与 Claude Code 原生一致，能按需加载全部 reference 文件，所以直接复制整个目录就拿到完整深度，不是精简版。
 >
-> **维护提醒**：`skills/finesse-ui/` 有任何改动，都要同步到这三份镜像（它们是独立静态拷贝）。仓库里有脚本：
-> ```bash
-> bash scripts/sync-mirrors.sh          # 同步
-> bash scripts/sync-mirrors.sh --check  # 只报告漂移
-> ```
+> **改动请只提 `skills/finesse-ui/`**：那里是唯一真源，其余三份镜像和 Cursor 规则都是从它派生的静态拷贝，由维护者统一同步。直接改镜像的 PR 会在下次同步时被覆盖。
 
 </details>
 
@@ -282,7 +278,6 @@ finesse-skill/
 │   ├── SKILL.md                  # 主入口：方法论 + 流程 + 路由
 │   ├── references/               # 27 篇详细规则，AI 用到哪篇读哪篇
 │   └── examples/                 # 22 个打开就能跑的示例页 + 索引
-├── scripts/sync-mirrors.sh       # 镜像同步 / 漂移检查
 ├── .claude-plugin/plugin.json    # Claude Code 原生插件
 ├── .cursor/rules/finesse-ui.mdc  # Cursor 规则（单文件，自动加载）
 ├── AGENTS.md                     # OpenAI Codex 指令

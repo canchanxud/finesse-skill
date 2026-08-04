@@ -17,3 +17,8 @@ PLAN-*.md
 # 每次构建都会改写,进版本库只会制造无意义的 diff 和合并冲突。
 # 跨机器/跨协作者的兜底是 CSS 里的 /* finesse · ... */ 戳记 —— 那个是提交的。
 .finesse/
+
+# 维护脚本，本地保留，不随开源仓库分发
+# 注意前导斜杠：只忽略根目录的 scripts/，
+# skills/finesse-ui/scripts/detect.mjs 必须跟着 skill 一起分发
+/scripts/
