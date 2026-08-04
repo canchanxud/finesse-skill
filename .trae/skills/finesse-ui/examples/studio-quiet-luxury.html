@@ -12,6 +12,18 @@
   :root {
     --bg:#EFEFED; --ink:#141414; --muted:#787878; --dim:#C0C0BE;
     --dark:#0B0B0B; --line:rgba(255,255,255,0.16); --red:#D64030;
+
+    /* 场景占位图。这一页原本引的是 _assets/ 里五张实拍室内照，那五张没有跟着页面
+       进语料库（EXAMPLES.md：菜谱能带走，JPEG 带不走），于是 <link> 指向了不存在的
+       文件 —— 页面照样"渲染"，只是五个面全是空的，而除了 Gate 1 之外没有一条检查能发现。
+       这里换成 CSS 里生成的几何室内场景：双层遮罩要演示的是"同一空间的两种光"，
+       两个面只要够不一样就成立，不必是照片。真实项目里换回真实 URL 即可。
+       注意 SVG 里的片段引用必须写 %23（CSS 里 # 会被当成 URL fragment）。 */
+    --ph-day:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000' preserveAspectRatio='none'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='hsl(38 9%25 78%25)'/><stop offset='1' stop-color='hsl(30 8%25 46%25)'/></linearGradient></defs><rect width='1600' height='1000' fill='url(%23g)'/><rect x='190' y='120' width='430' height='620' fill='hsl(40 14%25 88%25)' opacity='.75'/><rect x='250' y='180' width='310' height='500' fill='hsl(36 10%25 60%25)' opacity='.5'/><path d='M0 760 L1600 700 L1600 1000 L0 1000Z' fill='hsl(28 9%25 38%25)'/><rect x='900' y='430' width='520' height='300' rx='10' fill='hsl(32 8%25 30%25)'/><rect x='1010' y='150' width='300' height='210' fill='hsl(42 12%25 84%25)' opacity='.55'/></svg>");
+    --ph-reveal:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000' preserveAspectRatio='none'><defs><linearGradient id='h' x1='0' y1='0' x2='.4' y2='1'><stop offset='0' stop-color='hsl(45 16%25 95%25)'/><stop offset='1' stop-color='hsl(90 8%25 74%25)'/></linearGradient></defs><rect width='1600' height='1000' fill='url(%23h)'/><rect x='190' y='120' width='430' height='620' fill='hsl(48 22%25 99%25)'/><path d='M0 770 L1600 712 L1600 1000 L0 1000Z' fill='hsl(84 10%25 62%25)'/><rect x='880' y='420' width='560' height='310' rx='14' fill='hsl(140 9%25 22%25)'/><rect x='920' y='380' width='120' height='50' rx='8' fill='hsl(140 9%25 30%25)'/><circle cx='1320' cy='250' r='96' fill='hsl(48 26%25 99%25)' opacity='.85'/></svg>");
+    --ph-p1:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 700' preserveAspectRatio='none'><rect width='900' height='700' fill='hsl(36 10%25 70%25)'/><rect x='0' y='430' width='900' height='270' fill='hsl(30 9%25 52%25)'/><rect x='120' y='90' width='240' height='340' fill='hsl(44 14%25 90%25)' opacity='.8'/><rect x='560' y='170' width='230' height='260' fill='hsl(140 8%25 34%25)'/></svg>");
+    --ph-p2:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 700 700' preserveAspectRatio='none'><rect width='700' height='700' fill='hsl(90 7%25 64%25)'/><path d='M0 470 L700 410 L700 700 L0 700Z' fill='hsl(96 8%25 44%25)'/><circle cx='250' cy='250' r='150' fill='hsl(46 18%25 93%25)' opacity='.85'/><rect x='430' y='120' width='170' height='300' fill='hsl(30 8%25 34%25)'/></svg>");
+    --ph-p3:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 700 700' preserveAspectRatio='none'><rect width='700' height='700' fill='hsl(40 12%25 82%25)'/><rect x='0' y='500' width='700' height='200' fill='hsl(34 9%25 56%25)'/><rect x='90' y='140' width='150' height='360' fill='hsl(140 9%25 26%25)'/><rect x='300' y='230' width='320' height='270' fill='hsl(46 16%25 94%25)' opacity='.9'/></svg>");
   }
   html { scroll-behavior:smooth; }
   body { background:var(--bg); color:var(--ink);
@@ -37,7 +49,7 @@
   /* Base layer — dark desaturated */
   .layer-day {
     position:absolute; inset:0;
-    background: url('_assets/studio_hero.jpg') center/cover no-repeat;
+    background: var(--ph-day) center/cover no-repeat;
     filter: brightness(0.28) saturate(0.2);
   }
   .layer-day::after {
@@ -48,7 +60,7 @@
   /* Reveal layer — different photo (black couch, white wall), revealed by mask */
   .layer-night {
     position:absolute; inset:0;
-    background: url('_assets/studio_reveal.jpg') center 50%/cover no-repeat;
+    background: var(--ph-reveal) center 50%/cover no-repeat;
     filter: brightness(1.05) saturate(1.1);
     /* soft-edge radial mask */
     mask: radial-gradient(circle 0px at -400px -400px, black 45%, rgba(0,0,0,0.7) 68%, transparent 100%);
@@ -250,7 +262,7 @@
   <div class="project-grid">
     <div class="project project-wide reveal">
       <div class="project-img" style="position:relative">
-        <div style="position:absolute;inset:0;background:url('_assets/studio_p1.jpg') center/cover no-repeat"></div>
+        <div style="position:absolute;inset:0;background:var(--ph-p1) center/cover no-repeat"></div>
       </div>
       <div class="project-info">
         <div class="project-num">01 · 2025</div>
@@ -261,7 +273,7 @@
     </div>
     <div class="project reveal">
       <div class="project-img" style="position:relative">
-        <div style="position:absolute;inset:0;background:url('_assets/studio_p2.jpg') center/cover no-repeat"></div>
+        <div style="position:absolute;inset:0;background:var(--ph-p2) center/cover no-repeat"></div>
       </div>
       <div class="project-info">
         <div class="project-num">02 · 2025</div>
@@ -272,7 +284,7 @@
     </div>
     <div class="project reveal" style="margin-top:-2px">
       <div class="project-img" style="position:relative">
-        <div style="position:absolute;inset:0;background:url('_assets/studio_p3.jpg') center/cover no-repeat"></div>
+        <div style="position:absolute;inset:0;background:var(--ph-p3) center/cover no-repeat"></div>
       </div>
       <div class="project-info">
         <div class="project-num">03 · 2024</div>

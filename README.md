@@ -10,10 +10,10 @@
 
 给 AI 编码助手用的设计技能。它不生成"还行"的页面，它生成有灵魂、有工艺、经得起看的页面。
 
-[![version](https://img.shields.io/badge/version-0.16.0-111?style=flat-square)](https://github.com/mouse-lin/finesse-skill/releases)
+[![version](https://img.shields.io/badge/version-0.19.0-111?style=flat-square)](https://github.com/mouse-lin/finesse-skill/releases)
 [![license](https://img.shields.io/badge/license-MIT-111?style=flat-square)](LICENSE)
-[![rules](https://img.shields.io/badge/设计规则-26_篇-c9863f?style=flat-square)](skills/finesse-ui/references)
-[![examples](https://img.shields.io/badge/示例页面-19_个-5ee9c8?style=flat-square)](skills/finesse-ui/examples)
+[![rules](https://img.shields.io/badge/设计规则-27_篇-c9863f?style=flat-square)](skills/finesse-ui/references)
+[![examples](https://img.shields.io/badge/示例页面-22_个-5ee9c8?style=flat-square)](skills/finesse-ui/examples)
 
 [快速开始](#快速开始) · [四条路线](#四条路线register) · [核心能力](#核心能力) · [示例作品](#示例作品) · [安装](#安装--工具支持) · [使用清单](USAGE.md)
 
@@ -106,6 +106,7 @@ npx skills add https://github.com/mouse-lin/finesse-skill
 - 手搓图表实现层（零依赖 SVG 配方）
 - 数据表 · 表单 · 交互状态全集
 - **product 专属配色库** — 5 套中性色阶 + 16 个强调色 + 12 套可直接粘贴的组合
+- **AI 工作台**（你委派、然后盯着的页面）—— 三时态同屏 · 运行流取代图表 · 九种运行态 · 常驻停止 · 人在回路审批卡 · 成本回执<br><sub>它不像仪表盘那样死于看不懂，也不像流程页那样死于走不完 —— 它死于不可信</sub>
 
 </td>
 <td width="50%" valign="top">
@@ -279,8 +280,8 @@ cp -r .codebuddy/skills/finesse-ui your-project/.codebuddy/skills/
 finesse-skill/
 ├── skills/finesse-ui/
 │   ├── SKILL.md                  # 主入口：方法论 + 流程 + 路由
-│   ├── references/               # 26 篇详细规则，AI 用到哪篇读哪篇
-│   └── examples/                 # 19 个打开就能跑的示例页 + 索引
+│   ├── references/               # 27 篇详细规则，AI 用到哪篇读哪篇
+│   └── examples/                 # 22 个打开就能跑的示例页 + 索引
 ├── scripts/sync-mirrors.sh       # 镜像同步 / 漂移检查
 ├── .claude-plugin/plugin.json    # Claude Code 原生插件
 ├── .cursor/rules/finesse-ui.mdc  # Cursor 规则（单文件，自动加载）
@@ -291,13 +292,13 @@ finesse-skill/
 └── README.md · LICENSE
 ```
 
-### 那 26 篇规则都写了什么
+### 那 27 篇规则都写了什么
 
 | 分类 | 文件 |
 |:---|:---|
 | **方法论** | `divergence.md` 反同质化五轴 · `style-personas.md` 行业→灵魂 · `inspiration-catalog.md` 48 页技法索引 |
 | **brand** | `design-dna.md` 物理层 · `hero-engines.md` 五类引擎 · `page-crafting.md` 实现层 · `3d-effects.md` |
-| **product** | `product-ui.md` · `product-palettes.md` 配色库 · `workflow-ui.md` 流程页 · `dataviz.md` 图表选型 · `chart-crafting.md` 手搓图表 |
+| **product** | `product-ui.md` · `product-palettes.md` 配色库 · `workflow-ui.md` 流程页 · **`ai-console.md`** AI 工作台 · `dataviz.md` 图表选型 · `chart-crafting.md` 手搓图表 |
 | **commerce / h5** | `commerce-ui.md` · **`h5-mobile.md`** 手机专属全套 |
 | **移动端** | `mobile-floor.md` 桌面页在手机上不坏掉的六条 |
 | **质量闸门** | `anti-cheap.md` 反廉价 · `preflight.md` 起飞前自检 · `audit.md` 只读诊断 · `redesign-mode.md` 改造模式（审计优先） · `component-scope.md` 单组件八态 |

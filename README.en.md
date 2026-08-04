@@ -10,10 +10,10 @@
 
 A design skill for AI coding assistants. It doesn't produce pages that are "fine". It produces pages with a soul, with craft, that hold up when you look closely.
 
-[![version](https://img.shields.io/badge/version-0.16.0-111?style=flat-square)](https://github.com/mouse-lin/finesse-skill/releases)
+[![version](https://img.shields.io/badge/version-0.19.0-111?style=flat-square)](https://github.com/mouse-lin/finesse-skill/releases)
 [![license](https://img.shields.io/badge/license-MIT-111?style=flat-square)](LICENSE)
-[![rules](https://img.shields.io/badge/design_rules-26_files-c9863f?style=flat-square)](skills/finesse-ui/references)
-[![examples](https://img.shields.io/badge/example_pages-19-5ee9c8?style=flat-square)](skills/finesse-ui/examples)
+[![rules](https://img.shields.io/badge/design_rules-27_files-c9863f?style=flat-square)](skills/finesse-ui/references)
+[![examples](https://img.shields.io/badge/example_pages-22-5ee9c8?style=flat-square)](skills/finesse-ui/examples)
 
 [Quick start](#quick-start) · [Four registers](#four-registers) · [What's inside](#whats-inside) · [Examples](#examples) · [Install](#installation--tool-support) · [Usage guide](USAGE.en.md)
 
@@ -106,6 +106,7 @@ All four share the same foundation: **premium physical substrate + anti-slop aud
 - Hand-built chart implementation layer (zero-dependency SVG recipes)
 - Data tables · forms · full interaction-state inventory
 - **A product color library** — 5 tinted neutral ramps + 16 accents + 12 paste-ready sets
+- **AI workbenches** (pages you delegate on) — three tenses on one screen · a run stream instead of a chart · nine run states · a resident stop · human-in-the-loop approval cards · cost as a receipt<br><sub>A dashboard fails by being unreadable and a wizard by being unfinishable; this one fails by being untrustworthy</sub>
 
 </td>
 <td width="50%" valign="top">
@@ -279,8 +280,8 @@ cp -r .codebuddy/skills/finesse-ui your-project/.codebuddy/skills/
 finesse-skill/
 ├── skills/finesse-ui/
 │   ├── SKILL.md                  # main entry: methodology + flow + routing
-│   ├── references/               # 26 detailed rule files, loaded on demand
-│   └── examples/                 # 19 runnable example pages + an index
+│   ├── references/               # 27 detailed rule files, loaded on demand
+│   └── examples/                 # 22 runnable example pages + an index
 ├── scripts/sync-mirrors.sh       # mirror sync / drift check
 ├── .claude-plugin/plugin.json    # Claude Code native plugin
 ├── .cursor/rules/finesse-ui.mdc  # Cursor rule (single file, auto-loaded)
@@ -291,13 +292,13 @@ finesse-skill/
 └── README.md · LICENSE
 ```
 
-### What those 26 rule files cover
+### What those 27 rule files cover
 
 | Group | Files |
 |:---|:---|
 | **Method** | `divergence.md` the five anti-sameness axes · `style-personas.md` industry→soul · `inspiration-catalog.md` 48-page technique index |
 | **brand** | `design-dna.md` the substrate · `hero-engines.md` five engines · `page-crafting.md` implementation layer · `3d-effects.md` |
-| **product** | `product-ui.md` · `product-palettes.md` color library · `workflow-ui.md` wizards & consoles · `dataviz.md` chart selection · `chart-crafting.md` hand-built charts |
+| **product** | `product-ui.md` · `product-palettes.md` color library · `workflow-ui.md` wizards & consoles · **`ai-console.md`** AI workbenches · `dataviz.md` chart selection · `chart-crafting.md` hand-built charts |
 | **commerce / h5** | `commerce-ui.md` · **`h5-mobile.md`** the full phone-only spec |
 | **Mobile** | `mobile-floor.md` the six ways a desktop page breaks on a phone |
 | **Quality gates** | `anti-cheap.md` anti-slop · `preflight.md` pre-flight · `audit.md` read-only diagnostic · `redesign-mode.md` audit-first redesign · `component-scope.md` the eight component states |
