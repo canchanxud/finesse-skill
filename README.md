@@ -10,9 +10,9 @@
 
 给 AI 编码助手用的设计技能。它不生成"还行"的页面，它生成有灵魂、有工艺、经得起看的页面。
 
-[![version](https://img.shields.io/badge/version-0.19.0-111?style=flat-square)](https://github.com/mouse-lin/finesse-skill/releases)
+[![version](https://img.shields.io/badge/version-0.20.0-111?style=flat-square)](https://github.com/mouse-lin/finesse-skill/releases)
 [![license](https://img.shields.io/badge/license-MIT-111?style=flat-square)](LICENSE)
-[![rules](https://img.shields.io/badge/设计规则-27_篇-c9863f?style=flat-square)](skills/finesse-ui/references)
+[![rules](https://img.shields.io/badge/设计规则-28_篇-c9863f?style=flat-square)](skills/finesse-ui/references)
 [![examples](https://img.shields.io/badge/示例页面-22_个-5ee9c8?style=flat-square)](skills/finesse-ui/examples)
 
 [快速开始](#快速开始) · [四条路线](#四条路线register) · [核心能力](#核心能力) · [示例作品](#示例作品) · [安装](#安装--工具支持) · [使用清单](USAGE.md)
@@ -160,6 +160,62 @@ npx skills add https://github.com/mouse-lin/finesse-skill
 | **Nodeflux** · 浮层面板 + 真 bento | **Inkline** · 三栏 triptych + 浏览器预览 |
 | ![Huddle — 团队协作，顶部导航 bento + 撞色任务卡 + 多弧甜甜圈 + 语音波形](assets/examples/huddle.jpg) | ![Threadline — 客服运营，浮层面板 + 不对称 bento + 环形仪表盘](assets/examples/ledgerio.jpg) |
 | **Huddle** · 顶导 bento + 多弧甜甜圈 | **Threadline** · 不对称 bento + 环形仪表 |
+
+</details>
+
+<details open>
+<summary><b>工作台</b> —— 围着他自己反复做的一件事转，一个物种、两副身体</summary>
+
+<br>
+
+> **先分清「工作台」和「后台」，这是这个 Skill 里最容易做错、也最贵的一步。**
+>
+> | | **后台** | **工作台** |
+> |---|---|---|
+> | 围着什么转 | 一批业务对象 —— N 个客户 · 订单 · 设备 · 工单 | **他自己反复在做的一件事** —— 记账 · 值守 · 带娃 · 写作 · 处理异常单 |
+> | 为什么打开 | 有活要处理：来单了、告警了、该出报表了 | 到点了，回来看一眼 · 记一笔 · 收个尾 |
+> | 数据谁写 | 系统、对接、别人 | **他自己**，几秒钟，成本必须接近零 |
+> | 性格 | **中性是义务** —— 它活在别人的品牌里，旁边还有十一个工具 | **必须有** —— 这是他的台子，中性的没有第二次打开的理由 |
+>
+> **人数和屏幕都不是判据。** 一家人共用的记账台、一个小组共用的值守台都是工作台；一个人独用的进销存仍是后台。屏幕只决定它用哪副身体 ——
+
+**身体一 · 电脑上开**
+
+![RELAY 订单异常处理台 — 三栏工作台，暗色左轨 + 运行流 + 右侧凭据栏，审批卡在流里](assets/examples/relay.jpg)
+
+**RELAY · 订单异常处理台** —— 这台子还带了一层能力：**有 agent 在替他跑活**。这一层跟身体正交（手机上的工作台也能带），它加的不是版式，是"凭什么信得过"。dashboard 靠"读得懂"活，向导靠"填得完"活，**带 agent 的靠"信得过"活**：
+
+| 屏上的东西 | 它在回答什么 |
+|---|---|
+| 左轨三段：正在跑 · 排队 · 今天跑完的 | 三个时态同屏，不用切页就知道全局 |
+| 中间**运行流**取代图表，9 步逐条带耗时 | 「它现在在干什么」—— 而不是一个转圈 |
+| 审批卡**长在流里**，写明 要做什么 / 影响什么 / **凭什么（带链接回到第 2 步）** | 「它凭什么这么建议」 |
+| 右栏：它看得到什么 · 它能动什么（只读/读写/需你批准） | 权限不是设置页里的一行字，是当场可见的 |
+| 底部回执 `42.6s · 18.2k token · ¥0.41` + 本月预算条 | 「这要花我多少钱」—— 账单不该月底才出现 |
+| 常驻**停止**（顶部一个、输入框一个） | 「我怎么让它停」—— 关标签页停不掉任何东西 |
+
+配色是 `product-palettes.md` 第 7 套，接上了带 agent 时专属的语义色对：**brick =「在等你」，olive =「它自己干完的」，而且 brick 更响是故意的** —— 眼睛该落在被卡住的那一条，不是自己解决了的两百行。全页只有一个持续动画：当前步骤上的心跳环。
+
+**身体二 · 手机上开**
+
+<table>
+<tr>
+<td width="50%" align="center" valign="top">
+<img src="assets/examples/h5-fern.jpg" width="270" alt="蕨 — 每日饮食记录工作台，亮色手机框 + 11 段弧形仪表 + 黑色药丸 TabBar 与凸起 FAB"><br><br>
+<b>形态 A.1 · 手机身体</b> &nbsp;<sub>（暖沙 + 赭石）</sub><br>
+<sub>11 段弧形仪表（23×37 胶囊，奇偶双色）<br>亮色手机框 · 黑色药丸 TabBar + 凸起 FAB<br><b>一天记几次，一次几秒</b></sub>
+</td>
+<td width="50%" align="center" valign="top">
+<img src="assets/examples/h5-peach.jpg" width="270" alt="桃 — 每日习惯工作台，粉彩渐变 + 三习惯同心多弧圆环 + 心情/饮水/体重 tiles"><br><br>
+<b>形态 A.1 · 手机身体</b> &nbsp;<sub>（粉彩渐变）</sub><br>
+<sub>三个习惯共用一个同心多弧圆环<br>渐变卡面不靠描边也立得住 · 零图片<br><b>「高级」和「柔软」不是反义词</b></sub>
+</td>
+</tr>
+</table>
+
+> **同一个形态、同一套家具，两个样子完全不同** —— 这正是重点。工作台是**他的**，所以性格是必需品；而后台必须中性。
+>
+> **上面三张图是同一个物种。** RELAY 在电脑上、蕨和桃在手机上，共享的是「围着他反复做的一件事转 · 到点回来 · 他自己写数据 · 必须有性格」。不同的只有身体：桌面用 `product-ui.md` 的 shell（但带这份克制的密度），手机用 `h5-mobile.md` 的 **形态 A.1**。RELAY 多的那层 agent 机械是**能力**，手机身体一样能带（`ai-console.md` §9 就是它的手机形态）。
 
 </details>
 

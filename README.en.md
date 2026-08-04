@@ -10,9 +10,9 @@
 
 A design skill for AI coding assistants. It doesn't produce pages that are "fine". It produces pages with a soul, with craft, that hold up when you look closely.
 
-[![version](https://img.shields.io/badge/version-0.19.0-111?style=flat-square)](https://github.com/mouse-lin/finesse-skill/releases)
+[![version](https://img.shields.io/badge/version-0.20.0-111?style=flat-square)](https://github.com/mouse-lin/finesse-skill/releases)
 [![license](https://img.shields.io/badge/license-MIT-111?style=flat-square)](LICENSE)
-[![rules](https://img.shields.io/badge/design_rules-27_files-c9863f?style=flat-square)](skills/finesse-ui/references)
+[![rules](https://img.shields.io/badge/design_rules-28_files-c9863f?style=flat-square)](skills/finesse-ui/references)
 [![examples](https://img.shields.io/badge/example_pages-22-5ee9c8?style=flat-square)](skills/finesse-ui/examples)
 
 [Quick start](#quick-start) · [Four registers](#four-registers) · [What's inside](#whats-inside) · [Examples](#examples) · [Install](#installation--tool-support) · [Usage guide](USAGE.en.md)
@@ -160,6 +160,62 @@ Built from the same design DNA, yet deliberately unrelated to each other — whi
 | **Nodeflux** · floating panel + true bento | **Inkline** · top-nav triptych + browser preview |
 | ![Huddle — team workspace, top-nav bento + colored task cards + multi-arc donut + voice waveform](assets/examples/huddle.jpg) | ![Threadline — support operations, floating panel + asymmetric bento + circular gauge](assets/examples/ledgerio.jpg) |
 | **Huddle** · top-nav bento + multi-arc donut | **Threadline** · asymmetric bento + circular gauge |
+
+</details>
+
+<details open>
+<summary><b>Workbench</b> —— revolves around one thing he does over and over: one species, two bodies</summary>
+
+<br>
+
+> **Tell 工作台 from 后台 first. It is the easiest thing in this skill to get wrong and the most expensive.**
+>
+> | | **后台 back-office** | **工作台 workbench** |
+> |---|---|---|
+> | Revolves around | a batch of business objects — N customers · orders · devices · tickets | **one thing he does over and over** — logging spend, standing watch, writing daily, clearing exceptions |
+> | Why it's open | there's work to process: an order landed, an alert fired, a report is due | it's that time of day — check in, log one, close it out |
+> | Who writes the data | systems, integrations, other people | **he does**, in seconds, and it must cost almost nothing |
+> | Soul | **neutral by obligation** — it lives inside someone else's brand next to eleven other tools | **mandatory** — it's his, and a neutral one has no reason to be opened twice |
+>
+> **Neither head-count nor screen is the test.** A family sharing a budget desk and a team sharing a watch desk are both workbenches; one person running an inventory system is still a back-office. The screen only picks which body it wears —
+
+**Body one · on a desktop**
+
+![RELAY order-exception desk — three-column workbench, dark rail + run stream + evidence aside, approval card inline in the stream](assets/examples/relay.jpg)
+
+**RELAY · order-exception desk** —— this one also carries a capability: **an agent doing the work for him.** That layer is orthogonal to the body (a phone workbench can carry it too) and what it adds isn't layout, it's *why you'd trust it*. A dashboard survives by being readable, a wizard by being finishable; **one with an agent survives by being trustworthy**:
+
+| What's on screen | The question it answers |
+|---|---|
+| Rail in three sections: running · queued · finished today | three tenses at once — the whole picture without changing page |
+| A **run stream** instead of a chart, 9 steps each with its own duration | *what is it doing right now* — not a spinner |
+| The approval card **lives in the stream**: what it'll do / what it costs / **on what evidence, linked back to step 2** | *why did it decide that* |
+| Aside: what it can see · what it can touch (read-only / read-write / needs approval) | permissions as a visible fact, not a line in a settings page |
+| Receipt `42.6s · 18.2k token · ¥0.41` + a bounded monthly meter | *what is this costing me* — the bill shouldn't arrive at month end |
+| **Stop** resident in two places | *how do I stop it* — closing the tab stops nothing |
+
+Palette is `product-palettes.md` Set 7 wired to the semantic pair an agent brings with it: **brick = waiting on you, olive = it handled this itself — and brick is the louder of the two on purpose.** Your eye should land on the one blocked item, not the two hundred that resolved themselves. Exactly one continuous animation on the page: the heartbeat ring on the current step.
+
+**Body two · on a phone**
+
+<table>
+<tr>
+<td width="50%" align="center" valign="top">
+<img src="assets/examples/h5-fern.jpg" width="270" alt="Fern — daily meal-logging desk, light phone frame + 11-segment arc gauge + black pill TabBar with raised FAB"><br><br>
+<b>Morph A.1 · phone body</b> &nbsp;<sub>(warm sand + ochre)</sub><br>
+<sub>11-segment arc gauge (23×37 capsules, odd/even two-tone)<br>light phone frame · black pill TabBar + raised FAB<br><b>a few taps a day, seconds each</b></sub>
+</td>
+<td width="50%" align="center" valign="top">
+<img src="assets/examples/h5-peach.jpg" width="270" alt="Peach — daily habit desk, pastel gradient + three habits on one concentric multi-arc ring + mood/water/weight tiles"><br><br>
+<b>Morph A.1 · phone body</b> &nbsp;<sub>(pastel gradient)</sub><br>
+<sub>three habits sharing one concentric multi-arc ring<br>tinted-gradient card surfaces, no hairline needed · zero images<br><b>"premium" and "soft" are not opposites</b></sub>
+</td>
+</tr>
+</table>
+
+> **Same morphology, same furniture, two pages that look nothing alike** — which is the point. A workbench is **his**, so personality is a requirement; a back-office must be neutral.
+>
+> **All three images above are the same species.** RELAY on a desktop, Fern and Peach on a phone, sharing: revolves around one repeated thing · returned to on a rhythm · he writes the data · must have a soul. Only the body differs — desktop takes `product-ui.md`'s shell (at this restrained density), phone takes `h5-mobile.md` morph **A.1**. The agent machinery RELAY carries is a **capability**, and the phone body can carry it too (`ai-console.md` §9 is its phone form).
 
 </details>
 

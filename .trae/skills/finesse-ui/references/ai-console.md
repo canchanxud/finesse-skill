@@ -1,6 +1,16 @@
-# AI Console — 工作台 You Delegate On
+# AI Console — the delegation layer, not a page type
 
-`product-ui.md` splits the product register in two by the page's job: pages you **read** (a dashboard fails by being unreadable) and pages you **operate** (a console fails by being unfinishable, per `workflow-ui.md`). An AI 工作台 is neither, and building it out of either one's parts produces a page that is pleasant and useless.
+> **This file is a capability layer, not a category.** It answers *"something other than the user is doing the work — how does the page stay trustworthy?"*, and it **stacks on top of** whatever the page already is:
+>
+> | The page underneath | What you already picked | This file adds |
+> |---|---|---|
+> | **工作台 · desktop body** | `product-ui.md` shell at A.1's density and soul | §8's three-column shell, and everything below |
+> | **工作台 · phone body** | `h5-mobile.md` morph A.1 | **§9** — the phone form, which replaces §8 entirely |
+> | **后台** that grew an agent | `product-ui.md` (+ `workflow-ui.md`) | the stream, states, stop and receipt — **it stays a 后台** |
+>
+> **Adding an agent never changes what the page is** (SKILL.md §1's resolver decides that: 围着一批业务对象 → 后台, 围着他反复做的一件事 → 工作台). It changes what the page must prove. Don't reach for this file to decide a register; reach for it once something is running.
+
+`product-ui.md` splits a 后台 by the page's job: pages you **read** (a dashboard fails by being unreadable) and pages you **operate** (a console fails by being unfinishable, per `workflow-ui.md`). **Delegated work is a third failure mode on either of them, and on a 工作台 too** — building it out of read-or-operate parts alone produces a page that is pleasant and useless.
 
 **A page you delegate on fails by being untrustworthy.** Not ugly, not slow, not confusing: untrustworthy. The user handed a task to something that acts on its own, and the page's entire job is to answer four questions continuously, without being asked:
 
@@ -26,7 +36,9 @@ Yes when **the page shows work being done by something that isn't the user, over
 - There is a **queue**: tasks waiting, running, done. The user supervises rather than performs.
 - Output arrives **streamed or asynchronously**, and a run can fail halfway.
 
-**Not an AI console** — route these elsewhere and don't drag the machinery in:
+**None of these tells say anything about *what the page is*** — they say something is running on it. Decide 后台 vs 工作台 first (SKILL.md §1), pick the body (desktop shell or morph A.1), *then* layer this file on.
+
+**Not a delegation surface** — don't drag the machinery in:
 
 - A **chatbot** with no tools, no queue, no artifacts: that's a single component plus a message list, and the whole apparatus below is overkill. `component-scope.md`.
 - A **dashboard about** AI usage (model spend, request volume, latency percentiles): that is a page you *read*. `product-ui.md`, unchanged.

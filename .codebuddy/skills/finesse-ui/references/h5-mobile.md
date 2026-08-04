@@ -39,7 +39,7 @@ Yes if **any** of these is true:
 | The page is… | Morphology (§4) | SOUL | SPECTACLE | DENSITY |
 |---|---|---|---|---|
 | an **app screen** (tabs, lists, detail, settings) | **A · App shell** | 6 | 3 | 6–8 |
-| a **专属工作台 / 每日工作台 / 打卡页** (revolves around one thing done over and over — not a batch of business objects) | **A.1 · Daily desk** | 6 | 2 | 4–5 |
+| a **工作台** on a phone — 每日工作台 / 打卡页 / 值守台 (revolves around one thing he does over and over, not a batch of business objects) | **A.1 · Daily desk** | 6 | 2 | 4–5 |
 | a **campaign / 活动页** (coupon, launch, invite) | **B · Paged deck** | 8 | 6 | 3–4 |
 | a **数据报告 / year-in-review** | **C · Snap narrative** | 8 | 6 | 5 |
 | a **商品详情 / PDP** (mobile commerce) | **D · Commerce stack** | 6 | 3 | 8 |
@@ -230,15 +230,26 @@ The TabBar has two accepted forms: **floating pill** (`left/right: 18px`, `borde
 
 A **center FAB** (54px, raised, accent-filled, `:active { scale(.92) }`) may replace the middle tab when there is one dominant create action. Never add a FAB *and* a fifth tab.
 
-#### A.1 · The daily-desk variant — *专属工作台 / 每日工作台 / 打卡页*
+#### A.1 · Daily desk — **工作台 的手机身体**
 
-**It revolves around one thing done over and over, and it is *his*.** 记账 · 喝水 · 体重 · 用药 · 喂宠 · 练腿 · 陪孩子读书 · 每日写作 · 小组站会. Same frame and same TabBar contract as A — but the dials, the first screen and the palette latitude differ enough that building it as a generic app shell produces a page nobody opens twice.
+**It revolves around one thing done over and over, and it is *his*.** 记账 · 喝水 · 体重 · 用药 · 喂宠 · 练腿 · 陪孩子读书 · 每日写作 · 小组站会 · 值守. Same frame and same TabBar contract as A — but the dials, the first screen and the palette latitude differ enough that building it as a generic app shell produces a page nobody opens twice.
 
-> **Head-count is not the test, and neither is the screen.** A family sharing a 记账台 and a team sharing a 站会台 are both 专属工作台; one person running an inventory system is still a **back-office**. The test is what it revolves around: **一件反复做的事 → 这里；一批业务对象（N 个客户 / 订单 / 设备）→ `product-ui.md`.** This variant's default surface is the phone, but it has a desktop form — that one is `product` register carrying A.1's density and soul, **not** a dashboard with charts poured into it.
+> **This is not a phone-only species. It is one of a workbench's two bodies.**
+>
+> | 载体 | 壳 | 例子 |
+> |---|---|---|
+> | 手机上开 | **这里** — A.1，锁定手机框 + TabBar，DENSITY 4–5 | `examples/h5-fern-meal-desk.html` · `h5-peach-daily-desk.html` |
+> | 电脑上开 | `product-ui.md` 的 shell，**带 A.1 的性格和克制的密度** —— 不是塞满图表的 dashboard | `examples/relay-agent-console.html` |
+>
+> Same product, two bodies. Everything below — the first screen, the input cost, the soul obligation, the three added rules — **applies to both**; only the frame and the furniture are this file's.
+>
+> **Two things that are not the test.** **人数**：一家人共用的记账台、一个小组共用的值守台都是工作台；一个人独用的进销存仍是后台。**屏幕**：它只选身体，不定物种。The actual test — **围着一批业务对象转 → 后台；围着他反复做的一件事转 → 工作台** — lives in `SKILL.md` §1's resolver.
+>
+> **And if something is running on it** — an agent executing multi-step tasks, streamed output, a queue — layer `ai-console.md` **§9** (its phone form) on top of this. That's a capability, not a different page.
 
 **The distinction that matters most is against a dashboard, not against A.** They look adjacent — both product-register, both stat tiles, both charts — and they are opposites in the three places that decide whether the page survives:
 
-| | **后台 dashboard** | **专属工作台 (A.1)** |
+| | **后台 back-office** | **工作台 workbench**（两副身体都算） |
 |---|---|---|
 | Why it's open | there's work to process — orders, tickets, an alert | it's the time of day he checks in |
 | Who writes the data | systems, integrations, other people | **he does**, in seconds, and it must cost almost nothing |
@@ -246,7 +257,7 @@ A **center FAB** (54px, raised, accent-filled, `:active { scale(.92) }`) may rep
 | Charts | a grid of them, comparing across the business | **one**, comparing him to his own past |
 | Fails by | being unreadable | **having nothing new to say tomorrow** |
 
-The soul row is the load-bearing one, and it's why `h5-fern-meal-desk.html` (暖沙 + 赭石, light frame) and `h5-peach-daily-desk.html` (粉彩渐变) look nothing alike despite being the same morphology. **Pouring `product-ui.md`'s neutral dashboard grammar into A.1 is the most common way to build this wrong** — the result is competent, correct, and dead by Thursday.
+The soul row is the load-bearing one, and it is why `h5-fern-meal-desk.html` (暖沙 + 赭石, light frame) and `h5-peach-daily-desk.html` (粉彩渐变) look nothing alike despite being the same morphology. **Pouring `product-ui.md`'s neutral dashboard grammar into A.1 is the most common way to build this wrong** — the result is competent, correct, and dead by Thursday.
 
 | | generic app shell (A) | **daily desk (A.1)** |
 |---|---|---|
