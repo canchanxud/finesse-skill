@@ -77,6 +77,17 @@ node "$DETECT" --json <every built file>
 - [ ] **`prefers-reduced-motion`** freezes the engine to a still frame / static hero.
 - [ ] **Motivated motion** — every animation has a one-sentence reason. ≤1 marquee.
 
+### C.1 The beat sheet (hard on any page that moves — `motion.md`)
+
+Gate C above checks **the hero engine**. These check **the page's motion as a whole**, and they fail on pages that pass everything above.
+
+- [ ] **No route over-reach** — nothing uses a heavy route for work a cheap one does. Grep the failure directly: a bundled GSAP whose only tweens are entrance fades or scroll parallax (→ R1/R2, delete the 60KB); a Canvas that draws a static gradient (→ CSS); a Three.js scene whose content is photographs (→ R6).
+- [ ] **Budget held** — **≤1 heavy beat** (R4/R5/R6), ≤4 beats total, and **no two beats from the same §2 family**. Two scroll-narrative beats is a repeat, not a composition.
+- [ ] **Every beat has a composed still**, not just the global reduced-motion backstop. Check the specific killer: any element authored at `opacity: 0` / `transform: translateY(...)` awaiting a trigger is **permanently invisible** under the backstop — it must be authored in its final state and animated *from* elsewhere.
+- [ ] **Pointer-driven beats gated behind `FINE`** (`hover: hover and pointer: fine`) so magnetic buttons, tilts and cursor followers never fire on touch.
+- [ ] **`product` register carries R3 and nothing else** — a dashboard with a hero engine is a category error; a dashboard where filtering hard-refreshes the table is the opposite one.
+- [ ] **Rotation honoured** — the signature beat's §2 family differs from the last run's (`.finesse/log.json`), and the family+variant is written back at §8.
+
 ### Verifying spectacle — don't trust your own claim, prove it
 
 A page that *claims* SPECTACLE 8 but ships a white hero is broken, not plain. Verify in two passes:
