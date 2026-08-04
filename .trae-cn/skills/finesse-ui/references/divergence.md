@@ -267,12 +267,10 @@ Then, whichever mode you're in: **recommend one, with a one-sentence reason.** A
 >
 > *"Does any part of this read as default-LLM aesthetics — violet glow on near-black, an Inter headline, a row of empty card-grid boxes?"*
 >
-> A generated page that has never been looked at has not been checked. Everything above is an attempt to *prevent* the failure; looking is the only thing that *detects* it.
->
-> **But it does not have to be you doing the looking, and by default it isn't.** Driving a headless browser is several tool calls per glance and it repeats on every edit — while the user opening the file is one second and a better eye. **So deliver it with the question attached** rather than answering the question yourself:
+> A generated page that has never been looked at has not been checked — but **the one looking is him, not you.** Ship it with the question attached instead of spending a browser round-trip to answer it yourself:
 >
 > ```
 > 你打开看一眼 —— 有没有哪块像是 AI 默认那套？（近黑底上的紫光、Inter 大标题、一排空卡片）
 > ```
 >
-> Screenshot it yourself when he asks or has already authorised it this session. What you may **never** do is skip both and describe the page as if you'd seen it (`preflight.md` Gate 1) — 「我没打开看」 is an honest line, and it's the one that gets him to look.
+> What you may never do is skip both and write about the page as if you'd seen it.

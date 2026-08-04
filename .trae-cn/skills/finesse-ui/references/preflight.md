@@ -45,13 +45,7 @@ node "$DETECT" --json <every built file>
 - [ ] **Every local `href` / `src` / `url()` resolves to a file that exists.** A `P0 dead-local-ref` is a hard fail — write the missing file or fix the path. The detector resolves file-relative refs and skips `http(s):` / `data:` / `#anchor` / `mailto:`; **root-relative `/img/x.png` it cannot judge** (it has no serving root), so check those by hand.
 - [ ] **The detector was found and ran.** If `$DETECT` resolved to nothing, say so and check the refs by hand — an unrun detector is not a pass, and silently skipping it is how M1/M2/M5/M6 go unchecked for an entire project.
 - [ ] **Every file the page needs was actually written.** Walk your own build list: stylesheet, script, each asset. A file you *planned* and a file that exists on disk are different things, and only one of them renders.
-- [ ] **The page was opened — and by default that's the user, not you.** The three checks above are static and catch the expensive failures (dead refs, unwritten files) for free. For "is it actually styled", **hand it over**: say plainly that you have not rendered it, and give him the one line that opens it. His eye is faster than your round-trip and better than your grep.
-
-> **Don't drive a browser on your own initiative.** Launching a headless browser, screenshotting, and reading it back is several tool calls and a lot of tokens per look, and it repeats every time the page changes. Run it only when **he asks** ("你自己看一眼" / "截图给我" / "帮我验一下"), or when he's authorised it earlier in this session — then it stays authorised, don't re-ask each build.
->
-> **The one time to raise it yourself:** the detector reported a `P0`, or you have a specific reason to think the page throws. Then **offer** — 「要不要我渲染出来看一眼？」 — and wait. Offering costs one line; screenshotting on a hunch costs a round.
->
-> **What is never optional is saying which one happened.** 「已渲染验证」 and 「静态检查通过，我没有打开看」 are different claims and only one of them is usually true. Never write the first when you did the second.
+- [ ] **Told him it hasn't been opened.** The checks above are static and catch the expensive failures for free; whether it *looks* right is one second of his time. **Don't drive a browser to find out — say 「我没打开看」 and let him look.** Only if he asks.
 
 ---
 
@@ -103,17 +97,14 @@ A page that *claims* SPECTACLE 8 but ships a white hero is broken, not plain. Ve
    node "$DETECT" --json <target>
    ```
    A `P0 spectacle-not-shown` or `P0 no-reduced-motion` in the output (`p0 > 0`) is a hard fail — fix before shipping. The script always exits 0 (findings live in the JSON); add `--strict` if you want it to block with a non-zero exit in a git hook / CI. If the script isn't present, fall back to the by-hand checks above — don't treat its absence as a pass.
-2. **Runtime — the user's eye by default, yours only on request.** The grep proves the *code* exists, not that it *renders*, and that gap is real. But closing it yourself costs several tool calls per look and repeats on every edit, so **hand it over instead**: name the two things worth a glance and let him glance.
+2. **Runtime — hand it to him in one line, don't go look yourself.** The grep proves the code exists, not that it renders. Close that gap by *telling him where to look*, not by driving a browser:
 
    ```
-   我没有渲染验证过。你打开看一眼，两件事：
-   ① hero 是不是真的画出来了（不是白屏、不是纯色块）
-   ② 系统设置里开「减弱动态效果」再刷新，画面应该定格在一张构图，不是空白
+   我没打开看。你扫一眼：hero 画出来没有（不是白屏），
+   开「减弱动态效果」刷新后是不是定格在一张构图。
    ```
 
-   **Do it yourself when he asks, or when he authorised it earlier in this session** — `browser_navigate` → `browser_take_screenshot` on the hero, then the reduced-motion reload. Once authorised it stays authorised; don't re-ask every build. **Offer it unprompted only when the detector returned a `P0`** or you have a concrete reason to expect a throw — 「要不要我渲染看一眼？」 then wait.
-
-   **Never claim the runtime pass you didn't run.** 「静态检查通过，没有打开看」 is a complete, honest delivery line; 「已验证渲染正常」 written after a grep is not.
+   Screenshot only if he asks. **And never claim a pass you didn't run** — 「静态检查通过，没打开看」 is a complete delivery line; 「已验证渲染正常」 after a grep is not.
 
 ## D. Layout Discipline (hard)
 
