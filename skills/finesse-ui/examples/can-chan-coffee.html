@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#211b17">
+<title>参禅｜一杯，慢下来</title>
+<style>
+:root{
+  --ink:#211b17; --ink-2:#2d2520; --cream:#eee7db; --paper:#e5ddcf;
+  --mist:#b9b0a3; --copper:#b96d43; --olive:#6d7250; --line:rgba(238,231,219,.18);
+  --serif:"Iowan Old Style","Baskerville","Noto Serif SC","Songti SC",serif;
+  --sans:Inter,"Helvetica Neue","Noto Sans SC",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--ink)}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:var(--sans);font-weight:450;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+::selection{background:var(--copper);color:var(--cream)}
+.noise{position:fixed;inset:-50%;z-index:20;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");transform:rotate(.01deg)}
+header{position:fixed;z-index:10;top:0;left:0;right:0;height:82px;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;border-bottom:1px solid transparent;transition:.35s}
+header.scrolled{background:rgba(33,27,23,.82);backdrop-filter:blur(18px);border-color:var(--line)}
+.brand{font-family:var(--serif);font-size:21px;letter-spacing:.22em}
+.nav{display:flex;gap:28px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
+.nav a{transition:color .2s}.nav a:hover{color:var(--cream)}
+.hero{min-height:100svh;position:relative;display:grid;grid-template-columns:1.08fr .92fr;align-items:end;padding:140px 4vw 6vh;overflow:hidden}
+.hero-copy{position:relative;z-index:2;max-width:760px;padding-bottom:5vh}
+.eyebrow{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--copper);margin-bottom:28px}
+h1{font-family:var(--serif);font-size:clamp(82px,15vw,218px);font-weight:400;line-height:.72;letter-spacing:-.075em;margin:0 0 46px}
+h1 span{display:block;margin-left:.58em}
+.lede{max-width:420px;font-family:var(--serif);font-size:clamp(19px,2vw,27px);line-height:1.55;color:#cfc6b8}
+.hero-meta{display:flex;gap:38px;font-size:10px;letter-spacing:.16em;color:var(--mist);text-transform:uppercase}
+.hero-art{position:relative;min-height:620px;display:grid;place-items:center}
+#orbit{position:absolute;width:min(56vw,760px);height:min(56vw,760px);max-width:760px;max-height:760px;right:-5vw;bottom:-9vw}
+.cup{position:relative;width:min(24vw,330px);aspect-ratio:1/.78;border:1px solid rgba(238,231,219,.55);border-radius:48% 48% 42% 42%;transform:rotate(-7deg);box-shadow:0 40px 80px rgba(0,0,0,.25);background:linear-gradient(140deg,rgba(255,255,255,.04),rgba(255,255,255,0))}
+.cup:before{content:"";position:absolute;left:9%;right:9%;top:-8%;height:23%;border:1px solid rgba(238,231,219,.55);border-radius:50%;background:#18130f}
+.cup:after{content:"";position:absolute;right:-22%;top:23%;width:26%;height:39%;border:1px solid rgba(238,231,219,.45);border-left:0;border-radius:0 55% 55% 0}
+.steam{position:absolute;left:45%;top:5%;width:40px;height:170px;filter:blur(.2px)}
+.steam i{position:absolute;bottom:0;width:1px;height:100%;background:linear-gradient(transparent,rgba(238,231,219,.45),transparent);animation:rise 4s ease-in-out infinite}
+.steam i:nth-child(1){left:7px}.steam i:nth-child(2){left:21px;height:75%;animation-delay:-1.5s}.steam i:nth-child(3){left:34px;height:55%;animation-delay:-2.5s}
+@keyframes rise{0%,100%{transform:translateY(20px) scaleX(1);opacity:0}35%{opacity:.65}70%{transform:translateY(-25px) scaleX(2);opacity:.1}}
+.scroll{position:absolute;right:4vw;bottom:5vh;writing-mode:vertical-rl;font-size:9px;letter-spacing:.24em;color:var(--mist)}
+.section{position:relative;padding:17vh 8vw}
+.section.light{background:var(--cream);color:var(--ink)}
+.intro{display:grid;grid-template-columns:1fr 1.4fr;gap:9vw;align-items:start}
+.kicker{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--copper)}
+.section h2{font-family:var(--serif);font-size:clamp(48px,7vw,96px);line-height:.95;font-weight:400;letter-spacing:-.055em;margin:18px 0}
+.copy{font-family:var(--serif);font-size:clamp(22px,3vw,38px);line-height:1.42;max-width:800px}
+.copy em{color:var(--copper);font-style:normal}
+.brews{margin-top:12vh;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(33,27,23,.16)}
+.brew{background:var(--cream);min-height:390px;padding:32px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.brew .num{font-size:10px;letter-spacing:.2em;color:#7e766b}
+.brew h3{font-family:var(--serif);font-size:42px;font-weight:400;margin:0}
+.brew p{font-family:var(--serif);line-height:1.6;color:#625a50;max-width:260px}
+.bean{width:80px;height:112px;border:1px solid #7c6c5e;border-radius:55% 45% 52% 48%;transform:rotate(35deg);align-self:flex-end;opacity:.55;position:relative}
+.bean:after{content:"";position:absolute;left:48%;top:7%;height:86%;width:1px;background:#7c6c5e;transform:rotate(-15deg)}
+.quote{min-height:72vh;display:grid;place-items:center;text-align:center;background:var(--ink);position:relative}
+.quote p{font-family:var(--serif);font-size:clamp(40px,6vw,82px);line-height:1.12;max-width:1050px;margin:0}
+.quote small{display:block;margin-top:32px;color:var(--mist);letter-spacing:.18em;font-size:10px}
+.origin{display:grid;grid-template-columns:1fr 1fr;gap:9vw;align-items:center}
+.map{aspect-ratio:1;background:#d9d0c2;position:relative;overflow:hidden}
+.map:before,.map:after{content:"";position:absolute;border:1px solid rgba(33,27,23,.35);border-radius:50%;inset:13%;transform:rotate(28deg)}
+.map:after{inset:28%;border-radius:48% 52% 55% 45%;transform:rotate(-18deg)}
+.map span{position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;background:var(--copper);box-shadow:0 0 0 12px rgba(185,109,67,.13),0 0 0 32px rgba(185,109,67,.06)}
+footer{padding:48px 4vw;display:flex;justify-content:space-between;border-top:1px solid var(--line);font-size:10px;letter-spacing:.15em;color:var(--mist)}
+.cta{display:inline-flex;align-items:center;gap:14px;margin-top:32px;border-bottom:1px solid rgba(238,231,219,.45);padding:0 0 10px;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+@media(max-width:800px){
+ header{height:68px;padding:0 6vw}.nav{display:none}
+ .hero{grid-template-columns:1fr;padding:120px 7vw 50px;min-height:900px}
+ .hero-copy{padding-bottom:0}.hero-art{position:absolute;inset:auto 0 0;height:52vh;min-height:420px;opacity:.78}
+ #orbit{width:120vw;height:120vw;right:-34vw;bottom:-27vw}
+ .cup{width:46vw}
+ h1{font-size:25vw;margin-bottom:34px}.lede{font-size:20px}.hero-meta{gap:18px}
+ .scroll{display:none}.section{padding:14vh 7vw}.intro,.origin{grid-template-columns:1fr;gap:45px}
+ .brews{grid-template-columns:1fr}.brew{min-height:330px}
+ .quote{min-height:64vh;padding:60px 7vw}
+ footer{padding:38px 7vw;display:block}.footer-note{margin-top:14px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.steam i{animation:none}.grain{animation:none}}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<header id="header"><a class="brand" href="#">参禅</a><nav class="nav"><a href="#coffee">咖啡</a><a href="#origin">产地</a><a href="#ritual">一日一杯</a></nav><a class="nav" href="#coffee">SHOP ↗</a></header>
+
+<main>
+<section class="hero">
+ <div class="hero-copy">
+  <div class="eyebrow">Can Chan Coffee · Slow Roasted / Singapore</div>
+  <h1>参<span>禅</span></h1>
+  <p class="lede">一杯咖啡，不必催促。<br>让香气先抵达，让一天慢半拍。</p>
+  <div class="hero-meta"><span>Small Batch</span><span>Light / Medium Roast</span><span>Since 2026</span></div>
+ </div>
+ <div class="hero-art" aria-hidden="true">
+  <canvas id="orbit"></canvas><div class="cup"><div class="steam"><i></i><i></i><i></i></div></div>
+ </div>
+ <div class="scroll">SCROLL TO SLOW DOWN</div>
+</section>
+
+<section class="section light" id="coffee">
+ <div class="intro">
+  <div><div class="kicker">01 / The coffee</div><h2>好豆，<br>不需要喧哗。</h2></div>
+  <div><p class="copy">参禅从一件简单的事开始：<em>认真喝完一杯。</em>我们寻找有清晰产地、干净风味和余韵的豆子，小批量烘焙，让果香、坚果与可可在恰好的温度里慢慢展开。</p><a class="cta" href="#ritual">认识三支豆子 →</a></div>
+ </div>
+ <div class="brews">
+  <article class="brew"><div class="num">01 · ETHIOPIA</div><div class="bean"></div><div><h3>日晒耶加</h3><p>莓果 · 蜂蜜 · 乌龙茶<br>轻盈、明亮，像清晨第一口空气。</p></div></article>
+  <article class="brew"><div class="num">02 · COLOMBIA</div><div class="bean"></div><div><h3>粉红波旁</h3><p>红糖 · 杏桃 · 可可<br>甜感圆润，适合慢慢喝。</p></div></article>
+  <article class="brew"><div class="num">03 · BRAZIL</div><div class="bean"></div><div><h3>黄波旁</h3><p>榛果 · 牛奶巧克力 · 太妃糖<br>厚实安静，日常的底色。</p></div></article>
+ </div>
+</section>
+
+<section class="quote" id="ritual">
+ <div><p>「先闻香。<br>再入口。<br>剩下的，让时间说。」</p><small>THE CAN CHAN RITUAL</small></div>
+</section>
+
+<section class="section light" id="origin">
+ <div class="origin">
+  <div class="map" aria-label="产地抽象地图"><span></span></div>
+  <div><div class="kicker">02 / From the hills</div><h2>从山里来，<br>到杯中止。</h2><p class="copy">我们不追逐产地的名字，而在意它留下的风味。每一批豆子都记录烘焙日期、处理法与杯测笔记——因为知道它从哪里来，才能知道这一口为什么值得。</p><a class="cta" href="#coffee">查看本季批次 →</a></div>
+ </div>
+</section>
+</main>
+
+<footer><span>参禅 CAN CHAN COFFEE</span><span class="footer-note">ROASTED SLOWLY · DRUNK MINDFULLY</span></footer>
+
+<script>
+const header=document.getElementById('header');
+addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>30),{passive:true});
+
+const c=document.getElementById('orbit'),ctx=c.getContext('2d'),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let dpr=Math.min(devicePixelRatio||1,2),w,h,t=0;
+function resize(){const r=c.getBoundingClientRect();w=r.width;h=r.height;c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+addEventListener('resize',resize);resize();
+const beans=Array.from({length:46},(_,i)=>({a:i/46*Math.PI*2,r:.27+(i%5)*.055,s:.8+(i%7)*.1}));
+function draw(){
+ t+=reduce?0:.005;ctx.clearRect(0,0,w,h);
+ const cx=w*.5,cy=h*.5,scale=Math.min(w,h);
+ ctx.globalCompositeOperation='lighter';
+ beans.forEach((b,i)=>{
+   const a=b.a+t*(i%2?-.45:.28),rad=b.r*scale*(1+.08*Math.sin(t*3+i));
+   const x=cx+Math.cos(a)*rad,y=cy+Math.sin(a)*rad*.72;
+   ctx.save();ctx.translate(x,y);ctx.rotate(a+.8);
+   ctx.strokeStyle=i%6===0?'rgba(185,109,67,.7)':'rgba(238,231,219,.22)';
+   ctx.lineWidth=i%6===0?1.4:1;ctx.beginPath();ctx.ellipse(0,0,4+(i%3),7+(i%4),0,0,Math.PI*2);ctx.stroke();ctx.restore();
+ });
+ ctx.globalCompositeOperation='source-over';
+ if(!reduce)requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
