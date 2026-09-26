@@ -8,7 +8,7 @@ Twenty-two real pages (9 brand + 8 dashboards + 1 AI console + 4 H5), each a cle
 
 For a wider bench of technique notes beyond these files, `../references/inspiration-catalog.md` catalogues more pages by persona.
 
-## Brand register — read these as COORDINATES, not as templates
+| `can-chan-coffee.html` | ink / cream + copper | serif editorial + sans metadata | split editorial + full-bleed quote | **E · Canvas 2D** | coffee / orbit / ritual | slow-luxury coffee brand surface; procedural bean orbit, cup geometry, reduced-motion gate |\n\n## Brand register — read these as COORDINATES, not as templates
 
 > **This table is the antidote to the thing examples otherwise cause.** An open example file exerts a strong pull: the model mirrors its section order, its card counts, its shell — and every page converges. So each row below is annotated with **where it sits on the five divergence axes** (`../references/divergence.md` §3). Use it in two moves:
 >
